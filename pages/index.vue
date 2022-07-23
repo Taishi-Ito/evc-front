@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     message(){
-      return this.$store.getters["fireauth/message"]
+      return this.$store.getters["auth/message"]
     }
   }
 }

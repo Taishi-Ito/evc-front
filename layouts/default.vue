@@ -1,5 +1,6 @@
 <template>
-  <v-app dark>
+  <v-app>
+    <OrganismsHeader />
     <v-main>
       <v-container>
         <Nuxt />

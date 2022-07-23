@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn depressed color="primary" @click="$store.dispatch('fireauth/updateMessageAction', 'update!!!')">{{ btnTitle }}</v-btn>
+    <v-btn depressed color="primary" @click="$store.dispatch('auth/updateMessageAction', 'update!!!')">{{ btnTitle }}</v-btn>
   </div>
 </template>
 
