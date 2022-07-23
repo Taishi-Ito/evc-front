@@ -9,6 +9,10 @@ export default {
   },
   ssr: false,
 
+  router:{
+    middleware: 'authenticated'
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - evc-front',

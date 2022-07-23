@@ -45,6 +45,7 @@ export const actions = {
     .then( userCredential => {
       console.log('【userCredential.user】', userCredential.user)
       console.log('ユーザー登録OK')
+      this.$router.push('/dashbord')
     })
     .catch( e => {
       alert(e.message)
@@ -59,7 +60,7 @@ export const actions = {
       context.commit('setUserId', userCredential.user.uid)
       context.commit('setEmail', userCredential.user.email)
       console.log('ログインOK')
-      this.$router.push('/')
+      this.$router.push('/dashbord')
 			// ここでログイン後にルートに飛ばしている
     })
     .catch( e => {
@@ -80,5 +81,11 @@ export const actions = {
       alert(e.message)
       console.log('【error】', e)
     })
+  },
+  addUserInfo(context, payload) {
+    context.commit('setLoginStatus', true)
+    context.commit('setUserId', payload.uid)
+    context.commit('setEmail', payload.email)
+    this.$router.push('/dashbord')
   }
 }

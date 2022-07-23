@@ -1,6 +1,7 @@
 <template>
   <div>
     {{ message }}
+    <AtomsBtn />
   </div>
 </template>
 
@@ -8,7 +9,11 @@
 export default {
   data(){
     return {
-      message: "Loading"
+    }
+  },
+  computed: {
+    message(){
+      return this.$store.getters["auth/message"]
     }
   }
 }
