@@ -16,8 +16,4 @@ export default function({
       }
     })
   }
-  // const isAuthenticated = store.getters['users/isLoggedIn']
-  // if(!isAuthenticated && !route.path.match(/\/auth\//)) {
-  //   redirect('/auth/login')
-  // }
 }

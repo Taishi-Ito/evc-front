@@ -5,7 +5,9 @@ export const state = () => ({
   message: 'Hello Vuex!',
   isLoggedIn: false,
   userId: '',
-  email: ''
+  email: '',
+  name: '',
+  locale: ''
 })
 
 export const getters = ({
@@ -13,13 +15,15 @@ export const getters = ({
   isLoggedIn: state => !!state.isLoggedIn,
   userId: state => state.userId,
   email: state => state.email,
+  name: state => state.name,
+  locale: state => state.locale
 })
 
 export const mutations = {
   updateMessage: function(state, payload) {
     state.message = payload
   },
-  setLoginStatus(state, loggedIn) {
+  setSigninStatus(state, loggedIn) {
     state.isLoggedIn = loggedIn
   },
   setUserId(state, userId) {
@@ -28,6 +32,12 @@ export const mutations = {
   setEmail(state, email) {
     state.email = email
   },
+  setName(state, name) {
+    state.name = name
+  },
+  setLocale(state, locale) {
+    state.locale = locale
+  }
 }
 
 export const actions = {
@@ -35,33 +45,46 @@ export const actions = {
     const url = '/api/v1/hello'
     let query = payload
     axios.get(url, {params:{message: query}})
-      .then((res) =>{
-        context.commit('updateMessage', res.data)
-      })
-  },
-  signUp(context, params) {
-    const auth = getAuth(this.$firebase)
-    createUserWithEmailAndPassword(auth, params["email"], params["password"])
-    .then( userCredential => {
-      console.log('【userCredential.user】', userCredential.user)
-      console.log('ユーザー登録OK')
-      this.$router.push('/dashbord')
+    .then((res) =>{
+      context.commit('updateMessage', res.data)
     })
     .catch( e => {
       alert(e.message)
       console.log('【error】', e)
     })
   },
-  async login(context, params) {
+  signUp(context, payload) {
     const auth = getAuth(this.$firebase)
-    await signInWithEmailAndPassword(auth, params["email"], params["password"])
+    createUserWithEmailAndPassword(auth, payload["email"], payload["password"])
     .then( userCredential => {
-      context.commit('setLoginStatus', true)
-      context.commit('setUserId', userCredential.user.uid)
-      context.commit('setEmail', userCredential.user.email)
-      console.log('ログインOK')
+      const params = {"name": payload["name"], "uid": userCredential.user.uid, "locale": "ja"}
+      context.dispatch('registerUserInfo', params)
+    })
+    .catch( e => {
+      console.log('【signUp error】', e)
+    })
+  },
+  registerUserInfo(context, payload) {
+    const url = '/api/v1/users'
+    const params = {"user": {"name": payload["name"], "uid": payload["uid"], "locale": payload["locale"]}}
+    axios.post(url, params)
+    .then((res) =>{
       this.$router.push('/dashbord')
-			// ここでログイン後にルートに飛ばしている
+    })
+    .catch( e => {
+      console.log('【registerUserInfo error】', e)
+    })
+  },
+  async signin(context, payload) {
+    const auth = getAuth(this.$firebase)
+    await signInWithEmailAndPassword(auth, payload["email"], payload["password"])
+    .then( userCredential => {
+      const params = {"uid": userCredential.user.uid, "email": userCredential.user.email}
+      try {
+        context.dispatch('addUserInfo', params)
+      } catch(e) {
+        redirect('/auth/signin')
+      }
     })
     .catch( e => {
       alert(e.message)
@@ -72,9 +95,11 @@ export const actions = {
     const auth = getAuth(this.$firebase)
     await signOut(auth)
     .then(()=>{
-      context.commit('setLoginStatus', false)
+      context.commit('setSigninStatus', false)
       context.commit('setUserId', '')
       context.commit('setEmail', '')
+      context.commit('setName', '')
+      context.commit('setLocale', '')
       this.$router.push('/')
     })
     .catch( e => {
@@ -83,9 +108,19 @@ export const actions = {
     })
   },
   addUserInfo(context, payload) {
-    context.commit('setLoginStatus', true)
-    context.commit('setUserId', payload.uid)
-    context.commit('setEmail', payload.email)
+    console.log('【payload】', payload)
+    context.commit('setSigninStatus', true)
+    context.commit('setUserId', payload["uid"])
+    context.commit('setEmail', payload["email"])
+
+    const url = '/api/v1/users/get_user'
+    axios.get(url, {params: {"uid": payload["uid"]}})
+    .then((res) =>{
+      context.commit('setName', res.data["name"])
+      context.commit('setLocale', res.data["locale"])
+    })
+
+    // ここでログイン後にルートに飛ばしている
     this.$router.push('/dashbord')
   }
 }

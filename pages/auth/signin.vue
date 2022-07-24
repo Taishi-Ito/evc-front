@@ -11,7 +11,7 @@
       />
     </div>
     <div>
-      <v-btn @click="login">ログインをする</v-btn>
+      <v-btn @click="signin">ログインをする</v-btn>
       <v-btn text to="./register">ユーザー登録</v-btn>
     </div>
   </div>
@@ -26,9 +26,9 @@ export default {
     }
   },
   methods: {
-    login() {
-      const params = {"email": this.email, "password": this.password}
-      this.$store.dispatch('auth/login', params)
+    signin() {
+      const payload = {"email": this.email, "password": this.password}
+      this.$store.dispatch('auth/signin', payload)
     }
   }
 }
