@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from 'firebase/auth'
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser} from 'firebase/auth'
 
 export const state = () => ({
   message: 'Hello Vuex!',
@@ -122,5 +122,22 @@ export const actions = {
 
     // ここでログイン後にルートに飛ばしている
     this.$router.push('/dashbord')
+  },
+  async deleteUser(context) {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    await deleteUser(user)
+    .then(() => {
+      context.commit('setSigninStatus', false)
+      context.commit('setUserId', '')
+      context.commit('setEmail', '')
+      context.commit('setName', '')
+      context.commit('setLocale', '')
+      this.$router.push('/auth/register')
+    })
+    .catch((e) => {
+      alert(e.message)
+      console.log('【deleteUser error】', e)
+    });
   }
 }

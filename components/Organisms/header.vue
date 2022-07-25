@@ -4,6 +4,7 @@
       <AtomsSignoutBtn />
       {{ userId }}
       {{ userName }}
+      <v-btn @click="$store.dispatch('auth/deleteUser')">ユーザー削除</v-btn>
     </v-toolbar>
   </div>
 </template>
