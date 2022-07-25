@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>
-      <v-text-field v-model="name" label="名前"/>
       <v-text-field v-model="email" label="メールアドレス"/>
       <v-text-field v-model="password" label="パスワード"/>
     </div>
@@ -15,14 +14,13 @@
   export default {
   data() {
     return {
-      name: "",
       email: "",
       password: ""
     }
   },
   methods: {
     execSignUp() {
-      const payload = {"name": this.name, "email": this.email, "password": this.password}
+      const payload = {"email": this.email, "password": this.password}
       this.$store.dispatch('auth/signUp', payload)
     }
   }

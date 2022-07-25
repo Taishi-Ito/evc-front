@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser} from 'firebase/auth'
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, onAuthStateChanged} from 'firebase/auth'
 
 export const state = () => ({
   message: 'Hello Vuex!',
@@ -57,8 +57,7 @@ export const actions = {
     const auth = getAuth(this.$firebase)
     createUserWithEmailAndPassword(auth, payload["email"], payload["password"])
     .then( userCredential => {
-      const params = {"name": payload["name"], "uid": userCredential.user.uid, "locale": "ja"}
-      context.dispatch('registerUserInfo', params)
+      context.dispatch('addUserInfo', userCredential.user)
     })
     .catch( e => {
       console.log('【signUp error】', e)
@@ -66,13 +65,21 @@ export const actions = {
   },
   registerUserInfo(context, payload) {
     const url = '/api/v1/users'
-    const params = {"user": {"name": payload["name"], "uid": payload["uid"], "locale": payload["locale"]}}
-    axios.post(url, params)
-    .then((res) =>{
-      this.$router.push('/dashbord')
-    })
-    .catch( e => {
-      console.log('【registerUserInfo error】', e)
+    const auth = getAuth();
+    onAuthStateChanged(auth, user=>{
+      axios.post(url, {user: {"uid": user["uid"], "name": payload["name"]}})
+      .then((res) =>{
+        context.commit('setName', res.data["name"])
+        context.commit('setLocale', res.data["locale"])
+        context.commit('setSigninStatus', true)
+        context.commit('setUserId', user["uid"])
+        context.commit('setEmail', user["email"])
+        this.$router.push('/dashbord')
+      })
+      .catch((e) => {
+        alert(e.message)
+        console.log('registerUserInfo error】', e)
+      });
     })
   },
   async signin(context, payload) {
@@ -80,11 +87,7 @@ export const actions = {
     await signInWithEmailAndPassword(auth, payload["email"], payload["password"])
     .then( userCredential => {
       const params = {"uid": userCredential.user.uid, "email": userCredential.user.email}
-      try {
-        context.dispatch('addUserInfo', params)
-      } catch(e) {
-        redirect('/auth/signin')
-      }
+      context.dispatch('addUserInfo', params)
     })
     .catch( e => {
       alert(e.message)
@@ -108,21 +111,23 @@ export const actions = {
     })
   },
   addUserInfo(context, payload) {
-    console.log('【payload】', payload)
-    context.commit('setSigninStatus', true)
-    context.commit('setUserId', payload["uid"])
-    context.commit('setEmail', payload["email"])
-
     const url = '/api/v1/users/get_user'
-    axios.get(url, {params: {"uid": payload["uid"]}})
+    axios.get(url, {params: {"uid": payload.uid}})
     .then((res) =>{
-      context.commit('setName', res.data["name"])
-      context.commit('setLocale', res.data["locale"])
+      if (!res.data["is_name"]) {
+        this.$router.push('/auth/registerUserInfo')
+      } else {
+        context.commit('setName', res.data["name"])
+        context.commit('setLocale', res.data["locale"])
+        context.commit('setSigninStatus', true)
+        context.commit('setUserId', payload["uid"])
+        context.commit('setEmail', payload["email"])
+        // ここでログイン後にルートに飛ばしている
+        this.$router.push('/dashbord')
+      }
     })
-
-    // ここでログイン後にルートに飛ばしている
-    this.$router.push('/dashbord')
   },
+  // Rails側も消すメソッド作る必要あり
   async deleteUser(context) {
     const auth = getAuth();
     const user = auth.currentUser;
