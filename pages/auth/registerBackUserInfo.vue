@@ -4,7 +4,7 @@
       <v-text-field v-model="name" label="名前"/>
     </div>
     <div>
-      <v-btn @click="registerUserInfo">名前を登録をする</v-btn>
+      <v-btn @click="registerBackUserInfo">名前を登録をする</v-btn>
     </div>
   </div>
 </template>
@@ -17,9 +17,9 @@
     }
   },
   methods: {
-    registerUserInfo() {
+    registerBackUserInfo() {
       const payload = {"name": this.name}
-      this.$store.dispatch('auth/registerUserInfo', payload)
+      this.$store.dispatch('auth/registerBackUserInfo', payload)
     }
   }
   }

@@ -63,7 +63,7 @@ export const actions = {
       console.log('【signUp error】', e)
     })
   },
-  registerUserInfo(context, payload) {
+  registerBackUserInfo(context, payload) {
     const url = '/api/v1/users'
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{
@@ -78,7 +78,7 @@ export const actions = {
       })
       .catch((e) => {
         alert(e.message)
-        console.log('registerUserInfo error】', e)
+        console.log('registerBackUserInfo error】', e)
       });
     })
   },
@@ -115,20 +115,29 @@ export const actions = {
     axios.get(url, {params: {"uid": payload.uid}})
     .then((res) =>{
       if (!res.data["is_name"]) {
-        this.$router.push('/auth/registerUserInfo')
+        this.$router.push('/auth/registerBackUserInfo')
       } else {
         context.commit('setName', res.data["name"])
         context.commit('setLocale', res.data["locale"])
         context.commit('setSigninStatus', true)
         context.commit('setUserId', payload["uid"])
         context.commit('setEmail', payload["email"])
-        // ここでログイン後にルートに飛ばしている
         this.$router.push('/dashbord')
       }
     })
   },
-  // Rails側も消すメソッド作る必要あり
   async deleteUser(context) {
+    if (context.dispatch('deleteFirebaseUserInfo')) {
+      if (context.dispatch('deleteBackUserInfo')) {
+        this.$router.push('/auth/register')
+      } else {
+        alert("ユーザー削除失敗")
+      }
+    } else {
+      alert("ユーザー削除失敗")
+    }
+  },
+  async deleteFirebaseUserInfo(context) {
     const auth = getAuth();
     const user = auth.currentUser;
     await deleteUser(user)
@@ -138,11 +147,25 @@ export const actions = {
       context.commit('setEmail', '')
       context.commit('setName', '')
       context.commit('setLocale', '')
-      this.$router.push('/auth/register')
+      return true
     })
     .catch((e) => {
       alert(e.message)
       console.log('【deleteUser error】', e)
+      return false
     });
+  },
+  deleteBackUserInfo(context) {
+    const auth = getAuth();
+    const uid = auth.currentUser.uid;
+    const url = '/api/v1/users/destroy'
+    axios.delete(url, {params: {"uid": uid}})
+    .then((res) =>{
+      if (res.data["is_destroy"]) {
+        return true
+      } else {
+        return false
+      }
+    })
   }
 }
