@@ -37,6 +37,13 @@ export const mutations = {
   },
   setLocale(state, locale) {
     state.locale = locale
+  },
+  clearUserStatus(state) {
+    state.isLoggedIn = ""
+    state.userId = ""
+    state.email = ""
+    state.name = ""
+    state.locale = ""
   }
 }
 
@@ -50,48 +57,72 @@ export const actions = {
     })
     .catch( e => {
       alert(e.message)
-      console.log('【error】', e)
+      console.log('【updateMessageAction error】', e)
     })
   },
   signUp(context, payload) {
     const auth = getAuth(this.$firebase)
     createUserWithEmailAndPassword(auth, payload["email"], payload["password"])
     .then( userCredential => {
-      context.dispatch('addUserInfo', userCredential.user)
+      this.$router.push('/auth/registerBackUserInfo')
     })
     .catch( e => {
+      alert("ユーザー登録できませんでした")
       console.log('【signUp error】', e)
     })
   },
   registerBackUserInfo(context, payload) {
     const url = '/api/v1/users'
     const auth = getAuth();
-    onAuthStateChanged(auth, user=>{
-      axios.post(url, {user: {"uid": user["uid"], "name": payload["name"]}})
-      .then((res) =>{
-        context.commit('setName', res.data["name"])
-        context.commit('setLocale', res.data["locale"])
-        context.commit('setSigninStatus', true)
-        context.commit('setUserId', user["uid"])
-        context.commit('setEmail', user["email"])
+    const uid = auth.currentUser.uid;
+    const email = auth.currentUser.email;
+    axios.post(url, {user: {"uid": uid, "name": payload["name"], "locale": "ja"}})
+    .then((res) =>{
+      if (res.data.name) {
+        const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
+        context.dispatch('addUserInfo', payload)
         this.$router.push('/dashbord')
-      })
-      .catch((e) => {
-        alert(e.message)
-        console.log('registerBackUserInfo error】', e)
-      });
+      } else {
+        alert("名前を登録できませんでした")
+        console.log('registerBackUserInfo validation error】')
+      }
     })
+    .catch((e) => {
+      alert("名前を登録できませんでした")
+      console.log('registerBackUserInfo error】', e)
+    });
   },
   async signin(context, payload) {
     const auth = getAuth(this.$firebase)
     await signInWithEmailAndPassword(auth, payload["email"], payload["password"])
     .then( userCredential => {
-      const params = {"uid": userCredential.user.uid, "email": userCredential.user.email}
-      context.dispatch('addUserInfo', params)
+      const uid = userCredential.user.uid;
+      const email = userCredential.user.email;
+      const url = '/api/v1/users/get_user';
+      axios.get(url, {params: {"uid": uid}})
+      .then((res) =>{
+        if (res.data["is_user"]) {
+          if (res.data["is_name"]) {
+            const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
+            context.dispatch('auth/addUserInfo', payload)
+            this.$router.push('/dashbord')
+          } else if (!route.path.match(/\/auth\//)) {
+            alert("名前を登録してください")
+            this.$router.push('/auth/registerBackUserInfo')
+          }
+        } else if (!route.path.match(/\/auth\//)) {
+          alert("ユーザー情報が取得できません")
+          this.$router.push('/auth/signin')
+        }
+      })
+      .catch( e => {
+        alert("ユーザー情報取得中にエラーが発生しました")
+        console.log('signin getuser error】', e)
+      })
     })
     .catch( e => {
-      alert(e.message)
-      console.log('【error】', e)
+      alert("ログイン情報を取得できません")
+      console.log('【signin error】', e)
     })
   },
   async signOut(context) {
@@ -103,69 +134,60 @@ export const actions = {
       context.commit('setEmail', '')
       context.commit('setName', '')
       context.commit('setLocale', '')
-      this.$router.push('/')
+      this.$router.push('/auth/signin')
     })
     .catch( e => {
       alert(e.message)
-      console.log('【error】', e)
+      console.log('【signOut error】', e)
     })
   },
   addUserInfo(context, payload) {
-    const url = '/api/v1/users/get_user'
-    axios.get(url, {params: {"uid": payload.uid}})
-    .then((res) =>{
-      if (!res.data["is_name"]) {
-        this.$router.push('/auth/registerBackUserInfo')
-      } else {
-        context.commit('setName', res.data["name"])
-        context.commit('setLocale', res.data["locale"])
-        context.commit('setSigninStatus', true)
-        context.commit('setUserId', payload["uid"])
-        context.commit('setEmail', payload["email"])
-        this.$router.push('/dashbord')
-      }
-    })
+    context.commit('setSigninStatus', true)
+    context.commit('setUserId', payload["uid"])
+    context.commit('setEmail', payload["email"])
+    context.commit('setName', payload["name"])
+    context.commit('setLocale', payload["locale"])
   },
   async deleteUser(context) {
-    if (context.dispatch('deleteFirebaseUserInfo')) {
-      if (context.dispatch('deleteBackUserInfo')) {
-        this.$router.push('/auth/register')
-      } else {
-        alert("ユーザー削除失敗")
-      }
-    } else {
-      alert("ユーザー削除失敗")
-    }
-  },
-  async deleteFirebaseUserInfo(context) {
     const auth = getAuth();
     const user = auth.currentUser;
+    const uid = auth.currentUser.uid;
+    try {
+      context.dispatch('deleteFirebaseUserInfo', user)
+    } catch(e) {
+      console.log('addUserInfo deleteFirebaseUserInfo】', e)
+      return
+    }
+    try {
+      context.dispatch('deleteBackUserInfo', uid)
+    } catch(e) {
+      console.log('addUserInfo deleteBackUserInfo', e)
+      return
+    }
+    this.$router.push('/auth/register')
+  },
+  async deleteFirebaseUserInfo(context, user) {
     await deleteUser(user)
     .then(() => {
       context.commit('setSigninStatus', false)
       context.commit('setUserId', '')
       context.commit('setEmail', '')
-      context.commit('setName', '')
-      context.commit('setLocale', '')
-      return true
     })
     .catch((e) => {
-      alert(e.message)
-      console.log('【deleteUser error】', e)
-      return false
+      alert("ユーザー情報を削除できませんでした")
+      console.log('deleteFirebaseUserInfo error】', e)
     });
   },
-  deleteBackUserInfo(context) {
-    const auth = getAuth();
-    const uid = auth.currentUser.uid;
+  deleteBackUserInfo(context, uid) {
     const url = '/api/v1/users/destroy'
     axios.delete(url, {params: {"uid": uid}})
     .then((res) =>{
-      if (res.data["is_destroy"]) {
-        return true
-      } else {
-        return false
-      }
+      context.commit('setName', '')
+      context.commit('setLocale', '')
     })
+    .catch((e) => {
+      alert("ユーザー情報を削除できませんでした")
+      console.log('deleteBackUserInfo error】', e)
+    });
   }
 }
