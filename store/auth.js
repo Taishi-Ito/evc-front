@@ -98,7 +98,7 @@ export const actions = {
     .then( userCredential => {
       const uid = userCredential.user.uid;
       const email = userCredential.user.email;
-      const url = '/api/v1/users/get_user';
+      const url = '/api/v1/users/' + uid;
       axios.get(url, {params: {"uid": uid}})
       .then((res) =>{
         if (res.data["is_user"]) {
