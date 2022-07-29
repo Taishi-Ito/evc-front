@@ -7,7 +7,6 @@
       <validation-provider v-slot="{ errors }" name="password" rules="required|min:6" >
         <v-text-field v-model="password" :error-messages="errors" label="パスワード" required></v-text-field>
       </validation-provider>
-
       <v-btn class="mr-4" type="submit" :disabled="invalid" >ユーザー登録をする</v-btn>
     </form>
   </validation-observer>
