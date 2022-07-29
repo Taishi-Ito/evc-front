@@ -56,8 +56,9 @@ export default {
     '@nuxtjs/proxy',
   ],
   proxy: {
-    '/api': {
+    '/users': {
       target: 'http://localhost:3000/'
+      // target: 'process.env.url'
     }
   },
 

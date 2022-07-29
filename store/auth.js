@@ -72,7 +72,7 @@ export const actions = {
     })
   },
   registerBackUserInfo(context, payload) {
-    const url = '/api/v1/users'
+    const url = '/users'
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     const email = auth.currentUser.email;
@@ -98,7 +98,7 @@ export const actions = {
     .then( userCredential => {
       const uid = userCredential.user.uid;
       const email = userCredential.user.email;
-      const url = '/api/v1/users/' + uid;
+      const url = '/users/' + uid;
       axios.get(url, {params: {"uid": uid}})
       .then((res) =>{
         if (res.data["is_user"]) {
@@ -106,13 +106,13 @@ export const actions = {
             const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
             context.dispatch('auth/addUserInfo', payload)
             this.$router.push('/dashbord')
-          } else if (!route.path.match(/\/auth\//)) {
+          } else {
             alert("名前を登録してください")
             this.$router.push('/auth/registerBackUserInfo')
           }
-        } else if (!route.path.match(/\/auth\//)) {
-          alert("ユーザー情報が取得できません")
-          this.$router.push('/auth/signin')
+        } else {
+          alert("名前を登録してください")
+          this.$router.push('/auth/registerBackUserInfo')
         }
       })
       .catch( e => {
@@ -179,7 +179,7 @@ export const actions = {
     });
   },
   deleteBackUserInfo(context, uid) {
-    const url = '/api/v1/users/destroy'
+    const url = '/users/destroy'
     axios.delete(url, {params: {"uid": uid}})
     .then((res) =>{
       context.commit('setName', '')
