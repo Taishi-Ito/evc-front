@@ -81,7 +81,7 @@ export const actions = {
       if (res.data.name) {
         const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
         context.dispatch('addUserInfo', payload)
-        this.$router.push('/dashbord')
+        this.$router.push('/dashboard')
       } else {
         alert("名前を登録できませんでした")
         console.log('registerBackUserInfo validation error】')
@@ -105,7 +105,7 @@ export const actions = {
           if (res.data["is_name"]) {
             const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
             context.dispatch('auth/addUserInfo', payload)
-            this.$router.push('/dashbord')
+            this.$router.push('/dashboard')
           } else {
             alert("名前を登録してください")
             this.$router.push('/auth/registerBackUserInfo')
