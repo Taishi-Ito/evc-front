@@ -20,6 +20,9 @@ export default function({
             if (res.data["is_name"]) {
               const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
               store.dispatch('auth/addUserInfo', payload)
+              if (!route.path.match('/dashboard')) {
+                redirect('/dashboard')
+              }
             } else if (!route.path.match(/\/auth\//)) {
               alert("名前を登録してください")
               redirect('/auth/registerBackUserInfo')

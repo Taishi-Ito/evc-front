@@ -2,6 +2,8 @@
   <div>
     {{ message }}
     <AtomsBtn />
+    <v-text-field v-model="workgroup"></v-text-field>
+    <v-btn @click="$store.dispatch('dashboard/createWorkGroup', workgroup)">ワークグループ作成</v-btn>
   </div>
 </template>
 
@@ -9,6 +11,7 @@
 export default {
   data(){
     return {
+      workgroup: ""
     }
   },
   computed: {

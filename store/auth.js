@@ -104,8 +104,8 @@ export const actions = {
         if (res.data["is_user"]) {
           if (res.data["is_name"]) {
             const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
-            context.dispatch('auth/addUserInfo', payload)
-            this.$router.push('/dashboard')
+            context.dispatch('addUserInfo', payload)
+            this.$router.push('/auth/dashboard')
           } else {
             alert("名前を登録してください")
             this.$router.push('/auth/registerBackUserInfo')
