@@ -3,7 +3,7 @@
     {{ message }}
     <AtomsBtn />
     <v-text-field v-model="workgroup"></v-text-field>
-    <v-btn @click="$store.dispatch('dashboard/createWorkGroup', workgroup)">ワークグループ作成</v-btn>
+    <v-btn @click="createWorkGroup()">ワークグループ作成</v-btn>
   </div>
 </template>
 
@@ -17,6 +17,11 @@ export default {
   computed: {
     message(){
       return this.$store.getters["auth/message"]
+    }
+  },
+  methods: {
+    createWorkGroup(){
+      this.$store.dispatch('dashboard/createWorkGroup', this.workgroup)
     }
   }
 }

@@ -11,7 +11,7 @@ export const getters = ({
 
 export const mutations = {
   addToWorkGroupLists: function(state, payload) {
-    state.workGroupLists.psuh(payload)
+    state.workGroupLists.push(payload)
   }
 }
 
@@ -20,9 +20,9 @@ export const actions = {
     const url = '/work_groups'
     const auth = getAuth();
     const uid = auth.currentUser.uid;
-    axios.post(url, {work_group: {"uid": uid, "title": payload["title"]}})
+    axios.post(url, {work_group: {"uid": uid, "title": payload}})
     .then((res) =>{
-      console.log('【res】')
+      console.log('【res】', res)
       context.commit('addToWorkGroupLists', res.data)
     })
     .catch( e => {
