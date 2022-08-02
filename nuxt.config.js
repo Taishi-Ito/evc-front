@@ -56,11 +56,17 @@ export default {
     '@nuxtjs/proxy',
   ],
   proxy: {
+    // '/users': {
+    //   target: 'http://localhost:3000/' || process.env.URL
+    // },
+    // '/work_groups': {
+    //   target: 'http://localhost:3000/' || process.env.URL
+    // }
     '/users': {
-      target: 'http://localhost:3000/' || process.env.URL
+      target: process.env.URL
     },
     '/work_groups': {
-      target: 'http://localhost:3000/' || process.env.URL
+      target: process.env.URL
     }
   },
 
