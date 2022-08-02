@@ -57,10 +57,10 @@ export default {
   ],
   proxy: {
     '/users': {
-      target: 'http://localhost:3000/'
+      target: 'http://localhost:3000/' || process.env.URL
     },
     '/work_groups': {
-      target: 'http://localhost:3000/'
+      target: 'http://localhost:3000/' || process.env.URL
     }
   },
 
