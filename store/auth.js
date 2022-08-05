@@ -72,7 +72,7 @@ export const actions = {
     })
   },
   registerBackUserInfo(context, payload) {
-    const url = '/users'
+    const url = '/api/v1/users'
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     const email = auth.currentUser.email;
@@ -98,7 +98,7 @@ export const actions = {
     .then( userCredential => {
       const uid = userCredential.user.uid;
       const email = userCredential.user.email;
-      const url = '/users/' + uid;
+      const url = '/api/v1/users/' + uid;
       axios.get(url, {params: {"uid": uid}})
       .then((res) =>{
         if (res.data["is_user"]) {
@@ -178,7 +178,7 @@ export const actions = {
     });
   },
   deleteBackUserInfo(context, uid) {
-    const url = '/users/destroy'
+    const url = '/api/v1/users/destroy'
     axios.delete(url, {params: {"uid": uid}})
     .then((res) =>{
       context.commit('setName', '')
