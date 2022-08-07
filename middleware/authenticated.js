@@ -9,6 +9,7 @@ export default function({
 }) {
   const auth = getAuth($firebase)
   if (!store.getters['auth/isLoggedIn']){
+    console.log('【middleware】')
     onAuthStateChanged(auth, user=>{
       if (user){
         const uid = user.uid;

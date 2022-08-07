@@ -134,6 +134,7 @@ export const actions = {
       context.commit('setEmail', '')
       context.commit('setName', '')
       context.commit('setLocale', '')
+      this.$router.push('/auth/signin')
     })
     .catch( e => {
       alert(e.message)
