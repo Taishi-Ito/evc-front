@@ -20,7 +20,7 @@ export const mutations = {
 
 export const actions = {
   createWorkGroup(context, payload) {
-    const url = '/api/v1/work_groups'
+    const url = `${process.env.url}/api/v1/work_groups`;
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     axios.post(url, {work_group: {"uid": uid, "title": payload}})
@@ -33,7 +33,7 @@ export const actions = {
     })
   },
   getWorkGroups(context) {
-    const url = '/api/v1/work_groups'
+    const url = `${process.env.url}/api/v1/work_groups`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
       if (user){

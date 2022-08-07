@@ -13,7 +13,7 @@ export default function({
       if (user){
         const uid = user.uid;
         const email = user.email;
-        const url = '/api/v1/users/' + uid;
+        const url = `${process.env.url}/api/v1/users/${uid}`;
         axios.get(url, {params: {"uid": uid}})
         .then((res) =>{
           if (res.data["is_user"]) {
