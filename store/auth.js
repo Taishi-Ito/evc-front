@@ -71,25 +71,32 @@ export const actions = {
       console.log('【signUp error】', e)
     })
   },
-  registerBackUserInfo(context, payload) {
-    const url = `${process.env.url}/api/v1/users`;
+  async registerBackUserInfo(context, payload) {
+    const that = this
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    const email = auth.currentUser.email;
-    axios.post(url, {user: {"uid": uid, "name": payload["name"], "locale": "ja"}})
-    .then((res) =>{
-      if (res.data.name) {
-        const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
-        context.dispatch('addUserInfo', payload)
-        this.$router.push('/dashboard')
-      } else {
+    await auth.currentUser.getIdToken(/* forceRefresh */ true)
+    .then(function(idToken) {
+      const uid = idToken;
+      const email = auth.currentUser.email;
+      const url = `${process.env.url}/api/v1/users`;
+      axios.post(url, {token: idToken, user: {"name": payload["name"], "locale": "ja"}})
+      .then((res) =>{
+        if (res.data.name) {
+          const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
+          context.dispatch('addUserInfo', payload)
+          that.$router.push('/dashboard')
+        } else {
+          alert("名前を登録できませんでした")
+          console.log('registerBackUserInfo validation error】')
+        }
+      })
+      .catch((e) => {
         alert("名前を登録できませんでした")
-        console.log('registerBackUserInfo validation error】')
-      }
+        console.log('registerBackUserInfo error】', e)
+      });
     })
     .catch((e) => {
-      alert("名前を登録できませんでした")
-      console.log('registerBackUserInfo error】', e)
+      console.log('トークン取得エラー', e)
     });
   },
   async signin(context, payload) {
