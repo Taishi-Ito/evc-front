@@ -105,7 +105,7 @@ export const actions = {
       const uid = userCredential.user.uid;
       const email = userCredential.user.email;
       const url = `${process.env.url}/api/v1/users/${uid}`;
-      axios.get(url, {params: {"uid": uid}})
+      axios.get(url, {params: {token: userCredential.user.accessToken, "uid": uid}})
       .then((res) =>{
         if (res.data["is_user"]) {
           if (res.data["is_name"]) {
