@@ -76,13 +76,12 @@ export const actions = {
     const auth = getAuth();
     await auth.currentUser.getIdToken(/* forceRefresh */ true)
     .then(function(idToken) {
-      const uid = idToken;
       const email = auth.currentUser.email;
       const url = `${process.env.url}/api/v1/users`;
       axios.post(url, {token: idToken, user: {"name": payload["name"], "locale": "ja"}})
       .then((res) =>{
         if (res.data.name) {
-          const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
+          const payload = {"uid": res.data["uid"], "email": email, "name": res.data["name"], "locale": res.data["locale"]}
           context.dispatch('addUserInfo', payload)
           that.$router.push('/dashboard')
         } else {
