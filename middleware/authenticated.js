@@ -1,7 +1,6 @@
 import { getAuth, onAuthStateChanged} from 'firebase/auth'
-import axios from 'axios'
 
-export default function({
+export default async function({
   $firebase,
   store,
   route,
@@ -9,35 +8,22 @@ export default function({
 }) {
   const auth = getAuth($firebase)
   if (!store.getters['auth/isLoggedIn']){
-    onAuthStateChanged(auth, user=>{
-      if (user){
-        const uid = user.uid;
-        const email = user.email;
-        const url = `${process.env.url}/api/v1/users/${uid}`;
-        axios.get(url, {params: {"uid": uid}})
-        .then((res) =>{
-          if (res.data["is_user"]) {
-            if (res.data["is_name"]) {
-              const payload = {"uid": uid, "email": email, "name": res.data["name"], "locale": res.data["locale"]}
-              store.dispatch('auth/addUserInfo', payload)
-              if (!route.path.match('/dashboard')) {
-                redirect('/dashboard')
-              }
-            } else if (!route.path.match(/\/auth\//)) {
-              alert("名前を登録してください")
-              redirect('/auth/registerBackUserInfo')
-            }
-          } else if (!route.path.match(/\/auth\//)) {
+    if (!route.path.match(/\/auth\//) || route.path.match(/registerBackUserInfo/)) {
+      onAuthStateChanged(auth, async function (user) {
+        if (user) {
+          store.commit('auth/setUserId', user.uid)
+          store.commit('auth/setEmail', user.email)
+          await store.dispatch('auth/getIdToken')
+          await store.dispatch('auth/getUserInfo', user.uid)
+          if (store.state.auth.name) {
+            store.commit('auth/setSigninStatus', true)
+          } else {
             redirect('/auth/registerBackUserInfo')
           }
-        })
-        .catch( e => {
-          alert("ユーザー情報取得中にエラーが発生しました")
-          console.log('checkBackUserInfo error】', e)
-        })
-      } else if (!route.path.match(/\/auth\//) || route.path.match(/\/registerBackUserInfo/)) {
-        redirect('/auth/signin')
-      }
-    })
+        } else {
+          redirect('/auth/signin')
+        }
+      });
+    }
   }
 }

@@ -19,25 +19,31 @@ export const mutations = {
 }
 
 export const actions = {
-  createWorkGroup(context, payload) {
+  async createWorkGroup(context, payload) {
     const url = `${process.env.url}/api/v1/work_groups`;
     const auth = getAuth();
     const uid = auth.currentUser.uid;
-    axios.post(url, {work_group: {"uid": uid, "title": payload}})
-    .then((res) =>{
-      context.commit('addToWorkGroupLists', res.data.title)
+    await auth.currentUser.getIdToken(/* forceRefresh */ true)
+    .then(function(idToken) {
+      axios.post(url, {token: idToken, work_group: {"uid": uid, "title": payload}})
+      .then((res) =>{
+        context.commit('addToWorkGroupLists', res.data.title)
+      })
+      .catch( e => {
+        alert(e.message)
+        console.log('createWorkGroup error】', e)
+      })
     })
-    .catch( e => {
-      alert(e.message)
-      console.log('createWorkGroup error】', e)
-    })
+    .catch((e) => {
+      console.log('createWorkGroup トークン取得エラー', e)
+    });
   },
   getWorkGroups(context) {
     const url = `${process.env.url}/api/v1/work_groups`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
       if (user){
-        axios.get(url, {params: {"uid": user.uid}})
+        axios.get(url, {params: {token: user.accessToken, "uid": user.uid}})
         .then((res) =>{
           context.commit('updateWorkGroupLists', res.data.work_group_titles)
         })
