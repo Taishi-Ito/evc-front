@@ -20,7 +20,7 @@ export const mutations = {
 
 export const actions = {
   async createWorkGroup(context, payload) {
-    const url = `${process.env.url}/api/v1/work_groups`;
+    const url = `${process.env.url}/work_groups`;
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     await auth.currentUser.getIdToken(/* forceRefresh */ true)
@@ -39,7 +39,7 @@ export const actions = {
     });
   },
   getWorkGroups(context) {
-    const url = `${process.env.url}/api/v1/work_groups`;
+    const url = `${process.env.url}/work_groups`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
       if (user){

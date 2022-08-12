@@ -75,7 +75,7 @@ export const actions = {
     });
   },
   async getUserInfo(context, uid) {
-    const url = `${process.env.url}/api/v1/users/${uid}`;
+    const url = `${process.env.url}/users/${uid}`;
     await axios.get(url, { headers: {Authorization: `Bearer ${context.state.idToken}`}, params: {token: context.state.idToken, "uid": uid}})
     .then((res) =>{
       if (res.data["is_name"]) {
@@ -103,7 +103,7 @@ export const actions = {
   },
   async registerBackUserInfo(context, payload) {
     await context.dispatch('getIdToken')
-    const url = `${process.env.url}/api/v1/users`;
+    const url = `${process.env.url}/users`;
     axios.post(url, {token: context.state.idToken, user: {"name": payload["name"], "locale": "ja"}})
     .then((res) =>{
       if (res.data.name) {
@@ -191,7 +191,7 @@ export const actions = {
     }
   },
   deleteBackUserInfo(context) {
-    const url = `${process.env.url}/api/v1/users/destroy`;
+    const url = `${process.env.url}/users/destroy`;
     axios.delete(url, {params: {token: context.state.idToken, "uid": context.state.userId}})
     .then((res) =>{
       return

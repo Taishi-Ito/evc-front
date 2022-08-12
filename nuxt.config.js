@@ -55,15 +55,6 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
   ],
-  // axios: {
-  //   proxy: true,
-  // },
-
-  // proxy: {
-  //   '/api': {
-  //     target: process.env.URL
-  //   }
-  // },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
