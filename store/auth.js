@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, onAuthStateChanged, reauthenticateWithCredential, EmailAuthProvider, sendEmailVerification} from 'firebase/auth'
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, onAuthStateChanged, reauthenticateWithCredential, EmailAuthProvider, sendEmailVerification, updateEmail} from 'firebase/auth'
 
 export const state = () => ({
   message: 'Hello Vuex!',
@@ -140,9 +140,11 @@ export const actions = {
   async signin(context, payload) {
     const auth = getAuth(this.$firebase)
     let uid = ""
+    let is_verified = false
     await signInWithEmailAndPassword(auth, payload["email"], payload["password"])
     .then( userCredential => {
       if (userCredential.user.emailVerified) {
+        is_verified = true
         uid = userCredential.user.uid;
         context.commit('setUserId', uid)
         context.commit('setEmail', userCredential.user.email)
@@ -159,7 +161,7 @@ export const actions = {
         console.log('【signin error】', e)
       }
     })
-    if (context.state.userId) {
+    if (is_verified) {
       await context.dispatch('getIdToken')
       await context.dispatch('getUserInfo', uid)
       if (context.state.name) {
@@ -181,6 +183,30 @@ export const actions = {
       alert(e.message)
       console.log('【signOut error】', e)
     })
+  },
+  async updateEmail(context, payload) {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(user.email, payload["password"])
+    let is_credentialed = false
+    await reauthenticateWithCredential(user, credential)
+    .then(() => {
+      is_credentialed = true
+    })
+    .catch((e) => {
+      console.log('cant get credential', e)
+    });
+    if (is_credentialed) {
+      await updateEmail(user, payload["email"]).then(() => {
+        context.dispatch('sendVerificationMail')
+        this.$router.push('/auth/signin')
+      }).catch((e) => {
+        alert("メールアドレスを変更できませんでした。")
+        console.log('【updateEmail error】', e)
+      });
+    } else {
+      return
+    }
   },
   async deleteUser(context) {
     await context.dispatch('deleteFirebaseUserInfo', "password")
