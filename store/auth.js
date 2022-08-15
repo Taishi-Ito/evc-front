@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, onAuthStateChanged, reauthenticateWithCredential, EmailAuthProvider, sendEmailVerification, updateEmail} from 'firebase/auth'
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, onAuthStateChanged, reauthenticateWithCredential, EmailAuthProvider, sendEmailVerification, updateEmail, updatePassword} from 'firebase/auth'
 
 export const state = () => ({
   message: 'Hello Vuex!',
@@ -203,6 +203,31 @@ export const actions = {
       }).catch((e) => {
         alert("メールアドレスを変更できませんでした。")
         console.log('【updateEmail error】', e)
+      });
+    } else {
+      return
+    }
+  },
+  async updatePassword(context, payload) {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(user.email, payload["currentPassword"])
+    let is_credentialed = false
+    await reauthenticateWithCredential(user, credential)
+    .then(() => {
+      is_credentialed = true
+    })
+    .catch((e) => {
+      console.log('cant get credential', e)
+    });
+    if (is_credentialed) {
+      await updatePassword(user, payload["newPassword"])
+      .then(() => {
+        alert("パスワードを更新しました。")
+        this.$router.push('/auth/signin')
+      }).catch((error) => {
+        alert("パスワードを変更できませんでした。")
+        console.log('updatePassword error】', e)
       });
     } else {
       return
