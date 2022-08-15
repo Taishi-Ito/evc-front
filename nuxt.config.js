@@ -89,6 +89,7 @@ export default {
     storageBucket: process.env.STORAGE_BUCKET,
     messageSenderId: process.env.MESSAGE_SENDER_ID,
     appId: process.env.APP_ID,
-    url: process.env.URL
+    url: process.env.URL,
+    urlAfterVertification: process.env.URL_AFTER_VERTIFICATION,
   }
 }

@@ -11,14 +11,19 @@ export default async function({
     if (!route.path.match(/\/auth\//) || route.path.match(/registerBackUserInfo/)) {
       onAuthStateChanged(auth, async function (user) {
         if (user) {
-          store.commit('auth/setUserId', user.uid)
-          store.commit('auth/setEmail', user.email)
-          await store.dispatch('auth/getIdToken')
-          await store.dispatch('auth/getUserInfo', user.uid)
-          if (store.state.auth.name) {
-            store.commit('auth/setSigninStatus', true)
+          if (user.emailVerified) {
+            store.commit('auth/setUserId', user.uid)
+            store.commit('auth/setEmail', user.email)
+            await store.dispatch('auth/getIdToken')
+            await store.dispatch('auth/getUserInfo', user.uid)
+            if (store.state.auth.name) {
+              store.commit('auth/setSigninStatus', true)
+            } else {
+              redirect('/auth/registerBackUserInfo')
+            }
           } else {
-            redirect('/auth/registerBackUserInfo')
+            alert("メールを認証してください。")
+            redirect('/auth/signin')
           }
         } else {
           redirect('/auth/signin')

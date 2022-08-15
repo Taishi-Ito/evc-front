@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, onAuthStateChanged, reauthenticateWithCredential, EmailAuthProvider} from 'firebase/auth'
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, onAuthStateChanged, reauthenticateWithCredential, EmailAuthProvider, sendEmailVerification} from 'firebase/auth'
 
 export const state = () => ({
   message: 'Hello Vuex!',
@@ -94,12 +94,28 @@ export const actions = {
     .then( userCredential => {
       context.commit('setUserId', userCredential.user.uid)
       context.commit('setEmail', userCredential.user.email)
-      this.$router.push('/auth/registerBackUserInfo')
+      context.dispatch('sendVerificationMail')
+      this.$router.push('/auth/signin')
     })
     .catch( e => {
       alert("ユーザー登録できませんでした")
       console.log('【signUp error】', e)
     })
+  },
+  async sendVerificationMail() {
+    const auth = getAuth()
+    const user = auth.currentUser
+    const actionCodeSettings = {
+      url: process.env.urlAfterVertification
+    };
+    await sendEmailVerification(user, actionCodeSettings)
+    .then(() => {
+      alert("メールを認証してください。")
+      console.log('【send email】')
+    })
+    .catch((e) => {
+      console.log('【can not send email】', e)
+    });
   },
   async registerBackUserInfo(context, payload) {
     await context.dispatch('getIdToken')
@@ -126,21 +142,32 @@ export const actions = {
     let uid = ""
     await signInWithEmailAndPassword(auth, payload["email"], payload["password"])
     .then( userCredential => {
-      uid = userCredential.user.uid;
-      context.commit('setUserId', uid)
-      context.commit('setEmail', userCredential.user.email)
+      if (userCredential.user.emailVerified) {
+        uid = userCredential.user.uid;
+        context.commit('setUserId', uid)
+        context.commit('setEmail', userCredential.user.email)
+      } else {
+        throw new Error("メール認証なし");
+      }
     })
     .catch( e => {
-      alert("ログインできません")
-      console.log('【signin error】', e)
+      if (e.message == "メール認証なし") {
+        alert("メール認証なし")
+        console.log('【signin error】', e)
+      } else {
+        alert("ログインできません。")
+        console.log('【signin error】', e)
+      }
     })
-    await context.dispatch('getIdToken')
-    await context.dispatch('getUserInfo', uid)
-    if (context.state.name) {
-      context.commit('setSigninStatus', true)
-      this.$router.push('/dashboard')
-    } else {
-      this.$router.push('/auth/registerBackUserInfo')
+    if (context.state.userId) {
+      await context.dispatch('getIdToken')
+      await context.dispatch('getUserInfo', uid)
+      if (context.state.name) {
+        context.commit('setSigninStatus', true)
+        this.$router.push('/dashboard')
+      } else {
+        this.$router.push('/auth/registerBackUserInfo')
+      }
     }
   },
   async signOut(context) {
