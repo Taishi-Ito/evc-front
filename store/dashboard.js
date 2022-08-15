@@ -42,7 +42,7 @@ export const actions = {
     const url = `${process.env.url}/work_groups`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
-      if (user){
+      if (user && user.emailVerified){
         axios.get(url, {params: {token: user.accessToken, "uid": user.uid}})
         .then((res) =>{
           context.commit('updateWorkGroupLists', res.data.work_group_titles)
