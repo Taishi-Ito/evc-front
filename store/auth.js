@@ -181,6 +181,7 @@ export const actions = {
     if (is_credentialed) {
       await updateEmail(user, payload["email"]).then(() => {
         context.dispatch('sendVerificationMail')
+        context.commit('clearUserStatus')
         this.$router.push('/auth/signin')
       }).catch((e) => {
         alert("メールアドレスを変更できませんでした。")
@@ -206,6 +207,7 @@ export const actions = {
       await updatePassword(user, payload["newPassword"])
       .then(() => {
         alert("パスワードを更新しました。")
+        context.commit('clearUserStatus')
         this.$router.push('/auth/signin')
       }).catch((error) => {
         alert("パスワードを変更できませんでした。")
