@@ -1,86 +1,99 @@
 <template>
-  <div>
-    <validation-observer ref="emailObserver" v-slot="{ invalid }">
-      <div>
-        現在のメールアドレス
-        {{ email }}
-      </div>
-      <form @submit.prevent="updateEmail">
-        <MoleculesInputForm
-          :formContent="newEmail"
-          :formLabel="'メールアドレス'"
-          :formId="'email'"
-          :formName="'email'"
-          :formRules="'required|email'"
-          :formType="'text'"
-          @update="newEmail=$event"
-        ></MoleculesInputForm>
-        <MoleculesInputForm
-          :formContent="passwordForEmailUpdate"
-          :formLabel="'パスワード'"
-          :formId="'password'"
-          :formName="'password'"
-          :formRules="'required|min:6'"
-          :formType="'password'"
-          @update="passwordForEmailUpdate=$event"
-        ></MoleculesInputForm>
-        <AtomsSendBtn
-          :btnId="'updateEmail'"
-          :btnTitle="'送信'"
-          :btnType="'submit'"
-          :btnDisabled="invalid"
-          :btnColor="'primary'"
-        ></AtomsSendBtn>
-      </form>
-    </validation-observer>
-    <validation-observer ref="passwordObserver" v-slot="{ invalid }">
-      <div>
-        新しいパスワード
-      </div>
-      <form @submit.prevent="updatePassword">
-        <MoleculesInputForm
-          :formContent="currentPassword"
-          :formLabel="'パスワード'"
-          :formId="'currentPassword'"
-          :formName="'currentPassword'"
-          :formRules="'required|min:6'"
-          :formType="'password'"
-          @update="currentPassword=$event"
-        ></MoleculesInputForm>
-        <MoleculesInputForm
-          :formContent="newPassword"
-          :formLabel="'新しいパスワード'"
-          :formId="'newPassword'"
-          :formName="'newPassword'"
-          :formRules="'required|min:6'"
-          :formType="'password'"
-          @update="newPassword=$event"
-        ></MoleculesInputForm>
-        <MoleculesInputForm
-          :formContent="newPasswordConfirmation"
-          :formLabel="'新しいパスワード(確認)'"
-          :formId="'newPasswordConfirmation'"
-          :formName="'newPasswordConfirmation(確認)'"
-          :formRules="'required|confirmed:newPassword'"
-          :formType="'password'"
-          @update="newPasswordConfirmation=$event"
-        ></MoleculesInputForm>
-        <AtomsSendBtn
-          :btnId="'updatePassword'"
-          :btnTitle="'送信'"
-          :btnType="'submit'"
-          :btnDisabled="invalid"
-          :btnColor="'primary'"
-        ></AtomsSendBtn>
-      </form>
-    </validation-observer>
-    <AtomsSendBtn
-      :btnId="'deleteUser'"
-      :btnTitle="'ユーザー削除'"
-      :btnColor="'warning'"
-      :btnClickEvent="'deleteUser'"
-      @deleteUser="deleteUser"
-    ></AtomsSendBtn>
+  <div class="wholeContainer">
+    <v-card class="card" elevation="2">
+      <h2 class="cardTitle">
+        メールアドレス変更
+      </h2>
+      <validation-observer class="inner" ref="emailObserver" v-slot="{ invalid }">
+        <div class="currenEmail">
+          <p class="currentEmailLabel">現在のメールアドレス</p>
+          <p class="currentEmail">{{ email }}</p>
+        </div>
+        <form @submit.prevent="updateEmail">
+          <MoleculesInputForm
+            :formContent="newEmail"
+            :formLabel="'メールアドレス'"
+            :formId="'email'"
+            :formName="'email'"
+            :formRules="'required|email'"
+            :formType="'text'"
+            @update="newEmail=$event"
+          ></MoleculesInputForm>
+          <MoleculesInputForm
+            :formContent="passwordForEmailUpdate"
+            :formLabel="'パスワード'"
+            :formId="'password'"
+            :formName="'password'"
+            :formRules="'required|min:6'"
+            :formType="'password'"
+            @update="passwordForEmailUpdate=$event"
+          ></MoleculesInputForm>
+          <AtomsSendBtn
+            :btnId="'updateEmail'"
+            :btnTitle="'送信'"
+            :btnType="'submit'"
+            :btnDisabled="invalid"
+            :btnColor="'primary'"
+          ></AtomsSendBtn>
+        </form>
+      </validation-observer>
+    </v-card>
+
+    <v-card class="card" elevation="2">
+      <h2 class="cardTitle">
+        パスワード変更
+      </h2>
+      <validation-observer class="inner" ref="passwordObserver" v-slot="{ invalid }">
+        <form @submit.prevent="updatePassword">
+          <MoleculesInputForm
+            :formContent="currentPassword"
+            :formLabel="'パスワード'"
+            :formId="'currentPassword'"
+            :formName="'currentPassword'"
+            :formRules="'required|min:6'"
+            :formType="'password'"
+            @update="currentPassword=$event"
+          ></MoleculesInputForm>
+          <MoleculesInputForm
+            :formContent="newPassword"
+            :formLabel="'新しいパスワード'"
+            :formId="'newPassword'"
+            :formName="'newPassword'"
+            :formRules="'required|min:6'"
+            :formType="'password'"
+            @update="newPassword=$event"
+          ></MoleculesInputForm>
+          <MoleculesInputForm
+            :formContent="newPasswordConfirmation"
+            :formLabel="'新しいパスワード(確認)'"
+            :formId="'newPasswordConfirmation'"
+            :formName="'newPasswordConfirmation(確認)'"
+            :formRules="'required|confirmed:newPassword'"
+            :formType="'password'"
+            @update="newPasswordConfirmation=$event"
+          ></MoleculesInputForm>
+          <AtomsSendBtn
+            :btnId="'updatePassword'"
+            :btnTitle="'送信'"
+            :btnType="'submit'"
+            :btnDisabled="invalid"
+            :btnColor="'primary'"
+          ></AtomsSendBtn>
+        </form>
+      </validation-observer>
+    </v-card>
+    <v-card class="card" elevation="2">
+      <h2 class="cardTitle">
+        ユーザー削除
+      </h2>
+      <AtomsSendBtn
+        :btnId="'deleteUser'"
+        :btnTitle="'ユーザー削除'"
+        :btnColor="'warning'"
+        :btnClickEvent="'deleteUser'"
+        @deleteUser="deleteUser"
+      ></AtomsSendBtn>
+    </v-card>
   </div>
 </template>
 
@@ -127,3 +140,37 @@ export default {
   }
 }
 </script>
+<style>
+.wholeContainer {
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.card {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  width: 100%;
+  margin-top: 30px;
+  text-align: center;
+}
+.inner {
+  width: 80%;
+  margin: 0 auto;
+  max-width: 500px;
+}
+.currenEmail {
+  width: 80%;
+  margin: 0 auto;
+}
+.currentEmailLabel {
+  text-align: left !important;
+  width: 100%;
+  margin-bottom: 0 !important;
+}
+.currentEmail {
+  text-align: left !important;
+}
+.cardTitle {
+  margin-bottom: 20px;
+}
+</style>

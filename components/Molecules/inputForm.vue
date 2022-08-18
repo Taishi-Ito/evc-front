@@ -1,13 +1,14 @@
 <template>
   <div class="inputFormContainer">
-    <label :for="formId">{{ formLabel }}</label>
-    <br>
-    <validation-provider v-slot="{ errors }" :name="formName" :rules="formRules" >
-      <input class="inputForm" v-model="content" :error-messages="errors" :label="formLabel" :type="formType" :id="formId">
-      <div class="errorMessageContainer">
-        <p class="errorMessage" v-for="error in errors">{{ error }}</p>
-      </div>
-    </validation-provider>
+    <div class="inputFormInner">
+      <p class="label" :for="formId">{{ formLabel }}</p>
+      <validation-provider v-slot="{ errors }" :name="formName" :rules="formRules" >
+        <input class="inputForm" v-model="content" :error-messages="errors" :label="formLabel" :type="formType" :id="formId">
+        <div class="errorMessageContainer">
+          <p class="errorMessage" v-for="error in errors">{{ error }}</p>
+        </div>
+      </validation-provider>
+    </div>
   </div>
 </template>
 
@@ -66,10 +67,11 @@ export default {
   border-radius: 10px;
   padding: 10px;
   font-size: 16px;
-  min-width: 120px;
+  /* min-width: 120px; */
   vertical-align: middle;
   height: 40px;
-  min-width: 300px;
+  /* min-width: 300px; */
+  width: 100%;
 }
 .errorMessageContainer {
   height: 20px;
@@ -77,5 +79,14 @@ export default {
 .errorMessage {
   font-size: 15px;
   color: red;
+}
+.label {
+  text-align: left !important;
+  width: 100%;
+  margin-bottom: 0 !important;
+}
+.inputFormInner {
+  width: 80%;
+  margin: 0 auto;
 }
 </style>
