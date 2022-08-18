@@ -1,6 +1,8 @@
 <template>
   <div class="textFieldContainer">
-    <v-text-field v-model="textFieldContent" :label="textFieldLabel"/>
+    <div class="inner">
+      <v-text-field v-model="textFieldContent" :label="textFieldLabel"/>
+    </div>
   </div>
 </template>
 <script>
@@ -25,5 +27,8 @@
 <style>
 .textFieldContainer {
   margin-top: 20px;
+}
+.inner {
+  width: 80%;
 }
 </style>
