@@ -94,7 +94,6 @@ export const actions = {
     await sendEmailVerification(user, actionCodeSettings)
     .then(() => {
       alert("メールを認証してください。")
-      console.log('【send email】')
     })
     .catch((e) => {
       console.log('【can not send email】', e)

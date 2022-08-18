@@ -74,6 +74,13 @@
         ></AtomsSendBtn>
       </form>
     </validation-observer>
+    <AtomsSendBtn
+      :btnId="'deleteUser'"
+      :btnTitle="'ユーザー削除'"
+      :btnColor="'warning'"
+      :btnClickEvent="'deleteUser'"
+      @deleteUser="deleteUser"
+    ></AtomsSendBtn>
   </div>
 </template>
 
@@ -111,6 +118,9 @@ export default {
       } else {
         alert("バリデーションエラー")
       }
+    },
+    deleteUser() {
+      this.$store.dispatch('auth/deleteUser')
     }
   },
   mounted() {

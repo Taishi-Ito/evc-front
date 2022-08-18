@@ -1,7 +1,16 @@
 <template>
   <div>
-    <v-text-field v-model="workgroup"></v-text-field>
-    <v-btn @click="createWorkGroup()">ワークグループ作成</v-btn>
+    <AtomsTextField
+      :textFieldContent="workgroup"
+      @update="workgroup=$event"
+    ></AtomsTextField>
+    <AtomsSendBtn
+      :btnId="'createWorkGroup'"
+      :btnTitle="'ワークグループ作成'"
+      :btnColor="'primary'"
+      :btnClickEvent="'createWorkGroup'"
+      @createWorkGroup="createWorkGroup"
+    ></AtomsSendBtn>
     {{ workGroupLists }}
   </div>
 </template>
