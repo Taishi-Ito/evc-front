@@ -1,6 +1,6 @@
 <template>
   <div class="sendBtnContainer">
-    <v-btn class="mr-4 sendBtn" type="btnType" :disabled="btnDisabled" btnSize :color="btnColor" :id="btnId">{{ btnTitle }}</v-btn>
+    <v-btn class="mr-4 sendBtn" type="btnType" :disabled="btnDisabled" btnSize :color="btnColor" :id="btnId" @click="clickEvent()">{{ btnTitle }}</v-btn>
   </div>
 </template>
 
@@ -17,7 +17,7 @@
     },
     btnType: {
       type: String,
-      required: true
+      required: false
     },
     btnDisabled: {
       type: Boolean,
@@ -30,6 +30,17 @@
     btnColor: {
       type: String,
       required: false
+    },
+    btnClickEvent:  {
+      type: String,
+      required: false
+    }
+  },
+  methods: {
+    clickEvent() {
+      if (this.btnClickEvent) {
+        this.$emit(this.btnClickEvent)
+      }
     }
   }
   }

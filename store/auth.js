@@ -2,7 +2,6 @@ import axios from 'axios'
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, onAuthStateChanged, reauthenticateWithCredential, EmailAuthProvider, sendEmailVerification, updateEmail, updatePassword} from 'firebase/auth'
 
 export const state = () => ({
-  message: 'Hello Vuex!',
   isLoggedIn: false,
   userId: '',
   email: '',
@@ -12,7 +11,6 @@ export const state = () => ({
 })
 
 export const getters = ({
-  message: state => state.message,
   isLoggedIn: state => !!state.isLoggedIn,
   userId: state => state.userId,
   email: state => state.email,
@@ -21,9 +19,6 @@ export const getters = ({
 })
 
 export const mutations = {
-  updateMessage: function(state, payload) {
-    state.message = payload
-  },
   setSigninStatus(state, loggedIn) {
     state.isLoggedIn = loggedIn
   },
@@ -52,18 +47,6 @@ export const mutations = {
 }
 
 export const actions = {
-  updateMessageAction(context, payload) {
-    const url = `${process.env.url}/api/v1/hello`
-    let query = payload
-    axios.get(url, {params:{token: context.state.idToken, message: query}})
-    .then((res) =>{
-      context.commit('updateMessage', res.data)
-    })
-    .catch( e => {
-      alert(e.message)
-      console.log('【updateMessageAction error】', e)
-    })
-  },
   async getIdToken(context) {
     const auth = getAuth();
     await auth.currentUser.getIdToken(/* forceRefresh */ true)
@@ -111,7 +94,6 @@ export const actions = {
     await sendEmailVerification(user, actionCodeSettings)
     .then(() => {
       alert("メールを認証してください。")
-      console.log('【send email】')
     })
     .catch((e) => {
       console.log('【can not send email】', e)

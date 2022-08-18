@@ -1,11 +1,17 @@
 <template>
   <div>
-    <div>
-      <v-text-field v-model="name" label="名前"/>
-    </div>
-    <div>
-      <v-btn @click="registerBackUserInfo">名前を登録をする</v-btn>
-    </div>
+    <AtomsTextField
+      :textFieldContent="name"
+      :textFieldLabel="'名前'"
+      @update="name=$event"
+    ></AtomsTextField>
+    <AtomsSendBtn
+      :btnId="'registerBackUserInfo'"
+      :btnTitle="'名前を登録'"
+      :btnColor="'primary'"
+      :btnClickEvent="'registerBackUserInfo'"
+      @registerBackUserInfo="registerBackUserInfo"
+    ></AtomsSendBtn>
   </div>
 </template>
 

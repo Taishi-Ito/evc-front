@@ -48,7 +48,6 @@ export default {
     content (val) {
       this.$emit("update", val);
     },
-
   },
   mounted() {
     if (this.formContent) {
