@@ -30,11 +30,14 @@ export const actions = {
         context.commit('addToWorkGroupLists', res.data.title)
       })
       .catch( e => {
-        alert(e.message)
-        console.log('createWorkGroup error】', e)
+        const payload = {"message": "ワークグループを作成できませんでした", "color": "red lighten-2"}
+        context.dispatch('util/showAlert', payload, {root: true})
+        console.log('createWorkGroup error', e)
       })
     })
     .catch((e) => {
+      const payload = {"message": "ワークグループを作成できませんでした", "color": "red lighten-2"}
+      context.dispatch('util/showAlert', payload, {root: true})
       console.log('createWorkGroup トークン取得エラー', e)
     });
   },
@@ -48,7 +51,8 @@ export const actions = {
           context.commit('updateWorkGroupLists', res.data.work_group_titles)
         })
         .catch( e => {
-          alert(e.message)
+          const payload = {"message": "ワークグループを取得できませんでした", "color": "red lighten-2"}
+          context.dispatch('util/showAlert', payload, {root: true})
           console.log('getWorkGroups error', e)
         })
       }

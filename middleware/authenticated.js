@@ -25,7 +25,8 @@ export default async function({
               redirect('/auth/registerBackUserInfo')
             }
           } else {
-            alert("メールを認証してください。")
+            const payload = {"message": "メールを認証してください。", "color": "red lighten-2"}
+            context.dispatch('util/showAlert', payload, {root: true})
             redirect('/auth/signin')
           }
         } else {

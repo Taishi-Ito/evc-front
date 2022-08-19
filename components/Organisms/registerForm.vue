@@ -62,7 +62,8 @@
         const payload = {"email": this.email, "password": this.password}
         this.$store.dispatch('auth/signUp', payload)
       } else {
-        alert("バリデーションエラー")
+        const payload = {"message": "入力した値が不正です。", "color": "red lighten-2"}
+        this.$store.dispatch('util/showAlert', payload, {root: true})
       }
     }
   }
