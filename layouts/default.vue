@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <MoleculesAlert />
     <OrganismsHeader />
     <v-main>
       <v-container>

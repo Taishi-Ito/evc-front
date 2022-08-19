@@ -120,7 +120,8 @@ export default {
         const payload = {"email": this.newEmail, "password": this.passwordForEmailUpdate}
         this.$store.dispatch('auth/updateEmail', payload)
       } else {
-        alert("バリデーションエラー")
+        const payload = {"message": "入力した値が不正です。", "color": "red lighten-2"}
+        this.$store.dispatch('util/showAlert', payload, {root: true})
       }
     },
     async updatePassword() {
@@ -129,7 +130,8 @@ export default {
         const payload = {"currentPassword": this.currentPassword, "newPassword": this.newPassword , "newPasswordConfirmation": this.newPasswordConfirmation}
         this.$store.dispatch('auth/updatePassword', payload)
       } else {
-        alert("バリデーションエラー")
+        const payload = {"message": "入力した値が不正です。", "color": "red lighten-2"}
+        this.$store.dispatch('util/showAlert', payload, {root: true})
       }
     },
     deleteUser() {
