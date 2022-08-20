@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="alertContainer">
     <v-snackbar v-model="isAlert" :top="true" :color="alertColor" :timeout="timeout">
       {{ alertMessage }}
       <template v-slot:action="{ attrs }">
@@ -34,3 +34,9 @@
     }
   }
 </script>
+
+<style>
+.alertContainer {
+  z-index: 10001;
+}
+</style>
