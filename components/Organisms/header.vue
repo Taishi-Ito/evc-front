@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- left drawer -->
-    <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" fixed app>
+    <v-navigation-drawer class="leftDrawer" v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" fixed app dark>
       <v-list>
         <MoleculesListItem
           :item="{icon: 'mdi-home', title: 'ダッシュボード', to: '/dashBoard', key: 'dashBoard'}"
@@ -13,7 +13,7 @@
     </v-navigation-drawer>
 
     <!-- contents -->
-    <v-app-bar :clipped-left="clipped" fixed app>
+    <v-app-bar class="appBar" :clipped-left="clipped" fixed app dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <div class="userName">{{ userName }}</div>
@@ -24,7 +24,7 @@
     </v-app-bar>
 
     <!-- right drawer -->
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
+    <v-navigation-drawer class="rightDrawer" v-model="rightDrawer" :right="right" temporary fixed dark>
       <v-list>
         <MoleculesListItem
           :item="{icon: 'mdi-account', title: 'ユーザー設定', to: '/user', key: 'userPage'}"
@@ -67,5 +67,13 @@ export default {
 <style>
 .userName {
   margin-left: 20px;
+}
+.leftDrawer {
+  background: linear-gradient(135deg,#424242,#616161);
+}
+.appBar {
+}
+.rightDrawer {
+  background: linear-gradient(135deg,#424242,#616161);
 }
 </style>
