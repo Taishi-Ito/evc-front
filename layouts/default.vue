@@ -1,20 +1,12 @@
 <template>
-  <v-app>
-    <MoleculesAlert />
+  <v-app dark>
     <OrganismsHeader />
+    <MoleculesAlert />
     <v-main>
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
+    <OrganismsFooter />
   </v-app>
 </template>
-
-<script>
-export default {
-  data(){
-    return {
-    }
-  }
-}
-</script>
