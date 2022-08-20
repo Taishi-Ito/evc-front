@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app light>
     <OrganismsHeader />
     <MoleculesAlert />
     <v-main>
@@ -10,3 +10,8 @@
     <OrganismsFooter />
   </v-app>
 </template>
+<style scoped>
+.v-application {
+  background-color: #F5F5F5;
+}
+</style>

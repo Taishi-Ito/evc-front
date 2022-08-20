@@ -1,6 +1,6 @@
 <template>
   <div class="wholeContainer">
-    <v-card class="card" elevation="2">
+    <v-card light class="card" elevation="2">
       <h2 class="cardTitle">
         メールアドレス変更
       </h2>
@@ -39,7 +39,7 @@
       </validation-observer>
     </v-card>
 
-    <v-card class="card" elevation="2">
+    <v-card light class="card" elevation="2">
       <h2 class="cardTitle">
         パスワード変更
       </h2>
@@ -82,7 +82,7 @@
         </form>
       </validation-observer>
     </v-card>
-    <v-card class="card" elevation="2">
+    <v-card light class="card" elevation="2">
       <h2 class="cardTitle">
         ユーザー削除
       </h2>
