@@ -54,22 +54,31 @@ export const actions = {
       context.commit('setIdToken', idToken)
     })
     .catch((e) => {
-      console.log('getIdToken error', e)
+      const payload = {
+        "detail": "エラーが発生しました。お問い合わせください。",
+        "method": "getIdToken",
+        "errorMessage": e.message,
+        "color": "red lighten-2"
+      }
+      context.dispatch('util/showAlert', payload, {root: true})
     });
   },
   async getUserInfo(context, uid) {
     const url = `${process.env.url}/users/${uid}`;
     await axios.get(url, { headers: {Authorization: `Bearer ${context.state.idToken}`}, params: {token: context.state.idToken, "uid": uid}})
     .then((res) =>{
-      if (res.data["is_name"]) {
-        context.commit('setName', res.data["name"])
-        context.commit('setLocale', res.data["locale"])
-      }
+      context.commit('setName', res.data["name"])
+      context.commit('setLocale', res.data["locale"])
     })
     .catch( e => {
-      const payload = {"message": "ユーザー情報取得中にエラーが発生しました", "color": "red lighten-2"}
+      const payload = {
+        "message": "ユーザー情報取得中にエラーが発生しました。",
+        "detail": e.response.data.message,
+        "method": "getUserInfo",
+        "errorMessage": e.message,
+        "color": "red lighten-2"
+      }
       context.dispatch('util/showAlert', payload, {root: true})
-      console.log('signin getuser error', e)
     })
   },
   signUp(context, payload) {
@@ -82,9 +91,14 @@ export const actions = {
       this.$router.push('/auth/signin')
     })
     .catch( e => {
-      const payload = {"message": "ユーザー登録できませんでした", "color": "red lighten-2"}
+      const payload = {
+        "message": "ユーザー登録できませんでした。",
+        "detail": "エラーが発生しました。お問い合わせください。",
+        "method": "signUp",
+        "errorMessage": e.message,
+        "color": "red lighten-2"
+      }
       context.dispatch('util/showAlert', payload, {root: true})
-      console.log('【signUp error】', e)
     })
   },
   async sendVerificationMail() {
@@ -99,7 +113,13 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     })
     .catch((e) => {
-      console.log('【can not send email】', e)
+      const payload = {
+        "message": "エラーが発生しました。お問い合わせください。",
+        "method": "sendEmailVerification",
+        "errorMessage": e.message,
+        "color": "red lighten-2"
+      }
+      context.dispatch('util/showAlert', payload, {root: true})
     });
   },
   async registerBackUserInfo(context, payload) {
@@ -107,21 +127,20 @@ export const actions = {
     const url = `${process.env.url}/users`;
     axios.post(url, {token: context.state.idToken, user: {"name": payload["name"], "locale": "ja"}})
     .then((res) =>{
-      if (res.data.name) {
-        context.commit('setName', res.data["name"])
-        context.commit('setLocale', res.data["locale"])
-        context.commit('setSigninStatus', true)
-        this.$router.push('/dashboard')
-      } else {
-        const payload = {"message": "名前を登録できませんでした", "color": "red lighten-2"}
-        context.dispatch('util/showAlert', payload, {root: true})
-        console.log('no res.data.name')
-      }
+      context.commit('setName', res.data["name"])
+      context.commit('setLocale', res.data["locale"])
+      context.commit('setSigninStatus', true)
+      this.$router.push('/dashboard')
     })
     .catch((e) => {
-      const payload = {"message": "名前を登録できませんでした", "color": "red lighten-2"}
+      const payload = {
+        "message": "名前を登録できませんでした",
+        "detail": e.response.data.message,
+        "method": "registerBackUserInfo",
+        "errorMessage": e.message,
+        "color": "red lighten-2"
+      }
       context.dispatch('util/showAlert', payload, {root: true})
-      console.log('registerBackUserInfo error', e)
     });
   },
   async signin(context, payload) {
@@ -141,13 +160,21 @@ export const actions = {
     })
     .catch( e => {
       if (e.message == "メール認証なし") {
-        const payload = {"message": "メール認証なし", "color": "red lighten-2"}
+        const payload = {
+          "message": "メールを認証できませんでした。",
+          "method": "signInWithEmailAndPassword",
+          "errorMessage": e.message,
+          "color": "red lighten-2"
+        }
         context.dispatch('util/showAlert', payload, {root: true})
-        console.log('【signin error】', e)
       } else {
-        const payload = {"message": "ログインできません。", "color": "red lighten-2"}
+        const payload = {
+          "message": "ログインできません。",
+          "method": "signInWithEmailAndPassword",
+          "errorMessage": e.message,
+          "color": "red lighten-2"
+        }
         context.dispatch('util/showAlert', payload, {root: true})
-        console.log('【signin error】', e)
       }
     })
     if (is_verified) {
@@ -169,9 +196,13 @@ export const actions = {
       this.$router.push('/auth/signin')
     })
     .catch( e => {
-      const payload = {"message": "ログアウト中にエラーが発生しました。", "color": "red lighten-2"}
+      const payload = {
+        "message": "ログアウト中にエラーが発生しました。",
+        "method": "signOut",
+        "errorMessage": e.message,
+        "color": "red lighten-2"
+      }
       context.dispatch('util/showAlert', payload, {root: true})
-      console.log('【signOut error】', e)
     })
   },
   async updateEmail(context, payload) {
@@ -184,9 +215,13 @@ export const actions = {
       is_credentialed = true
     })
     .catch((e) => {
-      const payload = {"message": "入力した値を見直してください。", "color": "red lighten-2"}
+      const payload = {
+        "message": "入力した値を見直してください。",
+        "method": "reauthenticateWithCredential",
+        "errorMessage": e.message,
+        "color": "red lighten-2"
+      }
       context.dispatch('util/showAlert', payload, {root: true})
-      console.log('cant get credential', e)
     });
     if (is_credentialed) {
       await updateEmail(user, payload["email"]).then(() => {
@@ -194,9 +229,13 @@ export const actions = {
         context.commit('clearUserStatus')
         this.$router.push('/auth/signin')
       }).catch((e) => {
-        const payload = {"message": "メールアドレスを変更できませんでした。", "color": "red lighten-2"}
+        const payload = {
+          "message": "メールアドレスを変更できませんでした。",
+          "method": "updateEmail",
+          "errorMessage": e.message,
+          "color": "red lighten-2"
+        }
         context.dispatch('util/showAlert', payload, {root: true})
-        console.log('【updateEmail error】', e)
       });
     } else {
       return
@@ -212,9 +251,13 @@ export const actions = {
       is_credentialed = true
     })
     .catch((e) => {
-      const payload = {"message": "入力した値を見直してください。", "color": "red lighten-2"}
+      const payload = {
+        "message": "入力した値を見直してください。",
+        "method": "reauthenticateWithCredential",
+        "errorMessage": e.message,
+        "color": "red lighten-2"
+      }
       context.dispatch('util/showAlert', payload, {root: true})
-      console.log('cant get credential', e)
     });
     if (is_credentialed) {
       await updatePassword(user, payload["newPassword"])
@@ -224,9 +267,13 @@ export const actions = {
         context.commit('clearUserStatus')
         this.$router.push('/auth/signin')
       }).catch((error) => {
-        const payload = {"message": "パスワードを変更できませんでした。", "color": "red lighten-2"}
+        const payload = {
+          "message": "パスワードを変更できませんでした。",
+          "method": "updatePassword",
+          "errorMessage": e.message,
+          "color": "red lighten-2"
+        }
         context.dispatch('util/showAlert', payload, {root: true})
-        console.log('updatePassword error】', e)
       });
     } else {
       return
@@ -252,9 +299,13 @@ export const actions = {
       is_credentialed = true
     })
     .catch((e) => {
-      const payload = {"message": "入力した値を見直してください。", "color": "red lighten-2"}
+      const payload = {
+        "message": "入力した値を見直してください。",
+        "method": "reauthenticateWithCredential",
+        "errorMessage": e.message,
+        "color": "red lighten-2"
+      }
       context.dispatch('util/showAlert', payload, {root: true})
-      console.log('cant get credential', e)
     });
     if (is_credentialed) {
       await deleteUser(user)
@@ -262,9 +313,13 @@ export const actions = {
         return
       })
       .catch((e) => {
-        const payload = {"message": "ユーザー情報を削除できませんでした", "color": "red lighten-2"}
+        const payload = {
+          "message": "ユーザー情報を削除できませんでした。",
+          "method": "deleteUser",
+          "errorMessage": e.message,
+          "color": "red lighten-2"
+        }
         context.dispatch('util/showAlert', payload, {root: true})
-        console.log('deleteFirebaseUserInfo error', e)
       });
     } else {
       return
@@ -277,7 +332,14 @@ export const actions = {
       return
     })
     .catch((e) => {
-      console.log('【backend destroy error】', e)
+      const payload = {
+        "message": "エラーが発生しました。お問い合わせください。",
+        "detail": e.response.data.message,
+        "method": "deleteBackUserInfo",
+        "errorMessage": e.message,
+        "color": "red lighten-2"
+      }
+      context.dispatch('util/showAlert', payload, {root: true})
       this.$router.push('/auth/signin')
     });
   }

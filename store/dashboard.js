@@ -30,15 +30,25 @@ export const actions = {
         context.commit('addToWorkGroupLists', res.data.title)
       })
       .catch( e => {
-        const payload = {"message": "ワークグループを作成できませんでした", "color": "red lighten-2"}
+        const payload = {
+          "message": "ワークグループを作成できませんでした。",
+          "detail": e.response.data.message,
+          "method": "createWorkGroup",
+          "errorMessage": e.message,
+          "color": "red lighten-2"
+        }
         context.dispatch('util/showAlert', payload, {root: true})
-        console.log('createWorkGroup error', e)
       })
     })
     .catch((e) => {
-      const payload = {"message": "ワークグループを作成できませんでした", "color": "red lighten-2"}
+      const payload = {
+        "message": "ワークグループを作成できませんでした。",
+        "detail": "エラーが発生しました。お問い合わせください。",
+        "method": "createWorkGroup",
+        "errorMessage": e.message,
+        "color": "red lighten-2",
+      }
       context.dispatch('util/showAlert', payload, {root: true})
-      console.log('createWorkGroup トークン取得エラー', e)
     });
   },
   getWorkGroups(context) {
@@ -51,9 +61,14 @@ export const actions = {
           context.commit('updateWorkGroupLists', res.data.work_group_titles)
         })
         .catch( e => {
-          const payload = {"message": "ワークグループを取得できませんでした", "color": "red lighten-2"}
+          const payload = {
+            "message": "ワークグループを取得できませんでした",
+            "detail": "エラーが発生しました。お問い合わせください。",
+            "method": "getWorkGroups",
+            "errorMessage": e.message,
+            "color": "red lighten-2"
+          }
           context.dispatch('util/showAlert', payload, {root: true})
-          console.log('getWorkGroups error', e)
         })
       }
     }}
