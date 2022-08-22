@@ -1,9 +1,12 @@
 <template>
   <div class="alertContainer">
     <v-snackbar v-model="isAlert" :top="true" :color="alertColor" :timeout="timeout">
-      {{ alertMessage }}
+      <div v-html="alertMessage"></div>
+      <div v-html="detail"></div>
+      <div v-if="method">error:{{ method }}</div>
+      <div>{{ errorMessage }}</div>
       <template v-slot:action="{ attrs }">
-        <v-btn text v-bind="attrs" @click="changeAlertStatus">Close</v-btn>
+        <v-icon v-bind="attrs" @click="changeAlertStatus">mdi-close-circle</v-icon>
       </template>
     </v-snackbar>
   </div>
@@ -11,11 +14,6 @@
 
 <script>
   export default {
-    data() {
-      return {
-        timeout: -1
-      }
-    },
     computed: {
       alertMessage() {
         return this.$store.getters["util/alertMessage"]
@@ -25,7 +23,19 @@
       },
       alertColor() {
         return this.$store.getters["util/alertColor"]
-      }
+      },
+      detail() {
+        return this.$store.getters["util/detail"]
+      },
+      method() {
+        return this.$store.getters["util/method"]
+      },
+      errorMessage() {
+        return this.$store.getters["util/errorMessage"]
+      },
+      timeout() {
+        return this.$store.getters["util/timeout"]
+      },
     },
     methods: {
       changeAlertStatus(){
