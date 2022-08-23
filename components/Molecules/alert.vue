@@ -1,7 +1,7 @@
 <template>
   <div class="alertContainer">
     <v-snackbar v-model="isAlert" :top="true" :color="alertColor" :timeout="timeout">
-      <div v-html="alertMessage"></div>
+      <h3 v-html="alertMessage"></h3>
       <div v-html="detail"></div>
       <div v-if="method">error:{{ method }}</div>
       <div>{{ errorMessage }}</div>

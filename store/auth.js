@@ -55,6 +55,7 @@ export const actions = {
     })
     .catch((e) => {
       const payload = {
+        "message": "ユーザー情報取得中にエラーが発生しました。",
         "detail": "エラーが発生しました。お問い合わせください。",
         "method": "getIdToken",
         "errorMessage": e.message,
@@ -114,7 +115,8 @@ export const actions = {
     })
     .catch((e) => {
       const payload = {
-        "message": "エラーが発生しました。お問い合わせください。",
+        "message": "認証メールを送信できませんでした。",
+        "detail": "エラーが発生しました。お問い合わせください。",
         "method": "sendEmailVerification",
         "errorMessage": e.message,
         "color": "red lighten-2"
@@ -170,6 +172,7 @@ export const actions = {
       } else {
         const payload = {
           "message": "ログインできません。",
+          "detail": "エラーが発生しました。お問い合わせください。",
           "method": "signInWithEmailAndPassword",
           "errorMessage": e.message,
           "color": "red lighten-2"
@@ -197,7 +200,8 @@ export const actions = {
     })
     .catch( e => {
       const payload = {
-        "message": "ログアウト中にエラーが発生しました。",
+        "message": "ログアウトできませんでした。",
+        "detail": "エラーが発生しました。お問い合わせください。",
         "method": "signOut",
         "errorMessage": e.message,
         "color": "red lighten-2"
@@ -231,6 +235,7 @@ export const actions = {
       }).catch((e) => {
         const payload = {
           "message": "メールアドレスを変更できませんでした。",
+          "detail": "エラーが発生しました。お問い合わせください。",
           "method": "updateEmail",
           "errorMessage": e.message,
           "color": "red lighten-2"
@@ -269,6 +274,7 @@ export const actions = {
       }).catch((error) => {
         const payload = {
           "message": "パスワードを変更できませんでした。",
+          "detail": "エラーが発生しました。お問い合わせください。",
           "method": "updatePassword",
           "errorMessage": e.message,
           "color": "red lighten-2"
@@ -315,6 +321,7 @@ export const actions = {
       .catch((e) => {
         const payload = {
           "message": "ユーザー情報を削除できませんでした。",
+          "detail": "エラーが発生しました。お問い合わせください。",
           "method": "deleteUser",
           "errorMessage": e.message,
           "color": "red lighten-2"
