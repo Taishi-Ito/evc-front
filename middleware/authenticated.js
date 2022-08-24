@@ -18,7 +18,7 @@ export default async function({
             await store.dispatch('auth/getUserInfo', user.uid)
             if (store.state.auth.name) {
               store.commit('auth/setSigninStatus', true)
-              if (route.path == "/") {
+              if (route.path == "/" || route.path.match(/\/auth\//)) {
                 redirect('/dashboard')
               }
             } else if (route.path.match(/registerBackUserInfo/))  {
