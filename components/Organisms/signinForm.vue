@@ -33,6 +33,12 @@
           ></AtomsSendBtn>
         </form>
       </validation-observer>
+      <AtomsLinkBtn
+        :btnId="'newRegister'"
+        :btnTitle="'新規登録'"
+        :btnColor="'secondary'"
+        :to="'/auth/register'"
+      ></AtomsLinkBtn>
     </v-card>
   </div>
 </template>
