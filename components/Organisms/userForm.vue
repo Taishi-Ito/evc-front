@@ -68,7 +68,7 @@
             :formLabel="'新しいパスワード(確認)'"
             :formId="'newPasswordConfirmation'"
             :formName="'新しいパスワード(確認)'"
-            :formRules="'required|confirmed:newPassword'"
+            :formRules="'required|confirmed:新しいパスワード'"
             :formType="'password'"
             @update="newPasswordConfirmation=$event"
           ></MoleculesInputForm>
