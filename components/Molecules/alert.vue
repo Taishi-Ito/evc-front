@@ -45,7 +45,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 .alertContainer {
   z-index: 10001;
 }

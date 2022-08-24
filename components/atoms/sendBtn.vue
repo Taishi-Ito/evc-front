@@ -45,7 +45,7 @@
   }
   }
 </script>
-<style>
+<style scoped>
 .sendBtnContainer {
   margin-top: 30px;
 }
