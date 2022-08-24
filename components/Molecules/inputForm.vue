@@ -57,7 +57,7 @@ export default {
   },
 }
 </script>
-<style>
+<style scoped>
 .inputFormContainer {
   margin-top: 20px;
 }

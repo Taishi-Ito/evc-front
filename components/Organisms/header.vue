@@ -64,7 +64,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .userName {
   margin-left: 20px;
 }

@@ -60,7 +60,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .wholeContainer {
   width: 80%;
   max-width: 600px;

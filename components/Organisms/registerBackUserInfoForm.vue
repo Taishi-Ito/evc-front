@@ -37,3 +37,21 @@
   }
   }
 </script>
+
+<style scoped>
+.wholeContainer {
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.card {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  width: 100%;
+  margin-top: 30px;
+  text-align: center;
+}
+.cardTitle {
+  margin-bottom: 20px;
+}
+</style>
