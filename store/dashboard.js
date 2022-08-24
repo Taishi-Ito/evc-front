@@ -11,7 +11,7 @@ export const getters = ({
 
 export const mutations = {
   addToWorkGroupLists: function(state, payload) {
-    state.workGroupLists.push(payload)
+    (state.workGroupLists) ? state.workGroupLists.push(payload) : state.workGroupLists = [payload]
   },
   updateWorkGroupLists(state, payload) {
     state.workGroupLists = payload
