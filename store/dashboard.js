@@ -32,7 +32,7 @@ export const actions = {
       .catch( e => {
         const payload = {
           "message": "ワークグループを作成できませんでした。",
-          "detail": e.response.data.message,
+          "detail": e?.response?.data?.message,
           "method": "createWorkGroup",
           "errorMessage": e.message,
           "color": "red lighten-2"

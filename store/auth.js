@@ -68,13 +68,17 @@ export const actions = {
     const url = `${process.env.url}/users/${uid}`;
     await axios.get(url, { headers: {Authorization: `Bearer ${context.state.idToken}`}, params: {token: context.state.idToken, "uid": uid}})
     .then((res) =>{
-      context.commit('setName', res.data["name"])
-      context.commit('setLocale', res.data["locale"])
+      if (res.status == 200) {
+        context.commit('setName', res.data["name"])
+        context.commit('setLocale', res.data["locale"])
+      } else {
+        this.$router.push('/auth/registerBackUserInfo')
+      }
     })
     .catch( e => {
       const payload = {
         "message": "ユーザー情報取得中にエラーが発生しました。",
-        "detail": e.response.data.message,
+        "detail": e?.response?.data?.message,
         "method": "getUserInfo",
         "errorMessage": e.message,
         "color": "red lighten-2"
@@ -102,7 +106,7 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     })
   },
-  async sendVerificationMail() {
+  async sendVerificationMail(context) {
     const auth = getAuth()
     const user = auth.currentUser
     const actionCodeSettings = {
@@ -110,7 +114,11 @@ export const actions = {
     };
     await sendEmailVerification(user, actionCodeSettings)
     .then(() => {
-      const payload = {"message": "メールを認証してください。", "color": "success"}
+      const payload = {
+        "message": "認証メールを送信しました。メールアドレスを認証してください。",
+        "color": "success",
+        "timeout": 5000
+      }
       context.dispatch('util/showAlert', payload, {root: true})
     })
     .catch((e) => {
@@ -137,7 +145,7 @@ export const actions = {
     .catch((e) => {
       const payload = {
         "message": "名前を登録できませんでした",
-        "detail": e.response.data.message,
+        "detail": e?.response?.data?.message,
         "method": "registerBackUserInfo",
         "errorMessage": e.message,
         "color": "red lighten-2"
@@ -163,7 +171,7 @@ export const actions = {
     .catch( e => {
       if (e.message == "メール認証なし") {
         const payload = {
-          "message": "メールを認証できませんでした。",
+          "message": "ログインできませんでした。メールの認証はお済みですか？",
           "method": "signInWithEmailAndPassword",
           "errorMessage": e.message,
           "color": "red lighten-2"
@@ -186,8 +194,6 @@ export const actions = {
       if (context.state.name) {
         context.commit('setSigninStatus', true)
         this.$router.push('/dashboard')
-      } else {
-        this.$router.push('/auth/registerBackUserInfo')
       }
     }
   },
@@ -341,7 +347,7 @@ export const actions = {
     .catch((e) => {
       const payload = {
         "message": "エラーが発生しました。お問い合わせください。",
-        "detail": e.response.data.message,
+        "detail": e?.response?.data?.message,
         "method": "deleteBackUserInfo",
         "errorMessage": e.message,
         "color": "red lighten-2"
