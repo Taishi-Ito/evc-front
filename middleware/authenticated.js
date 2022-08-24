@@ -21,15 +21,23 @@ export default async function({
               if (route.path == "/") {
                 redirect('/dashboard')
               }
+            } else if (route.path.match(/registerBackUserInfo/))  {
+              const payload = {
+                "message": "名前を登録してください。",
+                "color": "success",
+                "timeout": 5000
+              }
+              store.dispatch('util/showAlert', payload, {root: true})
             } else {
               redirect('/auth/registerBackUserInfo')
             }
           } else {
             const payload = {
-              "message": "メールを認証してください。",
-              "color": "red lighten-2"
+              "message": "メールアドレスを認証してください。",
+              "color": "success",
+              "timeout": 5000
             }
-            context.dispatch('util/showAlert', payload, {root: true})
+            store.dispatch('util/showAlert', payload, {root: true})
             redirect('/auth/signin')
           }
         } else {
