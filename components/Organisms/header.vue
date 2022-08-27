@@ -1,14 +1,12 @@
 <template>
   <div>
     <!-- left drawer -->
-    <v-navigation-drawer class="leftDrawer" v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" fixed app dark>
+    <v-navigation-drawer class="leftDrawer" v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" width="300" fixed app dark temporary>
       <v-list>
         <MoleculesListItem
           :item="{icon: 'mdi-home', title: 'ダッシュボード', to: '/dashBoard', key: 'dashBoard'}"
         ></MoleculesListItem>
-        <MoleculesListItem
-          :item="{icon: 'mdi-apps', title: 'ワークグループ', key: 'workGroups'}"
-        ></MoleculesListItem>
+        <OrganismsWorkGroups></OrganismsWorkGroups>
       </v-list>
     </v-navigation-drawer>
 
