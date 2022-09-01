@@ -26,6 +26,13 @@ export const mutations = {
     let workGroupProjectList = {"workGroupTitle": {"id": payload["id"], "title": payload["title"]}, "projectTitles": []}
     state.workGroupProjectLists.push(workGroupProjectList)
   },
+  deleteWorkGroup(state, payload) {
+    state.workGroupProjectLists.some(function(value, index){
+      if (value["workGroupTitle"]["id"] == payload) {
+        state.workGroupProjectLists.splice(index, 1)
+      }
+    });
+  },
   addProject(state, payload) {
     state.workGroupProjectLists.map(function(value) {
       if (value["workGroupTitle"]["id"] == payload["work_group_id"]) {
@@ -190,6 +197,38 @@ export const actions = {
     .catch((e) => {
       const payload = {
         "message": "プロジェクトを作成できませんでした。",
+        "detail": "エラーが発生しました。お問い合わせください。",
+        "method": "getIdToken",
+        "errorMessage": e.message,
+        "color": "red lighten-2",
+      }
+      context.dispatch('util/showAlert', payload, {root: true})
+    });
+  },
+  async deleteWorkGroup(context, payload) {
+    const url = `${process.env.url}/work_groups/${payload}`;
+    const auth = getAuth();
+    const uid = auth.currentUser.uid;
+    await auth.currentUser.getIdToken(/* forceRefresh */ true)
+    .then(function(idToken) {
+      axios.delete(url, {params: {token: idToken, "uid": uid, "id": payload}})
+      .then((res) =>{
+        context.commit('deleteWorkGroup', res.data.work_group_id)
+      })
+      .catch( e => {
+        const payload = {
+          "message": "ワークグループを削除できませんでした。",
+          "detail": e?.response?.data?.message,
+          "method": "deleteWorkGroup",
+          "errorMessage": e.message,
+          "color": "red lighten-2"
+        }
+        context.dispatch('util/showAlert', payload, {root: true})
+      })
+    })
+    .catch((e) => {
+      const payload = {
+        "message": "ワークグループを削除できませんでした。",
         "detail": "エラーが発生しました。お問い合わせください。",
         "method": "getIdToken",
         "errorMessage": e.message,
