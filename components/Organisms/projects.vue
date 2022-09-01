@@ -23,7 +23,7 @@
           <v-btn icon dark @click.stop="openTextFieldDialog('edit', 'workGroup', {'data': projectsData['workGroupTitle'], 'title': 'ワークグループ名変更', 'label': 'ワークグループ名', 'btnText': '変更'})">
             <v-icon v-text="'mdi-pencil'" small :color="buttonColor"></v-icon>
           </v-btn>
-          <v-btn icon dark>
+          <v-btn icon dark @click.stop="openConfirmDialog(projectsData['workGroupTitle'])">
             <v-icon v-text="'mdi-trash-can'" small :color="buttonColor"></v-icon>
           </v-btn>
         </v-list-item-icon>
@@ -47,6 +47,14 @@
           </v-list-item-icon>
       </v-list-item>
     </v-list-group>
+    <MoleculesConfirmDialog
+      :dialog="confirmDialog"
+      :execWord="'削除'"
+      :isDestructive="true"
+      :title="deleteTitle"
+      @execute="deleteWorkGroup"
+      @close="closeConfirmDialog"
+    ></MoleculesConfirmDialog>
   </div>
 
 </template>
@@ -74,7 +82,10 @@ export default {
       btnText: "",
       id: null,
       type: "",
-      target: ""
+      target: "",
+      confirmDialog: false,
+      deleteTitle: "",
+      deleteTargetId: null
     }
   },
   methods: {
@@ -104,6 +115,18 @@ export default {
         this.$store.dispatch('dashboard/createProject', payload)
       }
       this.showDialog = false
+    },
+    openConfirmDialog(payload) {
+      this.deleteTargetId = payload["id"]
+      this.deleteTitle = payload["title"] + "を削除しますか？"
+      this.confirmDialog = true
+    },
+    closeConfirmDialog() {
+      this.confirmDialog = false
+    },
+    deleteWorkGroup() {
+      this.$store.dispatch('dashboard/deleteWorkGroup', this.deleteTargetId)
+      this.confirmDialog = false
     }
   }
 
