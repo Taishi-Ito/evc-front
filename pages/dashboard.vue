@@ -1,17 +1,5 @@
 <template>
   <div>
-    <AtomsTextField
-      :textFieldContent="workgroup"
-      @update="workgroup=$event"
-    ></AtomsTextField>
-    <AtomsSendBtn
-      :btnId="'createWorkGroup'"
-      :btnTitle="'ワークグループ作成'"
-      :btnColor="'primary'"
-      :btnClickEvent="'createWorkGroup'"
-      @createWorkGroup="createWorkGroup"
-    ></AtomsSendBtn>
-    {{ workGroupLists }}
   </div>
 </template>
 
@@ -23,9 +11,6 @@ export default {
     }
   },
   computed: {
-    workGroupLists(){
-      return this.$store.getters["dashboard/workGroupLists"]
-    }
   },
   methods: {
     createWorkGroup(){
@@ -34,7 +19,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('dashboard/getWorkGroups')
+    this.$store.dispatch('dashboard/getWorkGroupProjectLists')
   }
 }
 </script>
