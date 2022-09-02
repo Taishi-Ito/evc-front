@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog v-model="dialog" width="500" persistent>
       <v-card>
         <v-card-title class="text-h5 lighten-2 justify-center cardTitle">{{ title }}</v-card-title>
         <v-divider></v-divider>

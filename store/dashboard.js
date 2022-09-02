@@ -50,7 +50,16 @@ export const mutations = {
         })
       }
     })
-  }
+  },
+  deleteProject(state, payload) {
+    state.workGroupProjectLists.some(function(value, wgIndex){
+      if (value["workGroupTitle"]["id"] == payload["work_group_id"]) {
+        value["projectTitles"].some(function(value, pjIndex) {
+          if(value["id"] == payload["project_id"]) {
+            state.workGroupProjectLists[wgIndex]["projectTitles"].splice(pjIndex, 1)
+          }})
+      }});
+  },
 }
 
 export const actions = {
@@ -229,6 +238,38 @@ export const actions = {
     .catch((e) => {
       const payload = {
         "message": "ワークグループを削除できませんでした。",
+        "detail": "エラーが発生しました。お問い合わせください。",
+        "method": "getIdToken",
+        "errorMessage": e.message,
+        "color": "red lighten-2",
+      }
+      context.dispatch('util/showAlert', payload, {root: true})
+    });
+  },
+  async deleteProject(context, payload) {
+    const url = `${process.env.url}/projects/${payload}`;
+    const auth = getAuth();
+    const uid = auth.currentUser.uid;
+    await auth.currentUser.getIdToken(/* forceRefresh */ true)
+    .then(function(idToken) {
+      axios.delete(url, {params: {token: idToken, "uid": uid, "id": payload}})
+      .then((res) =>{
+        context.commit('deleteProject', res.data)
+      })
+      .catch( e => {
+        const payload = {
+          "message": "プロジェクトを削除できませんでした。",
+          "detail": e?.response?.data?.message,
+          "method": "deleteProject",
+          "errorMessage": e.message,
+          "color": "red lighten-2"
+        }
+        context.dispatch('util/showAlert', payload, {root: true})
+      })
+    })
+    .catch((e) => {
+      const payload = {
+        "message": "プロジェクトを削除できませんでした。",
         "detail": "エラーが発生しました。お問い合わせください。",
         "method": "getIdToken",
         "errorMessage": e.message,

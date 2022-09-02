@@ -23,7 +23,7 @@
           <v-btn icon dark @click.stop="openTextFieldDialog('edit', 'workGroup', {'data': projectsData['workGroupTitle'], 'title': 'ワークグループ名変更', 'label': 'ワークグループ名', 'btnText': '変更'})">
             <v-icon v-text="'mdi-pencil'" small :color="buttonColor"></v-icon>
           </v-btn>
-          <v-btn icon dark @click.stop="openConfirmDialog(projectsData['workGroupTitle'])">
+          <v-btn icon dark @click.stop="openConfirmDialog(projectsData['workGroupTitle'], 'workGroup')">
             <v-icon v-text="'mdi-trash-can'" small :color="buttonColor"></v-icon>
           </v-btn>
         </v-list-item-icon>
@@ -41,7 +41,7 @@
             <v-btn icon dark @click.stop="openTextFieldDialog('edit', 'project', {'data': projectTitle, 'title': 'プロジェクト名変更', 'label': 'プロジェクト名', 'btnText': '変更'})">
               <v-icon v-text="'mdi-pencil'" small :color="buttonColor"></v-icon>
             </v-btn>
-            <v-btn icon dark>
+            <v-btn icon dark @click.stop="openConfirmDialog(projectTitle, 'project')">
               <v-icon v-text="'mdi-trash-can'" small :color="buttonColor"></v-icon>
             </v-btn>
           </v-list-item-icon>
@@ -52,7 +52,7 @@
       :execWord="'削除'"
       :isDestructive="true"
       :title="deleteTitle"
-      @execute="deleteWorkGroup"
+      @execute="execDelete"
       @close="closeConfirmDialog"
     ></MoleculesConfirmDialog>
   </div>
@@ -85,7 +85,8 @@ export default {
       target: "",
       confirmDialog: false,
       deleteTitle: "",
-      deleteTargetId: null
+      deleteTargetId: null,
+      deleteTarget: ""
     }
   },
   methods: {
@@ -116,16 +117,21 @@ export default {
       }
       this.showDialog = false
     },
-    openConfirmDialog(payload) {
-      this.deleteTargetId = payload["id"]
-      this.deleteTitle = payload["title"] + "を削除しますか？"
+    openConfirmDialog(data, target) {
+      this.deleteTargetId = data["id"]
+      this.deleteTitle = data["title"] + "を削除しますか？"
+      this.deleteTarget = target
       this.confirmDialog = true
     },
     closeConfirmDialog() {
       this.confirmDialog = false
     },
-    deleteWorkGroup() {
-      this.$store.dispatch('dashboard/deleteWorkGroup', this.deleteTargetId)
+    execDelete() {
+      if (this.deleteTarget == 'workGroup') {
+        this.$store.dispatch('dashboard/deleteWorkGroup', this.deleteTargetId)
+      } else if (this.deleteTarget == 'project') {
+        this.$store.dispatch('dashboard/deleteProject', this.deleteTargetId)
+      }
       this.confirmDialog = false
     }
   }
