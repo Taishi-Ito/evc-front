@@ -353,7 +353,6 @@ export const actions = {
     });
   },
   async addNewCapitalInvestmentRecord(context, payload) {
-    console.log('【addNewCapitalInvestmentRecordpayload】', payload)
     const url = `${process.env.url}//capital_investment_records`;
     const auth = getAuth();
     const uid = auth.currentUser.uid;
@@ -368,7 +367,7 @@ export const actions = {
         const payload = {
           "message": "レコードを作成できませんでした。",
           "detail": e?.response?.data?.message,
-          "method": "addCapitalInvestmentRecordRight",
+          "method": "addNewCapitalInvestmentRecord",
           "errorMessage": e.message,
           "color": "red lighten-2"
         }
@@ -386,4 +385,36 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     });
   },
+  async deleteCapitalInvestmentRecord (context, payload){
+    const url = `${process.env.url}/capital_investment_records/${payload["record_id"]}`;
+    const auth = getAuth();
+    const uid = auth.currentUser.uid;
+    await auth.currentUser.getIdToken(/* forceRefresh */ true)
+    .then(function(idToken) {
+      axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "capital_investment_id": payload["capital_investment_id"]}})
+      .then((res) =>{
+        context.commit('updateCapitalInvestmentRecords', res.data["capital_investments"])
+      })
+      .catch( e => {
+        const payload = {
+          "message": "レコードを削除できませんでした。",
+          "detail": e?.response?.data?.message,
+          "method": "deleteCapitalInvestmentRecord",
+          "errorMessage": e.message,
+          "color": "red lighten-2"
+        }
+        context.dispatch('util/showAlert', payload, {root: true})
+      })
+    })
+    .catch((e) => {
+      const payload = {
+        "message": "レコードを削除できませんでした。",
+        "detail": "エラーが発生しました。お問い合わせください。",
+        "method": "getIdToken",
+        "errorMessage": e.message,
+        "color": "red lighten-2",
+      }
+      context.dispatch('util/showAlert', payload, {root: true})
+    });
+  }
 }

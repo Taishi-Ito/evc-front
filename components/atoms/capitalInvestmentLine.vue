@@ -8,7 +8,7 @@
     <tr><td :class="dExistingFacilitiesForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="dExistingFacilitiesForm=true" @blur="updateList('DExistingFacilities')" v-model="dExistingFacilities"></td></tr>
     <tr><td :class="dNewFacilitiesForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="dNewFacilitiesForm=true" @blur="updateList('DNewFacilities')" v-model="dNewFacilities"></td></tr>
     <tr><td :class="dYearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="dYearForm=true" @blur="updateList('DYear')" v-model="dYear"></td></tr>
-    <tr><td class="inputForm last"><v-icon @click="addNewRecord('left')">mdi-plus-circle</v-icon><v-icon @click="addNewRecord('right')">mdi-plus-circle</v-icon></td></tr>
+    <tr><td class="inputForm last"><v-icon small @click="addNewRecord('left')">mdi-plus-circle</v-icon><v-icon small @click="deleteRecord()">mdi-trash-can</v-icon><v-icon small @click="addNewRecord('right')">mdi-plus-circle</v-icon></td></tr>
   </div>
 </template>
 
@@ -152,6 +152,10 @@ export default {
     addNewRecord(payload) {
       const params = {"type": payload, "year": this.year, "record_id": this.items.record_id, "capital_investment_id": this.items.capital_investment}
       this.$store.dispatch('dashboard/addNewCapitalInvestmentRecord', params)
+    },
+    deleteRecord() {
+      const params = {"record_id": this.items.record_id, "capital_investment_id": this.items.capital_investment}
+      this.$store.dispatch('dashboard/deleteCapitalInvestmentRecord', params)
     }
   }
 }
