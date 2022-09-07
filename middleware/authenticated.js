@@ -18,6 +18,7 @@ export default async function({
             await store.dispatch('auth/getUserInfo', user.uid)
             if (store.state.auth.name) {
               store.commit('auth/setSigninStatus', true)
+              store.dispatch('dashboard/getWorkGroupProjectLists')
               if (route.path == "/" || route.path.match(/\/auth\//)) {
                 redirect('/dashboard')
               }

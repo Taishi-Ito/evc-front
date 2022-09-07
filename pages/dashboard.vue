@@ -16,9 +16,6 @@ export default {
       this.$store.dispatch('dashboard/createWorkGroup', this.workgroup)
       this.workgroup = ""
     }
-  },
-  mounted() {
-    this.$store.dispatch('dashboard/getWorkGroupProjectLists')
   }
 }
 </script>
