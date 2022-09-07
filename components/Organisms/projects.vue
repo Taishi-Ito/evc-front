@@ -35,13 +35,13 @@
           <v-icon v-text="'mdi-plus-thick'" small :color="buttonColor"></v-icon>
         </v-list-item-icon>
       </v-list-item>
-      <v-list-item v-for="(projectTitle) in projectsData['projectTitles']" :key="projectTitle['id']" link>
+      <v-list-item v-for="(projectTitle) in projectsData['projectTitles']" :key="projectTitle['id']" link :to="`/project/${projectTitle['id']}`">
         <v-list-item-title v-text="projectTitle['title']"></v-list-item-title>
           <v-list-item-icon class="buttons">
-            <v-btn icon dark @click.stop="openTextFieldDialog('edit', 'project', {'data': projectTitle, 'title': 'プロジェクト名変更', 'label': 'プロジェクト名', 'btnText': '変更'})">
+            <v-btn icon dark @click.prevent="openTextFieldDialog('edit', 'project', {'data': projectTitle, 'title': 'プロジェクト名変更', 'label': 'プロジェクト名', 'btnText': '変更'})">
               <v-icon v-text="'mdi-pencil'" small :color="buttonColor"></v-icon>
             </v-btn>
-            <v-btn icon dark @click.stop="openConfirmDialog(projectTitle, 'project')">
+            <v-btn icon dark @click.prevent="openConfirmDialog(projectTitle, 'project')">
               <v-icon v-text="'mdi-trash-can'" small :color="buttonColor"></v-icon>
             </v-btn>
           </v-list-item-icon>
