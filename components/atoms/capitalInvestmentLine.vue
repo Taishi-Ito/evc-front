@@ -147,7 +147,7 @@ export default {
         this.dYearForm = false
       }
       payload = {"record_id": this.items.record_id, "row": row, "content": content}
-      this.$store.dispatch('dashboard/updateCapitalInvestment', payload)
+      this.$store.dispatch('dashboard/updateCapitalInvestmentRecord', payload)
     },
     addNewRecord(payload) {
       const params = {"type": payload, "year": this.year, "record_id": this.items.record_id, "capital_investment_id": this.items.capital_investment}

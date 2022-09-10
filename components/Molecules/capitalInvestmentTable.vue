@@ -2,6 +2,9 @@
 <v-col cols="12" >
   <v-card class="wraper">
     <h4>単位:{{unitTitle}}</h4>
+    <v-col class="d-flex" cols="6" sm="2">
+      <v-select :items="units" item-text="text" item-value="id" label="単位" outlined @change="updateCapitalInvestment('unit', $event)" v-model="selectedUnit" dense></v-select>
+    </v-col>
     <div class="table">
       <div class="items">
         <tr><th><br></th></tr>
@@ -28,36 +31,46 @@
 
 <script>
 export default {
+  data(){
+    return {
+      units: [{"id": "yen", "text": "円"}, {"id":"thousand", "text":"千円"}, {"id":"million", "text":"百万円"}, {"id":"hundred_million", "text":"億円"}]
+    }
+  },
   computed: {
     data() {
       return this.$store.getters["dashboard/capitalInvestmentRecords"]
     },
-    unit() {
-      return this.$store.getters["dashboard/unit"]
+    selectedUnit: {
+      get() {
+        return this.$store.getters["dashboard/capitalInvestmentUnit"]
+      },
+      set(val) {
+        return val
+      }
     },
     fixed() {
-      return this.$store.getters["dashboard/fixed"]
+      return this.$store.getters["dashboard/capitalInvestmentFixed"]
     },
     unitNumber() {
-      if (this.unit == "yen") {
-        return 1
-      } else if (this.unit == "thousand") {
-        return 1000
-      } else if (this.unit == "million") {
-        return 1000000
-      }
+      return this.$store.getters["dashboard/unitNumber"]
     },
     unitTitle() {
-      if (this.unit == "yen") {
-        return "円"
-      } else if (this.unit == "thousand") {
-        return "千円"
-      } else if (this.unit == "million") {
-        return "百万円"
-      }
+      return this.$store.getters["dashboard/unitTitle"]
+    },
+    capitalInvestmentId() {
+      return this.$store.getters["dashboard/capitalInvestmentId"]
     }
   },
   methods: {
+    updateCapitalInvestment(target, event) {
+      let params = {}
+      if (target == "unit") {
+        params = {"unit": event, "fixed": this.fixed, "id": this.capitalInvestmentId}
+      } else if (target == "fixed") {
+        params = {"unit": this.unit, "fixed": payload["fixed"], "id": this.capitalInvestmentId}
+      }
+      this.$store.dispatch('dashboard/updateCapitalInvestment', params)
+    }
   },
 }
 </script>
