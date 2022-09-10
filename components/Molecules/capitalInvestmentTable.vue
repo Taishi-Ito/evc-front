@@ -1,7 +1,14 @@
 <template>
 <v-col cols="12" >
   <v-card class="wraper">
-    <h4>単位:{{unitTitle}}</h4>
+    <v-row no-gutters class="selectBoxes">
+      <v-col class="d-flex" cols="6" sm="2">
+        <v-select :items="units" item-text="text" item-value="id" label="単位" outlined @change="updateCapitalInvestment('unit', $event)" v-model="selectedUnit" dense></v-select>
+      </v-col>
+      <v-col class="d-flex fixes" cols="6" sm="2">
+        <v-select :items="fixes" item-text="text" item-value="id" label="小数点以下" outlined @change="updateCapitalInvestment('fixed', $event)" v-model="selectedFixed" dense></v-select>
+      </v-col>
+    </v-row>
     <div class="table">
       <div class="items">
         <tr><th><br></th></tr>
@@ -18,7 +25,7 @@
         <AtomsCapitalInvestmentLine
           :items="items"
           :unit="unitNumber"
-          :fixed="fixed"
+          :fixed="selectedFixed"
         ></AtomsCapitalInvestmentLine>
       </div>
     </div>
@@ -28,51 +35,71 @@
 
 <script>
 export default {
+  data(){
+    return {
+      units: [{"id": "yen", "text": "円"}, {"id":"thousand", "text":"千円"}, {"id":"million", "text":"百万円"}, {"id":"hundred_million", "text":"億円"}],
+      fixes: [{"id": 0, "text": "切り捨て"}, {"id": 1, "text": "第一位"}, {"id": 2, "text": "第二位"}, {"id": 3, "text": "第三位"}]
+    }
+  },
   computed: {
     data() {
       return this.$store.getters["dashboard/capitalInvestmentRecords"]
     },
-    unit() {
-      return this.$store.getters["dashboard/unit"]
+    selectedUnit: {
+      get() {
+        return this.$store.getters["dashboard/capitalInvestmentUnit"]
+      },
+      set(val) {
+        return val
+      }
     },
-    fixed() {
-      return this.$store.getters["dashboard/fixed"]
+    selectedFixed: {
+      get() {
+        return this.$store.getters["dashboard/capitalInvestmentFixed"]
+      },
+      set(val) {
+        return val
+      }
     },
     unitNumber() {
-      if (this.unit == "yen") {
-        return 1
-      } else if (this.unit == "thousand") {
-        return 1000
-      } else if (this.unit == "million") {
-        return 1000000
-      }
+      return this.$store.getters["dashboard/unitNumber"]
     },
     unitTitle() {
-      if (this.unit == "yen") {
-        return "円"
-      } else if (this.unit == "thousand") {
-        return "千円"
-      } else if (this.unit == "million") {
-        return "百万円"
-      }
+      return this.$store.getters["dashboard/unitTitle"]
+    },
+    capitalInvestmentId() {
+      return this.$store.getters["dashboard/capitalInvestmentId"]
     }
   },
   methods: {
+    updateCapitalInvestment(target, event) {
+      let params = {}
+      if (target == "unit") {
+        params = {"unit": event, "fixed": this.selectedFixed, "id": this.capitalInvestmentId}
+      } else if (target == "fixed") {
+        params = {"unit": this.selectedUnit, "fixed": event, "id": this.capitalInvestmentId}
+      }
+      this.$store.dispatch('dashboard/updateCapitalInvestment', params)
+    }
   },
 }
 </script>
 <style scoped>
+.selectBoxes {
+  padding: 10px 0px 0px 10px;
+}
 .table {
   display: flex;
   overflow-x: auto;
-  table-layout: fixed
+  table-layout: fixed;
+  padding: 10px 10px 20px 10px;
 }
 th,td {
   padding: 5px 10px 5px 10px;
   border-right: 2px #BDBDBD solid;
   border-top: 2px #BDBDBD solid;
   height: 40px;
-  width: 150px;
+  min-width: 150px;
 }
 .items th {
   border-right: 2px #BDBDBD solid;
@@ -89,5 +116,8 @@ th,td {
 }
 .wraper {
   width: 100% !important;
+}
+.fixes {
+  margin-left: 5px;
 }
 </style>

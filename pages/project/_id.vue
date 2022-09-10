@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>{{ id }}</h3>
+    <h3>プロジェクトID{{ projectId }}</h3>
     <div>
       <h2>設備投資</h2>
       <MoleculesCapitalInvestmentTable></MoleculesCapitalInvestmentTable>
@@ -12,7 +12,7 @@
 export default {
   data(){
     return {
-      id: this.$route.params.id
+      projectId: this.$route.params.id
     }
   },
   computed: {

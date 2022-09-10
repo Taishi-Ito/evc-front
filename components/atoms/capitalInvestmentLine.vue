@@ -147,7 +147,7 @@ export default {
         this.dYearForm = false
       }
       payload = {"record_id": this.items.record_id, "row": row, "content": content}
-      this.$store.dispatch('dashboard/updateCapitalInvestment', payload)
+      this.$store.dispatch('dashboard/updateCapitalInvestmentRecord', payload)
     },
     addNewRecord(payload) {
       const params = {"type": payload, "year": this.year, "record_id": this.items.record_id, "capital_investment_id": this.items.capital_investment}
@@ -169,7 +169,7 @@ th,td {
   border-right: 2px #BDBDBD solid;
   border-top: 2px #BDBDBD solid;
   height: 40px !important;
-  width: 100px;
+  min-width: 100px;
 }
 .items th {
   border-right: 2px #BDBDBD solid;
