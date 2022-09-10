@@ -2,9 +2,14 @@
 <v-col cols="12" >
   <v-card class="wraper">
     <h4>単位:{{unitTitle}}</h4>
-    <v-col class="d-flex" cols="6" sm="2">
-      <v-select :items="units" item-text="text" item-value="id" label="単位" outlined @change="updateCapitalInvestment('unit', $event)" v-model="selectedUnit" dense></v-select>
-    </v-col>
+    <v-row no-gutters>
+      <v-col class="d-flex" cols="6" sm="2">
+        <v-select :items="units" item-text="text" item-value="id" label="単位" outlined @change="updateCapitalInvestment('unit', $event)" v-model="selectedUnit" dense></v-select>
+      </v-col>
+      <v-col class="d-flex fixes" cols="6" sm="2">
+        <v-select :items="fixes" item-text="text" item-value="id" label="小数点以下" outlined @change="updateCapitalInvestment('fixed', $event)" v-model="selectedFixed" dense></v-select>
+      </v-col>
+    </v-row>
     <div class="table">
       <div class="items">
         <tr><th><br></th></tr>
@@ -21,7 +26,7 @@
         <AtomsCapitalInvestmentLine
           :items="items"
           :unit="unitNumber"
-          :fixed="fixed"
+          :fixed="selectedFixed"
         ></AtomsCapitalInvestmentLine>
       </div>
     </div>
@@ -33,7 +38,8 @@
 export default {
   data(){
     return {
-      units: [{"id": "yen", "text": "円"}, {"id":"thousand", "text":"千円"}, {"id":"million", "text":"百万円"}, {"id":"hundred_million", "text":"億円"}]
+      units: [{"id": "yen", "text": "円"}, {"id":"thousand", "text":"千円"}, {"id":"million", "text":"百万円"}, {"id":"hundred_million", "text":"億円"}],
+      fixes: [{"id": 0, "text": "切り捨て"}, {"id": 1, "text": "第一位"}, {"id": 2, "text": "第二位"}, {"id": 3, "text": "第三位"}]
     }
   },
   computed: {
@@ -48,8 +54,13 @@ export default {
         return val
       }
     },
-    fixed() {
-      return this.$store.getters["dashboard/capitalInvestmentFixed"]
+    selectedFixed: {
+      get() {
+        return this.$store.getters["dashboard/capitalInvestmentFixed"]
+      },
+      set(val) {
+        return val
+      }
     },
     unitNumber() {
       return this.$store.getters["dashboard/unitNumber"]
@@ -65,9 +76,9 @@ export default {
     updateCapitalInvestment(target, event) {
       let params = {}
       if (target == "unit") {
-        params = {"unit": event, "fixed": this.fixed, "id": this.capitalInvestmentId}
+        params = {"unit": event, "fixed": this.selectedFixed, "id": this.capitalInvestmentId}
       } else if (target == "fixed") {
-        params = {"unit": this.unit, "fixed": payload["fixed"], "id": this.capitalInvestmentId}
+        params = {"unit": this.selectedUnit, "fixed": event, "id": this.capitalInvestmentId}
       }
       this.$store.dispatch('dashboard/updateCapitalInvestment', params)
     }
@@ -102,5 +113,8 @@ th,td {
 }
 .wraper {
   width: 100% !important;
+}
+.fixes {
+  margin-left: 5px;
 }
 </style>
