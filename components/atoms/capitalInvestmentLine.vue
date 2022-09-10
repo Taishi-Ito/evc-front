@@ -169,7 +169,7 @@ th,td {
   border-right: 2px #BDBDBD solid;
   border-top: 2px #BDBDBD solid;
   height: 40px !important;
-  width: 100px;
+  min-width: 100px;
 }
 .items th {
   border-right: 2px #BDBDBD solid;

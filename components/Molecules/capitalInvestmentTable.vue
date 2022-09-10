@@ -1,8 +1,7 @@
 <template>
 <v-col cols="12" >
   <v-card class="wraper">
-    <h4>単位:{{unitTitle}}</h4>
-    <v-row no-gutters>
+    <v-row no-gutters class="selectBoxes">
       <v-col class="d-flex" cols="6" sm="2">
         <v-select :items="units" item-text="text" item-value="id" label="単位" outlined @change="updateCapitalInvestment('unit', $event)" v-model="selectedUnit" dense></v-select>
       </v-col>
@@ -86,17 +85,21 @@ export default {
 }
 </script>
 <style scoped>
+.selectBoxes {
+  padding: 10px 0px 0px 10px;
+}
 .table {
   display: flex;
   overflow-x: auto;
-  table-layout: fixed
+  table-layout: fixed;
+  padding: 10px 10px 20px 10px;
 }
 th,td {
   padding: 5px 10px 5px 10px;
   border-right: 2px #BDBDBD solid;
   border-top: 2px #BDBDBD solid;
   height: 40px;
-  width: 150px;
+  min-width: 150px;
 }
 .items th {
   border-right: 2px #BDBDBD solid;
