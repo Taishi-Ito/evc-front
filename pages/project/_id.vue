@@ -5,6 +5,10 @@
       <h2>設備投資</h2>
       <MoleculesCapitalInvestmentTable></MoleculesCapitalInvestmentTable>
     </div>
+    <div>
+      <h2>P/L</h2>
+      <MoleculesPlTable></MoleculesPlTable>
+    </div>
   </div>
 </template>
 
@@ -21,6 +25,7 @@ export default {
   },
   created() {
     this.$store.dispatch('dashboard/getCapitalInvestment', this.$route.params.id)
+    this.$store.dispatch('dashboard/getPl', this.$route.params.id)
   }
 }
 </script>
