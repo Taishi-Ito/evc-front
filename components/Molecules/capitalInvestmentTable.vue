@@ -24,7 +24,7 @@
       <div v-for="items in data">
         <AtomsCapitalInvestmentLine
           :items="items"
-          :unit="unitNumber"
+          :unit="capitalInvestmentUnitNumber"
           :fixed="selectedFixed"
         ></AtomsCapitalInvestmentLine>
       </div>
@@ -61,11 +61,11 @@ export default {
         return val
       }
     },
-    unitNumber() {
-      return this.$store.getters["dashboard/unitNumber"]
+    capitalInvestmentUnitNumber() {
+      return this.$store.getters["dashboard/capitalInvestmentUnitNumber"]
     },
-    unitTitle() {
-      return this.$store.getters["dashboard/unitTitle"]
+    capitalInvestmentUnitTitle() {
+      return this.$store.getters["dashboard/capitalInvestmentUnitTitle"]
     },
     capitalInvestmentId() {
       return this.$store.getters["dashboard/capitalInvestmentId"]
