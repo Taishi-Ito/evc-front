@@ -22,11 +22,11 @@
         <tr><td class="last">オプション</td></tr>
       </div>
       <div v-for="items in data">
-        <AtomsCapitalInvestmentRecord
+        <MoleculesCapitalInvestmentRecord
           :items="items"
           :unit="capitalInvestmentUnitNumber"
           :fixed="selectedFixed"
-        ></AtomsCapitalInvestmentRecord>
+        ></MoleculesCapitalInvestmentRecord>
       </div>
     </div>
   </v-card>

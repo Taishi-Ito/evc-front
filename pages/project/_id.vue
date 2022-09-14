@@ -3,11 +3,11 @@
     <h3>プロジェクトID{{ projectId }}</h3>
     <div>
       <h2>設備投資</h2>
-      <MoleculesCapitalInvestmentTable></MoleculesCapitalInvestmentTable>
+      <OrganismsCapitalInvestmentTable></OrganismsCapitalInvestmentTable>
     </div>
     <div>
       <h2>P/L</h2>
-      <MoleculesPlTable></MoleculesPlTable>
+      <OrganismsPlTable></OrganismsPlTable>
     </div>
   </div>
 </template>

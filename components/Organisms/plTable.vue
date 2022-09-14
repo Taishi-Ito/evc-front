@@ -35,11 +35,11 @@
         <tr><td class="last">オプション</td></tr>
       </div>
       <div v-for="items in data">
-        <AtomsPlRecord
+        <MoleculesPlRecord
           :items="items"
           :unit="plUnitNumber"
           :fixed="selectedFixed"
-        ></AtomsPlRecord>
+        ></MoleculesPlRecord>
       </div>
     </div>
   </v-card>
