@@ -3,11 +3,11 @@
     <h3>プロジェクトID{{ projectId }}</h3>
     <div>
       <h2>設備投資</h2>
-      <MoleculesCapitalInvestmentTable></MoleculesCapitalInvestmentTable>
+      <OrganismsCapitalInvestmentTable></OrganismsCapitalInvestmentTable>
     </div>
     <div>
       <h2>P/L</h2>
-      <MoleculesPlTable></MoleculesPlTable>
+      <OrganismsPlTable></OrganismsPlTable>
     </div>
   </div>
 </template>
@@ -24,8 +24,8 @@ export default {
   methods: {
   },
   created() {
-    this.$store.dispatch('dashboard/getCapitalInvestment', this.$route.params.id)
-    this.$store.dispatch('dashboard/getPl', this.$route.params.id)
+    this.$store.dispatch('tables/capitalInvestment/getCapitalInvestment', this.$route.params.id)
+    this.$store.dispatch('tables/pl/getPl', this.$route.params.id)
   }
 }
 </script>

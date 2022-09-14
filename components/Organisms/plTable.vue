@@ -35,11 +35,11 @@
         <tr><td class="last">オプション</td></tr>
       </div>
       <div v-for="items in data">
-        <AtomsPlLine
+        <MoleculesPlRecord
           :items="items"
           :unit="plUnitNumber"
           :fixed="selectedFixed"
-        ></AtomsPlLine>
+        ></MoleculesPlRecord>
       </div>
     </div>
   </v-card>
@@ -56,11 +56,11 @@ export default {
   },
   computed: {
     data() {
-      return this.$store.getters["dashboard/plRecords"]
+      return this.$store.getters["tables/pl/plRecords"]
     },
     selectedUnit: {
       get() {
-        return this.$store.getters["dashboard/plUnit"]
+        return this.$store.getters["tables/pl/plUnit"]
       },
       set(val) {
         return val
@@ -68,20 +68,20 @@ export default {
     },
     selectedFixed: {
       get() {
-        return this.$store.getters["dashboard/plFixed"]
+        return this.$store.getters["tables/pl/plFixed"]
       },
       set(val) {
         return val
       }
     },
     plUnitNumber() {
-      return this.$store.getters["dashboard/plUnitNumber"]
+      return this.$store.getters["tables/pl/plUnitNumber"]
     },
     plUnitTitle() {
-      return this.$store.getters["dashboard/plUnitTitle"]
+      return this.$store.getters["tables/pl/plUnitTitle"]
     },
     plId() {
-      return this.$store.getters["dashboard/plId"]
+      return this.$store.getters["tables/pl/plId"]
     }
   },
   methods: {
@@ -92,7 +92,7 @@ export default {
       } else if (target == "fixed") {
         params = {"unit": this.selectedUnit, "fixed": event, "id": this.plId}
       }
-      this.$store.dispatch('dashboard/updatePl', params)
+      this.$store.dispatch('tables/pl/updatePl', params)
     }
   },
 }

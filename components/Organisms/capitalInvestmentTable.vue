@@ -22,11 +22,11 @@
         <tr><td class="last">オプション</td></tr>
       </div>
       <div v-for="items in data">
-        <AtomsCapitalInvestmentLine
+        <MoleculesCapitalInvestmentRecord
           :items="items"
           :unit="capitalInvestmentUnitNumber"
           :fixed="selectedFixed"
-        ></AtomsCapitalInvestmentLine>
+        ></MoleculesCapitalInvestmentRecord>
       </div>
     </div>
   </v-card>
@@ -43,11 +43,11 @@ export default {
   },
   computed: {
     data() {
-      return this.$store.getters["dashboard/capitalInvestmentRecords"]
+      return this.$store.getters["tables/capitalInvestment/capitalInvestmentRecords"]
     },
     selectedUnit: {
       get() {
-        return this.$store.getters["dashboard/capitalInvestmentUnit"]
+        return this.$store.getters["tables/capitalInvestment/capitalInvestmentUnit"]
       },
       set(val) {
         return val
@@ -55,20 +55,20 @@ export default {
     },
     selectedFixed: {
       get() {
-        return this.$store.getters["dashboard/capitalInvestmentFixed"]
+        return this.$store.getters["tables/capitalInvestment/capitalInvestmentFixed"]
       },
       set(val) {
         return val
       }
     },
     capitalInvestmentUnitNumber() {
-      return this.$store.getters["dashboard/capitalInvestmentUnitNumber"]
+      return this.$store.getters["tables/capitalInvestment/capitalInvestmentUnitNumber"]
     },
     capitalInvestmentUnitTitle() {
-      return this.$store.getters["dashboard/capitalInvestmentUnitTitle"]
+      return this.$store.getters["tables/capitalInvestment/capitalInvestmentUnitTitle"]
     },
     capitalInvestmentId() {
-      return this.$store.getters["dashboard/capitalInvestmentId"]
+      return this.$store.getters["tables/capitalInvestment/capitalInvestmentId"]
     }
   },
   methods: {
@@ -79,7 +79,7 @@ export default {
       } else if (target == "fixed") {
         params = {"unit": this.selectedUnit, "fixed": event, "id": this.capitalInvestmentId}
       }
-      this.$store.dispatch('dashboard/updateCapitalInvestment', params)
+      this.$store.dispatch('tables/capitalInvestment/updateCapitalInvestment', params)
     }
   },
 }

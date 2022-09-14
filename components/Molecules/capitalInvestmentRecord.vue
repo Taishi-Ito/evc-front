@@ -147,15 +147,15 @@ export default {
         this.dYearForm = false
       }
       payload = {"record_id": this.items.record_id, "row": row, "content": content}
-      this.$store.dispatch('dashboard/updateCapitalInvestmentRecord', payload)
+      this.$store.dispatch('tables/capitalInvestment/updateCapitalInvestmentRecord', payload)
     },
     addNewRecord(payload) {
       const params = {"type": payload, "year": this.year, "record_id": this.items.record_id, "capital_investment_id": this.items.capital_investment}
-      this.$store.dispatch('dashboard/addNewCapitalInvestmentRecord', params)
+      this.$store.dispatch('tables/capitalInvestment/addNewCapitalInvestmentRecord', params)
     },
     deleteRecord() {
       const params = {"record_id": this.items.record_id, "capital_investment_id": this.items.capital_investment}
-      this.$store.dispatch('dashboard/deleteCapitalInvestmentRecord', params)
+      this.$store.dispatch('tables/capitalInvestment/deleteCapitalInvestmentRecord', params)
     }
   }
 }

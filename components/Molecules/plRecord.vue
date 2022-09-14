@@ -135,7 +135,7 @@ export default {
     },
     depreciation() {
       const that = this
-      let capitalInvestmentRecords = this.$store.getters["dashboard/capitalInvestmentRecords"]
+      let capitalInvestmentRecords = this.$store.getters["tables/capitalInvestment/capitalInvestmentRecords"]
       let depreciation = 0
       capitalInvestmentRecords.some(function(value, index){
         if (value["year"] == that.items.year) {
@@ -299,16 +299,16 @@ export default {
       }
       payload = {"record_id": this.items.record_id, "rows": rows}
       if (this.content) {
-        this.$store.dispatch('dashboard/updatePlRecord', payload)
+        this.$store.dispatch('tables/pl/updatePlRecord', payload)
       }
     },
     addNewRecord(payload) {
       const params = {"type": payload, "year": this.year, "record_id": this.items.record_id, "pl_id": this.items.pl}
-      this.$store.dispatch('dashboard/addNewPlRecord', params)
+      this.$store.dispatch('tables/pl/addNewPlRecord', params)
     },
     deleteRecord() {
       const params = {"record_id": this.items.record_id, "pl_id": this.items.pl}
-      this.$store.dispatch('dashboard/deletePlRecord', params)
+      this.$store.dispatch('tables/pl/deletePlRecord', params)
     }
   }
 }
