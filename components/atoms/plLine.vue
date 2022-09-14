@@ -116,10 +116,10 @@ export default {
       }
     },
     grossProfit() {
-      return ((Math.trunc(this.sales) - Math.trunc(this.items.sales_cost))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.sales * this.unit) - Math.trunc(this.items.sales_cost))/this.unit).toFixed(this.fixed)
     },
     SgaExpenses() {
-      return ((Math.trunc(this.items.labor_cost) + Math.trunc(this.items.cost_other) + Math.trunc(this.depreciation))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.items.labor_cost) + Math.trunc(this.items.cost_other) + Math.trunc(this.depreciation * this.unit))/this.unit).toFixed(this.fixed)
     },
     laborCost: {
       get() {
@@ -134,8 +134,15 @@ export default {
       }
     },
     depreciation() {
-      // 設備投資と紐付け
-      return 1000000
+      const that = this
+      let capitalInvestmentRecords = this.$store.getters["dashboard/capitalInvestmentRecords"]
+      let depreciation = 0
+      capitalInvestmentRecords.some(function(value, index){
+        if (value["year"] == that.items.year) {
+          depreciation =  (Number(value["d_new_facilities"]) + Number(value["d_existing_facilities"])) / that.unit
+        }
+      });
+      return depreciation
     },
     costOther: {
       get() {
@@ -150,7 +157,7 @@ export default {
       }
     },
     operatingIncome() {
-      return ((Math.trunc(this.grossProfit) - Math.trunc(this.items.sales_cost))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.grossProfit * this.unit) - Math.trunc(this.items.sales_cost))/this.unit).toFixed(this.fixed)
     },
     noOpIncome: {
       get() {
@@ -200,7 +207,7 @@ export default {
       }
     },
     preTaxBenefit() {
-      return ((Math.trunc(this.operatingIncome) + Math.trunc(this.items.no_op_income) - Math.trunc(this.noOpCost))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.operatingIncome * this.unit) + Math.trunc(this.items.no_op_income) - Math.trunc(this.noOpCost * this.unit))/this.unit).toFixed(this.fixed)
 
     },
     tax: {
@@ -224,54 +231,76 @@ export default {
       }
     },
     netIncome() {
-      return ((Math.trunc(this.preTaxBenefit) - Math.trunc(this.items.tax))).toFixed(this.fixed)
+      return ((Math.trunc(this.preTaxBenefit * this.unit) - Math.trunc(this.items.tax))/this.unit).toFixed(this.fixed)
     }
   },
   methods: {
     updateList(payload) {
-      let row = ""
+      let rows = []
       if (payload == "Years") {
-        row = "year"
+        rows.push({"row": "year", "content": this.content})
         this.yearForm = false
       }else if (payload == "customer") {
-        row = "customer"
+        rows.push({"row": "customer", "content": this.content})
         this.customerForm = false
       } else if (payload == "avCustomerSpend") {
-        row = "av_customer_spend"
+        rows.push({"row": "av_customer_spend", "content": this.content})
         this.avCustomerSpendForm = false
       } else if (payload == "salesCost") {
-        row = "sales_cost"
+        let salesCosts = {"row": "sales_cost", "content": this.content}
+        let salesCostRatios = {"row": "sales_cost_ratio", "content": ((this.content / (this.sales * this.unit)) * 100).toFixed(this.fixed)}
+        rows.push(salesCosts)
+        rows.push(salesCostRatios)
         this.salesCostForm = false
       } else if (payload == "salesCostRatio") {
-        row = "sales_cost_ratio"
+        let salesCosts = {"row": "sales_cost", "content": (this.sales * this.unit) * (this.content / 100)}
+        let salesCostRatios = {"row": "sales_cost_ratio", "content": this.content}
+        rows.push(salesCosts)
+        rows.push(salesCostRatios)
         this.salesCostRatioForm = false
       } else if (payload == "laborCost") {
-        row = "labor_cost"
+        rows.push({"row": "labor_cost", "content": this.content})
         this.laborCostForm = false
       } else if (payload == "costOther") {
-        row = "cost_other"
+        rows.push({"row": "cost_other", "content": this.content})
         this.costOtherForm = false
       } else if (payload == "noOpIncome") {
-        row = "no_op_income"
+        rows.push({"row": "no_op_income", "content": this.content})
         this.noOpIncomeForm = false
       } else if (payload == "interestExpense") {
-        row = "interest_expense"
+        let interestExpense = {"row": "interest_expense", "content": this.content}
+        // 【宿題】ここはBSと紐つける必要あり
+        let interestRate = {"row": "interest_rate", "content": this.content / 1000}
+        rows.push(interestExpense)
+        rows.push(interestRate)
         this.interestExpenseForm = false
       } else if (payload == "interestRate") {
-        row = "interest_rate"
+        let interestExpense = {"row": "interest_expense", "content": this.content * 1000}
+        // 【宿題】ここはBSと紐つける必要あり
+        let interestRate = {"row": "interest_rate", "content": this.content}
+        rows.push(interestExpense)
+        rows.push(interestRate)
         this.interestRateForm = false
       } else if (payload == "other") {
-        row = "other"
+        rows.push({"row": "other", "content": this.content})
         this.otherForm = false
       } else if (payload == "tax") {
-        row = "tax"
+        let tax = {"row": "tax", "content": this.content}
+        let taxRate = {"row": "tax_rate", "content": (this.content / (this.preTaxBenefit * this.unit)) * 100}
+        rows.push(tax)
+        rows.push(taxRate)
         this.taxForm = false
       } else if (payload == "taxRate") {
-        row = "tax_rate"
+        let tax = {"row": "tax", "content": (this.preTaxBenefit * this.unit) * (this.content / 100)}
+        let taxRate = {"row": "tax_rate", "content": this.content}
+        rows.push(tax)
+        rows.push(taxRate)
         this.taxRateForm = false
       }
-      payload = {"record_id": this.items.record_id, "row": row, "content": this.content}
-      this.$store.dispatch('dashboard/updatePlRecord', payload)
+      payload = {"record_id": this.items.record_id, "rows": rows}
+      if (this.content) {
+        this.$store.dispatch('dashboard/updatePlRecord', payload)
+      }
     },
     addNewRecord(payload) {
       const params = {"type": payload, "year": this.year, "record_id": this.items.record_id, "pl_id": this.items.pl}

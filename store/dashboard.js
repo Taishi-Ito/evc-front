@@ -150,11 +150,13 @@ export const mutations = {
     state.plRecords = payload["pls"]
   },
   updatePlRecordRow(state, payload) {
-    state.plRecords.some(function(value, index){
-      if (value["record_id"] == payload["record_id"]) {
-        Vue.set(state.plRecords[index], `${payload['row']}`, payload["content"])
-      }
-    });
+    payload["rows"].forEach(function(row){
+      state.plRecords.some(function(value, index){
+        if (value["record_id"] == payload["record_id"]) {
+          Vue.set(state.plRecords[index], `${row['row']}`, row["content"])
+        }
+      });
+    })
   }
 }
 
@@ -586,7 +588,7 @@ export const actions = {
     const uid = auth.currentUser.uid;
     await auth.currentUser.getIdToken(/* forceRefresh */ true)
     .then(function(idToken) {
-      axios.put(url, {token: idToken, pl_record: {"row": payload["row"], "content": payload["content"]}})
+      axios.put(url, {token: idToken, pl_record: {"rows": payload["rows"]}})
       .then((res) =>{
         context.commit('updatePlRecordRow', res.data)
       })
