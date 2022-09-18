@@ -9,6 +9,10 @@
       <h2>P/L</h2>
       <OrganismsPlTable></OrganismsPlTable>
     </div>
+    <div>
+      <h2>B/S</h2>
+      <OrganismsBstTable></OrganismsBstTable>
+    </div>
   </div>
 </template>
 
@@ -26,6 +30,7 @@ export default {
   created() {
     this.$store.dispatch('tables/capitalInvestment/getCapitalInvestment', this.$route.params.id)
     this.$store.dispatch('tables/pl/getPl', this.$route.params.id)
+    this.$store.dispatch('tables/bst/getBst', this.$route.params.id)
   }
 }
 </script>
