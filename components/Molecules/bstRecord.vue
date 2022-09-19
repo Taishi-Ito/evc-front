@@ -92,22 +92,22 @@ export default {
       });
       return sameCapitalInvestmentRecord
     },
-    samePl() {
+    samePlRecord() {
       const that = this
       const PlRecords = this.$store.getters["tables/pl/plRecords"]
-      let samePl = {}
+      let samePlRecord = {}
       PlRecords.some(function(value, index){
         if (value["year"] == that.items.year) {
-          samePl =  value
+          samePlRecord =  value
           return true
         } else {
-          samePl = null
+          samePlRecord = null
         }
       });
-      return samePl
+      return samePlRecord
     },
     sales() {
-      return this.samePl["customer"] * this.samePl["av_customer_spend"]
+      return this.samePlRecord["customer"] * this.samePlRecord["av_customer_spend"]
     },
     lastYearCash() {
       return this.lastBstRecord ? this.lastBstRecord["cash"] : null
@@ -342,7 +342,7 @@ export default {
       this.content = this.merchandiseOther
       this.updateList("merchandiseOther")
     },
-    samePl: function(newValue, oldValue) {
+    samePlRecord: function(newValue, oldValue) {
       this.content = this.accountsPayable
       this.updateList("accountsPayable")
     }
@@ -359,7 +359,7 @@ export default {
       } else if (payload == "accountsReceivable") {
         let accountsReceivable = {"row": "accounts_receivable", "content": this.content}
         let arSalesRatio = {}
-        if (this.samePl && this.sales > 0) {
+        if (this.samePlRecord && this.sales > 0) {
           arSalesRatio = {"row": "ar_sales_ratio", "content": this.content/this.sales}
         } else {
           arSalesRatio = {"row": "ar_sales_ratio", "content": 0}
@@ -369,7 +369,7 @@ export default {
         this.accountsReceivableForm = false
       } else if (payload == "arSalesRatio") {
         let accountsReceivable = {}
-        if (this.samePl) {
+        if (this.samePlRecord) {
           accountsReceivable = {"row": "accounts_receivable", "content": this.sales * (this.content / 100)}
         } else {
           accountsReceivable = {"row": "accounts_receivable", "content": 0}
@@ -381,7 +381,7 @@ export default {
       } else if (payload == "merchandiseOther") {
         let merchandiseOther = {"row": "merchandise_other", "content": this.content}
         let moSalesRatio = {}
-        if (this.samePl && this.sales > 0) {
+        if (this.samePlRecord && this.sales > 0) {
           moSalesRatio = {"row": "mo_sales_ratio", "content": this.content/ this.sales}
         } else {
           moSalesRatio = {"row": "mo_sales_ratio", "content": 0}
@@ -391,7 +391,7 @@ export default {
         this.merchandiseOtherForm = false
       } else if (payload == "moSalesRatio") {
         let merchandiseOther = {}
-        if (this.samePl) {
+        if (this.samePlRecord) {
           merchandiseOther = {"row": "merchandise_other", "content": this.sales * (this.content / 100)}
         } else {
           merchandiseOther = {"row": "merchandise_other", "content": 0}
@@ -409,8 +409,8 @@ export default {
       } else if (payload == "accountsPayable") {
         let accountsPayable = {"row": "accounts_payable", "content": this.content}
         let costRatio = {}
-        if (this.samePl && this.samePl["sales_cost"] > 0) {
-          costRatio = {"row": "cost_ratio", "content": this.content/this.samePl["sales_cost"]}
+        if (this.samePlRecord && this.samePlRecord["sales_cost"] > 0) {
+          costRatio = {"row": "cost_ratio", "content": this.content/this.samePlRecord["sales_cost"]}
         } else {
           costRatio = {"row": "cost_ratio", "content": 0}
         }
@@ -419,8 +419,8 @@ export default {
         this.accountsPayableForm = false
       } else if (payload == "costRatio") {
         let accountsPayable = {}
-        if (this.samePl) {
-          accountsPayable = {"row": "accounts_payable", "content": this.samePl["sales_cost"] * (this.content / 100)}
+        if (this.samePlRecord) {
+          accountsPayable = {"row": "accounts_payable", "content": this.samePlRecord["sales_cost"] * (this.content / 100)}
         } else {
           accountsPayable = {"row": "accounts_payable", "content": 0}
         }
