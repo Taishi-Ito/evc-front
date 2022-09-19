@@ -60,6 +60,20 @@ export default {
     }
   },
   computed: {
+    sameBstRecord() {
+      const that = this
+      const BstRecords = this.$store.getters["tables/bst/bstRecords"]
+      let sameBstRecord = {}
+      BstRecords.some(function(value, index){
+        if (value["year"] == that.items.year) {
+          sameBstRecord =  value
+          return true
+        } else {
+          sameBstRecord = null
+        }
+      });
+      return sameBstRecord
+    },
     year: {
       get() {
         return this.items.year
@@ -234,6 +248,15 @@ export default {
       return ((Math.trunc(this.preTaxBenefit * this.unit) - Math.trunc(this.items.tax))/this.unit).toFixed(this.fixed)
     }
   },
+  watch: {
+    sameBstRecord: {
+      handler(newValue, oldValue) {
+        this.content = this.interestExpense
+        this.updateList("interestExpense")
+      },
+      deep: true
+    }
+  },
   methods: {
     updateList(payload) {
       let rows = []
@@ -269,14 +292,22 @@ export default {
         this.noOpIncomeForm = false
       } else if (payload == "interestExpense") {
         let interestExpense = {"row": "interest_expense", "content": this.content}
-        // 【宿題】ここはBSと紐つける必要あり
-        let interestRate = {"row": "interest_rate", "content": this.content / 1000}
+        let interestRate = {}
+        if (this.sameBstRecord && this.sameBstRecord["long_term_debt"] > 0) {
+          interestRate = {"row": "interest_rate", "content": this.content / this.sameBstRecord["long_term_debt"]}
+        } else {
+          interestRate = {"row": "interest_rate", "content": 0}
+        }
         rows.push(interestExpense)
         rows.push(interestRate)
         this.interestExpenseForm = false
       } else if (payload == "interestRate") {
-        let interestExpense = {"row": "interest_expense", "content": this.content * 1000}
-        // 【宿題】ここはBSと紐つける必要あり
+        let interestExpense = {}
+        if (this.sameBstRecord && this.sameBstRecord["long_term_debt"] > 0) {
+          interestExpense = {"row": "interest_expense", "content": this.content * this.sameBstRecord["long_term_debt"]}
+        } else {
+          interestExpense = {"row": "interest_expense", "content": 0}
+        }
         let interestRate = {"row": "interest_rate", "content": this.content}
         rows.push(interestExpense)
         rows.push(interestRate)
