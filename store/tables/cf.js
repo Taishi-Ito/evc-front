@@ -3,83 +3,83 @@ import {getAuth, onAuthStateChanged} from 'firebase/auth'
 import Vue from 'vue'
 
 export const state = () => ({
-  plUnit: "",
-  plFixed: 0,
-  plRecords: [],
-  plId: null,
-  netIncome: 0
+  cfUnit: "",
+  cfFixed: 0,
+  cfRecords: [],
+  cfId: null,
+  cfSum: 0
 })
 
 export const getters = ({
-  plUnit: state => state.plUnit,
-  plUnitNumber(state) {
-    if (state.plUnit == "yen") {
+  cfUnit: state => state.cfUnit,
+  cfUnitNumber(state) {
+    if (state.cfUnit == "yen") {
       return 1
-    } else if (state.plUnit == "thousand") {
+    } else if (state.cfUnit == "thousand") {
       return 1000
-    } else if (state.plUnit == "million") {
+    } else if (state.cfUnit == "million") {
       return 1000000
-    } else if (state.plUnit == "hundred_million") {
+    } else if (state.cfUnit == "hundred_million") {
       return 100000000
     }
   },
-  plUnitTitle(state) {
-    if (state.plUnit == "yen") {
+  cfUnitTitle(state) {
+    if (state.cfUnit == "yen") {
       return "円"
-    } else if (state.plUnit == "thousand") {
+    } else if (state.cfUnit == "thousand") {
       return "千円"
-    } else if (state.plUnit == "million") {
+    } else if (state.cfUnit == "million") {
       return "百万円"
-    } else if (state.plUnit == "hundred_million") {
+    } else if (state.cfUnit == "hundred_million") {
       return "億円"
     }
   },
-  plFixed: state => state.plFixed,
-  plRecords: state => state.plRecords,
-  plId: state => state.plId,
-  netIncome: state => state.netIncome,
+  cfFixed: state => state.cfFixed,
+  cfRecords: state => state.cfRecords,
+  cfId: state => state.cfId,
+  cfSum: state => state.cfSum,
 })
 
 export const mutations = {
-  updatePl(state, payload) {
-    state.plUnit = payload["unit"]
-    state.plFixed = payload["fixed"]
+  updateCf(state, payload) {
+    state.cfUnit = payload["unit"]
+    state.cfFixed = payload["fixed"]
   },
-  updatePlRecords(state, payload) {
-    payload["unit"] ? state.plUnit = payload["unit"] : null
-    payload["fixed"] ? state.plFixed = payload["fixed"] : null
-    payload["pl_id"] ? state.plId = payload["pl_id"] : null
-    state.plRecords = payload["pls"]
+  updateCfRecords(state, payload) {
+    payload["unit"] ? state.cfUnit = payload["unit"] : null
+    payload["fixed"] ? state.cfFixed = payload["fixed"] : null
+    payload["cf_id"] ? state.cfId = payload["cf_id"] : null
+    state.cfRecords = payload["cfs"]
   },
-  updatePlRecordRow(state, payload) {
+  updateCfRecordRow(state, payload) {
     payload["rows"].forEach(function(row){
-      state.plRecords.some(function(value, index){
+      state.cfRecords.some(function(value, index){
         if (value["record_id"] == payload["record_id"]) {
-          Vue.set(state.plRecords[index], `${row['row']}`, row["content"])
+          Vue.set(state.cfRecords[index], `${row['row']}`, row["content"])
         }
       });
     })
   },
-  updateNetIncome(state, payload) {
-    state.netIncome = payload
+  updateCfSum(state, payload) {
+    state.cfSum = payload
   }
 }
 
 export const actions = {
-  async getPl(context, payload) {
-    const url = `${process.env.url}/pls`;
+  async getCf(context, payload) {
+    const url = `${process.env.url}/cfs`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
       if (user && user.emailVerified){
         axios.get(url, {params: {token: user.accessToken, "uid": user.uid, "project_id": payload}})
         .then((res) =>{
-          context.commit('updatePlRecords', res.data)
+          context.commit('updateCfRecords', res.data)
         })
         .catch( e => {
           const payload = {
-            "message": "P/Lモデルを取得できませんでした",
+            "message": "CFモデルを取得できませんでした",
             "detail": "エラーが発生しました。お問い合わせください。",
-            "method": "getPl",
+            "method": "getCf",
             "errorMessage": e.message,
             "color": "red lighten-2"
           }
@@ -89,21 +89,21 @@ export const actions = {
     }}
     )
   },
-  async updatePl(context, payload) {
-    const url = `${process.env.url}/pls/${payload["id"]}`;
+  async updateCf(context, payload) {
+    const url = `${process.env.url}/cfs/${payload["id"]}`;
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     await auth.currentUser.getIdToken(/* forceRefresh */ true)
     .then(function(idToken) {
-      axios.put(url, {token: idToken, pl: {"unit": payload["unit"], "fixed": payload["fixed"]}})
+      axios.put(url, {token: idToken, cf: {"unit": payload["unit"], "fixed": payload["fixed"]}})
       .then((res) =>{
-        context.commit('updatePl', res.data)
+        context.commit('updateCf', res.data)
       })
       .catch( e => {
         const payload = {
-          "message": "P/Lを更新できませんでした。",
+          "message": "B/Sを更新できませんでした。",
           "detail": e?.response?.data?.message,
-          "method": "updatePl",
+          "method": "updateCf",
           "errorMessage": e.message,
           "color": "red lighten-2"
         }
@@ -112,7 +112,7 @@ export const actions = {
     })
     .catch((e) => {
       const payload = {
-        "message": "P/Lを更新できませんでした。",
+        "message": "B/Sを更新できませんでした。",
         "detail": "エラーが発生しました。お問い合わせください。",
         "method": "getIdToken",
         "errorMessage": e.message,
@@ -121,21 +121,21 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     });
   },
-  async updatePlRecord(context, payload) {
-    const url = `${process.env.url}/pl_records/${payload["record_id"]}`;
+  async updateCfRecord(context, payload) {
+    const url = `${process.env.url}/cf_records/${payload["record_id"]}`;
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     await auth.currentUser.getIdToken(/* forceRefresh */ true)
     .then(function(idToken) {
-      axios.put(url, {token: idToken, pl_record: {"rows": payload["rows"]}})
+      axios.put(url, {token: idToken, cf_record: {"rows": payload["rows"]}})
       .then((res) =>{
-        context.commit('updatePlRecordRow', res.data)
+        context.commit('updateCfRecordRow', res.data)
       })
       .catch( e => {
         const payload = {
-          "message": "P/Lを更新できませんでした。",
+          "message": "B/Sを更新できませんでした。",
           "detail": e?.response?.data?.message,
-          "method": "updatePlRecord",
+          "method": "updateCfRecord",
           "errorMessage": e.message,
           "color": "red lighten-2"
         }
@@ -144,7 +144,7 @@ export const actions = {
     })
     .catch((e) => {
       const payload = {
-        "message": "P/Lを更新できませんでした。",
+        "message": "B/Sを更新できませんでした。",
         "detail": "エラーが発生しました。お問い合わせください。",
         "method": "getIdToken",
         "errorMessage": e.message,
@@ -153,21 +153,21 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     });
   },
-  async addNewPlRecord(context, payload) {
-    const url = `${process.env.url}/pl_records`;
+  async addNewCfRecord(context, payload) {
+    const url = `${process.env.url}/cf_records`;
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     await auth.currentUser.getIdToken(/* forceRefresh */ true)
     .then(function(idToken) {
-      axios.post(url, {token: idToken, pl_record: {"type": payload["type"], "year": payload["year"], "record_id": payload["record_id"], "pl_id": payload["pl_id"]}})
+      axios.post(url, {token: idToken, cf_record: {"type": payload["type"], "year": payload["year"], "record_id": payload["record_id"], "cf_id": payload["cf_id"]}})
       .then((res) =>{
-        context.commit('updatePlRecords', res.data)
+        context.commit('updateCfRecords', res.data)
       })
       .catch( e => {
         const payload = {
-          "message": "P/Lを作成できませんでした。",
+          "message": "B/Sを作成できませんでした。",
           "detail": e?.response?.data?.message,
-          "method": "addNewPlRecord",
+          "method": "addNewCfRecord",
           "errorMessage": e.message,
           "color": "red lighten-2"
         }
@@ -176,7 +176,7 @@ export const actions = {
     })
     .catch((e) => {
       const payload = {
-        "message": "P/Lを作成できませんでした。",
+        "message": "B/Sを作成できませんでした。",
         "detail": "エラーが発生しました。お問い合わせください。",
         "method": "getIdToken",
         "errorMessage": e.message,
@@ -185,21 +185,21 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     });
   },
-  async deletePlRecord (context, payload){
-    const url = `${process.env.url}/pl_records/${payload["record_id"]}`;
+  async deleteCfRecord (context, payload){
+    const url = `${process.env.url}/cf_records/${payload["record_id"]}`;
     const auth = getAuth();
     const uid = auth.currentUser.uid;
     await auth.currentUser.getIdToken(/* forceRefresh */ true)
     .then(function(idToken) {
-      axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "pl_id": payload["pl_id"]}})
+      axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "cf_id": payload["cf_id"]}})
       .then((res) =>{
-        context.commit('updatePlRecords', res.data)
+        context.commit('updateCfRecords', res.data)
       })
       .catch( e => {
         const payload = {
-          "message": "P/Lを削除できませんでした。",
+          "message": "B/Sを削除できませんでした。",
           "detail": e?.response?.data?.message,
-          "method": "deletePlRecord",
+          "method": "deleteCfRecord",
           "errorMessage": e.message,
           "color": "red lighten-2"
         }
@@ -208,7 +208,7 @@ export const actions = {
     })
     .catch((e) => {
       const payload = {
-        "message": "P/Lを削除できませんでした。",
+        "message": "B/Sを削除できませんでした。",
         "detail": "エラーが発生しました。お問い合わせください。",
         "method": "getIdToken",
         "errorMessage": e.message,

@@ -22,7 +22,6 @@
     <tr class="auto"><td>{{ capitalStock }}</td></tr>
     <tr><th :class="capitalForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="capitalForm=true" @blur="updateList('capital')" v-model="capital"></th></tr>
     <tr><th :class="surplusForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="surplusForm=true" @blur="updateList('surplus')" v-model="surplus"></th></tr>
-    <!-- <tr class="auto"><td>{{ surplus }}</td></tr> -->
     <tr><td class="inputForm last"><v-icon small @click="addNewRecord('left')">mdi-plus-circle</v-icon><v-icon small @click="deleteRecord()">mdi-trash-can</v-icon><v-icon small @click="addNewRecord('right')">mdi-plus-circle</v-icon></td></tr>
   </div>
 </template>
@@ -94,9 +93,9 @@ export default {
     },
     samePlRecord() {
       const that = this
-      const PlRecords = this.$store.getters["tables/pl/plRecords"]
+      const plRecords = this.$store.getters["tables/pl/plRecords"]
       let samePlRecord = {}
-      PlRecords.some(function(value, index){
+      plRecords.some(function(value, index){
         if (value["year"] == that.items.year) {
           samePlRecord =  value
           return true
@@ -106,15 +105,29 @@ export default {
       });
       return samePlRecord
     },
+    sameCfRecord() {
+      const that = this
+      const cfRecords = this.$store.getters["tables/cf/cfRecords"]
+      let sameCfRecord = {}
+      cfRecords.some(function(value, index){
+        if (value["year"] == that.items.year) {
+          sameCfRecord =  value
+          return true
+        } else {
+          sameCfRecord = null
+        }
+      });
+      return sameCfRecord
+    },
     sales() {
-      return this.samePlRecord["customer"] * this.samePlRecord["av_customer_spend"]
+      return this.samePlRecord ? this.samePlRecord["customer"] * this.samePlRecord["av_customer_spend"] : null
     },
     lastYearCash() {
       return this.lastBstRecord ? this.lastBstRecord["cash"] : null
     },
     cf() {
       // 【宿題】CFと紐づける必要あり
-      return 0
+      return this.$store.getters["tables/cf/cfSum"]
     },
     lastYearLandBuildings() {
       return this.lastBstRecord ? this.lastBstRecord["land_buildings"] : null
@@ -128,13 +141,16 @@ export default {
     lastSurplus() {
       return this.lastBstRecord && this.lastBstRecord["surplus"] ? this.lastBstRecord["surplus"] : null
     },
-    tokijunrieki() {
+    netIncome() {
       // 【宿題】CFと紐づける必要あり
-      return 1000000 / this.unit
+      const netIncome =  this.$store.getters["tables/pl/netIncome"]
+      return netIncome / this.unit
     },
-    haito() {
+    dividend() {
       // 【宿題】CFと紐づける必要あり
-      return 1000000 / this.unit
+      const netIncome =  this.$store.getters["tables/pl/netIncome"]
+      const payoutRatio = sameCfRecord["payout_ratio"]/100
+      return netIncome*payoutRatio
     },
     year: {
       get() {
@@ -324,8 +340,8 @@ export default {
     },
     surplus: {
       get() {
-        if (this.lastSurplus && this.tokijunrieki && this.haito) {
-          return ((Math.trunc(this.lastSurplus) + Math.trunc(this.tokijunrieki) + Math.trunc(this.haito))/this.unit).toFixed(this.fixed)
+        if (this.lastSurplus && this.netIncome && this.dividend) {
+          return ((Math.trunc(this.lastSurplus) + Math.trunc(this.netIncome) + Math.trunc(this.dividend))/this.unit).toFixed(this.fixed)
         } else {
           return this.items.surplus
         }

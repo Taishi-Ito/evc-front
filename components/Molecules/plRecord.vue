@@ -171,7 +171,7 @@ export default {
       }
     },
     operatingIncome() {
-      return ((Math.trunc(this.grossProfit * this.unit) - Math.trunc(this.items.sales_cost))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.grossProfit*this.unit) - Math.trunc(this.SgaExpenses*this.unit))/this.unit).toFixed(this.fixed)
     },
     noOpIncome: {
       get() {
@@ -251,10 +251,14 @@ export default {
   watch: {
     sameBstRecord: {
       handler(newValue, oldValue) {
+        console.log('【1】')
         this.content = this.interestExpense
         this.updateList("interestExpense")
       },
       deep: true
+    },
+    netIncome: function(newValue, oldValue) {
+      this.$store.commit('tables/pl/updateNetIncome', newValue)
     }
   },
   methods: {
@@ -298,13 +302,14 @@ export default {
         } else {
           interestRate = {"row": "interest_rate", "content": 0}
         }
+        console.log('【interestRate】', interestRate)
         rows.push(interestExpense)
         rows.push(interestRate)
         this.interestExpenseForm = false
       } else if (payload == "interestRate") {
         let interestExpense = {}
         if (this.sameBstRecord && this.sameBstRecord["long_term_debt"] > 0) {
-          interestExpense = {"row": "interest_expense", "content": this.content * this.sameBstRecord["long_term_debt"]}
+          interestExpense = {"row": "interest_expense", "content": (this.content/100) * this.sameBstRecord["long_term_debt"]}
         } else {
           interestExpense = {"row": "interest_expense", "content": 0}
         }
@@ -329,6 +334,7 @@ export default {
         this.taxRateForm = false
       }
       payload = {"record_id": this.items.record_id, "rows": rows}
+      // 【宿題】ここで小数点を切り捨てたい
       if (this.content) {
         this.$store.dispatch('tables/pl/updatePlRecord', payload)
       }

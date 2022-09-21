@@ -13,6 +13,10 @@
       <h2>B/S</h2>
       <OrganismsBstTable></OrganismsBstTable>
     </div>
+    <div>
+      <h2>CF</h2>
+      <OrganismsCfTable></OrganismsCfTable>
+    </div>
   </div>
 </template>
 
@@ -31,6 +35,7 @@ export default {
     this.$store.dispatch('tables/capitalInvestment/getCapitalInvestment', this.$route.params.id)
     this.$store.dispatch('tables/pl/getPl', this.$route.params.id)
     this.$store.dispatch('tables/bst/getBst', this.$route.params.id)
+    this.$store.dispatch('tables/cf/getCf', this.$route.params.id)
   }
 }
 </script>
