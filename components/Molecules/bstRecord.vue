@@ -1,27 +1,27 @@
 <template>
   <div class="lists">
-    <tr><th :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></th></tr>
-    <tr class="auto"><td>{{ assets }}</td></tr>
-    <tr class="auto"><td>{{ currentAssets }}</td></tr>
-    <tr><th :class="cashForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="cashForm=true" @blur="updateList('cash')" v-model="cash"></th></tr>
-    <tr><th :class="accountsReceivableForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="accountsReceivableForm=true" @blur="updateList('accountsReceivable')" v-model="accountsReceivable"></th></tr>
-    <tr><th :class="arSalesRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="arSalesRatioForm=true" @blur="updateList('arSalesRatio')" v-model="arSalesRatio"></th></tr>
-    <tr><th :class="merchandiseOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="merchandiseOtherForm=true" @blur="updateList('merchandiseOther')" v-model="merchandiseOther"></th></tr>
-    <tr><th :class="moSalesRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="moSalesRatioForm=true" @blur="updateList('moSalesRatio')" v-model="moSalesRatio"></th></tr>
-    <tr class="auto"><td>{{ fixedAssets }}</td></tr>
-    <tr><th :class="landBuildingsForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="landBuildingsForm=true" @blur="updateList('landBuildings')" v-model="landBuildings"></th></tr>
-    <tr><th :class="investmentOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="investmentOtherForm=true" @blur="updateList('investmentOther')" v-model="investmentOther"></th></tr>
-    <tr class="auto"><td>{{ debt }}</td></tr>
-    <tr class="auto"><td>{{ currentDebt }}</td></tr>
-    <tr><th :class="accountsPayableForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="accountsPayableForm=true" @blur="updateList('accountsPayable')" v-model="accountsPayable"></th></tr>
-    <tr><th :class="costRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="costRatioForm=true" @blur="updateList('costRatio')" v-model="costRatio"></th></tr>
-    <tr><th :class="cdOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="cdOtherForm=true" @blur="updateList('cdOther')" v-model="cdOther"></th></tr>
-    <tr class="auto"><td>{{ fixedLiabilities }}</td></tr>
-    <tr><th :class="longTermDebtForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="longTermDebtForm=true" @blur="updateList('longTermDebt')" v-model="longTermDebt"></th></tr>
-    <tr><th :class="flOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="flOtherForm=true" @blur="updateList('flOther')" v-model="flOther"></th></tr>
-    <tr class="auto"><td>{{ capitalStock }}</td></tr>
-    <tr><th :class="capitalForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="capitalForm=true" @blur="updateList('capital')" v-model="capital"></th></tr>
-    <tr><th :class="surplusForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="surplusForm=true" @blur="updateList('surplus')" v-model="surplus"></th></tr>
+    <tr><td :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></td></tr>
+    <tr class="sum"><td>{{ assets }}</td></tr>
+    <tr class="semi-sum"><td>{{ currentAssets }}</td></tr>
+    <tr><td :class="cashForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="cashForm=true" @blur="updateList('cash')" v-model="cash"></td></tr>
+    <tr><td :class="accountsReceivableForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="accountsReceivableForm=true" @blur="updateList('accountsReceivable')" v-model="accountsReceivable"></td></tr>
+    <tr><td :class="arSalesRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="arSalesRatioForm=true" @blur="updateList('arSalesRatio')" v-model="arSalesRatio"></td></tr>
+    <tr><td :class="merchandiseOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="merchandiseOtherForm=true" @blur="updateList('merchandiseOther')" v-model="merchandiseOther"></td></tr>
+    <tr><td :class="moSalesRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="moSalesRatioForm=true" @blur="updateList('moSalesRatio')" v-model="moSalesRatio"></td></tr>
+    <tr class="semi-sum"><td>{{ fixedAssets }}</td></tr>
+    <tr><td :class="landBuildingsForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="landBuildingsForm=true" @blur="updateList('landBuildings')" v-model="landBuildings"></td></tr>
+    <tr><td :class="investmentOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="investmentOtherForm=true" @blur="updateList('investmentOther')" v-model="investmentOther"></td></tr>
+    <tr class="sum"><td>{{ debt }}</td></tr>
+    <tr class="semi-sum"><td>{{ currentDebt }}</td></tr>
+    <tr><td :class="accountsPayableForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="accountsPayableForm=true" @blur="updateList('accountsPayable')" v-model="accountsPayable"></td></tr>
+    <tr><td :class="costRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="costRatioForm=true" @blur="updateList('costRatio')" v-model="costRatio"></td></tr>
+    <tr><td :class="cdOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="cdOtherForm=true" @blur="updateList('cdOther')" v-model="cdOther"></td></tr>
+    <tr class="semi-sum"><td>{{ fixedLiabilities }}</td></tr>
+    <tr><td :class="longTermDebtForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="longTermDebtForm=true" @blur="updateList('longTermDebt')" v-model="longTermDebt"></td></tr>
+    <tr><td :class="flOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="flOtherForm=true" @blur="updateList('flOther')" v-model="flOther"></td></tr>
+    <tr class="sum"><td>{{ capitalStock }}</td></tr>
+    <tr><td :class="capitalForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="capitalForm=true" @blur="updateList('capital')" v-model="capital"></td></tr>
+    <tr class="semi-sum"><td :class="surplusForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="surplusForm=true" @blur="updateList('surplus')" v-model="surplus"></td></tr>
     <tr><td class="inputForm last"><v-icon small @click="addNewRecord('left')">mdi-plus-circle</v-icon><v-icon small @click="deleteRecord()">mdi-trash-can</v-icon><v-icon small @click="addNewRecord('right')">mdi-plus-circle</v-icon></td></tr>
   </div>
 </template>
@@ -515,7 +515,10 @@ th,td {
   height: 100%;
   width: 100%;
 }
-.auto {
+.sum {
   background-color: #B3E5FC;
+}
+.semi-sum {
+  background-color: #C8E6C9;
 }
 </style>

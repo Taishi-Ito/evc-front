@@ -1,21 +1,20 @@
 <template>
   <div class="lists">
-    <tr><th :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></th></tr>
-    <tr class="auto"><td>{{ salesCf }}</td></tr>
-    <tr><td>{{ netIncome }}</td></tr>
-    <tr><td>{{ depreciation }}</td></tr>
-    <tr><td>{{ accountsReceivableChange }}</td></tr>
-    <tr><td>{{ merchandiseOtherChange }}</td></tr>
-    <tr><td>{{ accountsPayableChange }}</td></tr>
-    <tr class="auto"><td>{{ investmentCf }}</td></tr>
-    <tr><td>{{ facilities }}</td></tr>
-    <tr class="auto"><td>{{ financesCf }}</td></tr>
-    <tr><td>{{ debtChange }}</td></tr>
-    <!-- <tr><td>{{ dividend }}</td></tr> -->
+    <tr><td :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></td></tr>
+    <tr class="sum"><td>{{ salesCf }}</td></tr>
+    <tr class="auto"><td>{{ netIncome }}</td></tr>
+    <tr class="auto"><td>{{ depreciation }}</td></tr>
+    <tr class="auto"><td>{{ accountsReceivableChange }}</td></tr>
+    <tr class="auto"><td>{{ merchandiseOtherChange }}</td></tr>
+    <tr class="auto"><td>{{ accountsPayableChange }}</td></tr>
+    <tr class="sum"><td>{{ investmentCf }}</td></tr>
+    <tr class="auto"><td>{{ facilities }}</td></tr>
+    <tr class="sum"><td>{{ financesCf }}</td></tr>
+    <tr class="auto"><td>{{ debtChange }}</td></tr>
     <tr><td :class="dividendForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="dividendForm=true" @blur="updateList('dividend')" v-model="dividend"></td></tr>
     <tr><td :class="payoutRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="payoutRatioForm=true" @blur="updateList('payoutRatio')" v-model="payoutRatio"></td></tr>
-    <tr><td>{{ surplusChange }}</td></tr>
-    <tr class="auto"><td>{{ cfSum }}</td></tr>
+    <tr class="auto"><td>{{ surplusChange }}</td></tr>
+    <tr class="sum"><td>{{ cfSum }}</td></tr>
     <tr><td class="inputForm last"><v-icon small @click="addNewRecord('left')">mdi-plus-circle</v-icon><v-icon small @click="deleteRecord()">mdi-trash-can</v-icon><v-icon small @click="addNewRecord('right')">mdi-plus-circle</v-icon></td></tr>
   </div>
 </template>
@@ -232,7 +231,10 @@ th,td {
   height: 100%;
   width: 100%;
 }
-.auto {
+.sum {
   background-color: #B3E5FC;
+}
+.auto {
+  color: #0D47A1;
 }
 </style>

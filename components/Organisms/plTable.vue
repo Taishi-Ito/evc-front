@@ -11,27 +11,27 @@
     </v-row>
     <div class="table">
       <div class="items">
-        <tr><th><br></th></tr>
-        <tr class="auto"><td>売り上げ</td></tr>
+        <tr><td>年</td></tr>
+        <tr class="sum"><td>売り上げ</td></tr>
         <tr><td>客数</td></tr>
         <tr><td>客単価</td></tr>
         <tr><td>売上原価</td></tr>
         <tr><td>原価率（%）</td></tr>
-        <tr class="auto"><td>粗利益</td></tr>
-        <tr class="auto"><td>販管費</td></tr>
+        <tr class="sum"><td>粗利益</td></tr>
+        <tr><td>販管費</td></tr>
         <tr><td>人件費</td></tr>
-        <tr class="auto"><td>減価償却</td></tr>
+        <tr><td>減価償却</td></tr>
         <tr><td>経費その他</td></tr>
-        <tr class="auto"><td>営業利益</td></tr>
+        <tr class="sum"><td>営業利益</td></tr>
         <tr><td>営業外収益</td></tr>
-        <tr class="auto"><td>営業外費用</td></tr>
+        <tr><td>営業外費用</td></tr>
         <tr><td>支払利息</td></tr>
         <tr><td>利率（%）</td></tr>
         <tr><td>その他</td></tr>
-        <tr class="auto"><td>税引前利益</td></tr>
+        <tr class="sum"><td>税引前利益</td></tr>
         <tr><td>税金</td></tr>
         <tr><td>税率（%）</td></tr>
-        <tr class="auto"><td>当期純利益</td></tr>
+        <tr class="sum"><td>当期純利益</td></tr>
         <tr><td class="last">オプション</td></tr>
       </div>
       <div v-for="items in data">
@@ -133,7 +133,7 @@ th,td {
 .fixes {
   margin-left: 5px;
 }
-.auto {
+.sum {
   background-color: #B3E5FC;
 }
 </style>

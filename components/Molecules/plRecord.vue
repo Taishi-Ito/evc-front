@@ -1,26 +1,26 @@
 <template>
   <div class="lists">
-    <tr><th :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></th></tr>
-    <tr class="auto"><td>{{ sales }}</td></tr>
-    <tr><th :class="customerForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="customerForm=true" @blur="updateList('customer')" v-model="customer"></th></tr>
-    <tr><th :class="avCustomerSpendForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="avCustomerSpendForm=true" @blur="updateList('avCustomerSpend')" v-model="avCustomerSpend"></th></tr>
-    <tr><th :class="salesCostForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="salesCostForm=true" @blur="updateList('salesCost')" v-model="salesCost"></th></tr>
-    <tr><th :class="salesCostRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="salesCostRatioForm=true" @blur="updateList('salesCostRatio')" v-model="salesCostRatio"></th></tr>
-    <tr class="auto"><td>{{ grossProfit }}</td></tr>
+    <tr><td :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></td></tr>
+    <tr class="sum"><td>{{ sales }}</td></tr>
+    <tr><td :class="customerForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="customerForm=true" @blur="updateList('customer')" v-model="customer"></td></tr>
+    <tr><td :class="avCustomerSpendForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="avCustomerSpendForm=true" @blur="updateList('avCustomerSpend')" v-model="avCustomerSpend"></td></tr>
+    <tr><td :class="salesCostForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="salesCostForm=true" @blur="updateList('salesCost')" v-model="salesCost"></td></tr>
+    <tr><td :class="salesCostRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="salesCostRatioForm=true" @blur="updateList('salesCostRatio')" v-model="salesCostRatio"></td></tr>
+    <tr class="sum"><td>{{ grossProfit }}</td></tr>
     <tr class="auto"><td>{{ SgaExpenses }}</td></tr>
-    <tr><th :class="laborCostForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="laborCostForm=true" @blur="updateList('laborCost')" v-model="laborCost"></th></tr>
+    <tr><td :class="laborCostForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="laborCostForm=true" @blur="updateList('laborCost')" v-model="laborCost"></td></tr>
     <tr class="auto"><td>{{ depreciation }}</td></tr>
-    <tr><th :class="costOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="costOtherForm=true" @blur="updateList('costOther')" v-model="costOther"></th></tr>
-    <tr class="auto"><td>{{ operatingIncome }}</td></tr>
-    <tr><th :class="noOpIncomeForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="noOpIncomeForm=true" @blur="updateList('noOpIncome')" v-model="noOpIncome"></th></tr>
+    <tr><td :class="costOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="costOtherForm=true" @blur="updateList('costOther')" v-model="costOther"></td></tr>
+    <tr class="sum"><td>{{ operatingIncome }}</td></tr>
+    <tr><td :class="noOpIncomeForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="noOpIncomeForm=true" @blur="updateList('noOpIncome')" v-model="noOpIncome"></td></tr>
     <tr class="auto"><td>{{ noOpCost }}</td></tr>
-    <tr><th :class="interestExpenseForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="interestExpenseForm=true" @blur="updateList('interestExpense')" v-model="interestExpense"></th></tr>
-    <tr><th :class="interestRateForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="interestRateForm=true" @blur="updateList('interestRate')" v-model="interestRate"></th></tr>
-    <tr><th :class="otherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="otherForm=true" @blur="updateList('other')" v-model="other"></th></tr>
-    <tr class="auto"><td>{{ preTaxBenefit }}</td></tr>
+    <tr><td :class="interestExpenseForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="interestExpenseForm=true" @blur="updateList('interestExpense')" v-model="interestExpense"></td></tr>
+    <tr><td :class="interestRateForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="interestRateForm=true" @blur="updateList('interestRate')" v-model="interestRate"></td></tr>
+    <tr><td :class="otherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="otherForm=true" @blur="updateList('other')" v-model="other"></td></tr>
+    <tr class="sum"><td>{{ preTaxBenefit }}</td></tr>
     <tr><td :class="taxForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="taxForm=true" @blur="updateList('tax')" v-model="tax"></td></tr>
     <tr><td :class="taxRateForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="taxRateForm=true" @blur="updateList('taxRate')" v-model="taxRate"></td></tr>
-    <tr class="auto"><td>{{ netIncome }}</td></tr>
+    <tr class="sum"><td>{{ netIncome }}</td></tr>
     <tr><td class="inputForm last"><v-icon small @click="addNewRecord('left')">mdi-plus-circle</v-icon><v-icon small @click="deleteRecord()">mdi-trash-can</v-icon><v-icon small @click="addNewRecord('right')">mdi-plus-circle</v-icon></td></tr>
   </div>
 </template>
@@ -400,7 +400,10 @@ th,td {
   height: 100%;
   width: 100%;
 }
-.auto {
+.sum {
   background-color: #B3E5FC;
+}
+.auto {
+  color: #0D47A1;
 }
 </style>

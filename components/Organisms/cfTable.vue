@@ -11,21 +11,21 @@
     </v-row>
     <div class="table">
       <div class="items">
-        <tr><th><br></th></tr>
-        <tr class="auto"><td>営業CF</td></tr>
+        <tr><td>年</td></tr>
+        <tr class="sum"><td>営業CF</td></tr>
         <tr><td>当期純利益</td></tr>
         <tr><td>減価償却</td></tr>
         <tr><td>売掛金の増減</td></tr>
         <tr><td>商品その他の増減</td></tr>
         <tr><td>買掛金の増減</td></tr>
-        <tr class="auto"><td>投資CF</td></tr>
+        <tr class="sum"><td>投資CF</td></tr>
         <tr><td>設備投資</td></tr>
-        <tr class="auto"><td>財務CF</td></tr>
+        <tr class="sum"><td>財務CF</td></tr>
         <tr><td>借入金の増減</td></tr>
         <tr><td>配当</td></tr>
         <tr><td>配当性向</td></tr>
         <tr><td>資本金の増減</td></tr>
-        <tr class="auto"><td>CF合計</td></tr>
+        <tr class="sum"><td>CF合計</td></tr>
         <tr><td class="last">オプション</td></tr>
       </div>
       <div v-for="items in data">
@@ -127,7 +127,7 @@ th,td {
 .fixes {
   margin-left: 5px;
 }
-.auto {
+.sum {
   background-color: #B3E5FC;
 }
 </style>

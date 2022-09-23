@@ -1,10 +1,10 @@
 <template>
   <div class="lists">
-    <tr><th :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></th></tr>
-    <tr><td>{{ facilitiesSum }}</td></tr>
+    <tr><td :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></td></tr>
+    <tr class="sum"><td>{{ facilitiesSum }}</td></tr>
     <tr><td :class="existingFacilitiesForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="existingFacilitiesForm=true" @blur="updateList('ExistingFacilities')" v-model="existingFacilities"></td></tr>
     <tr><td :class="newFacilitiesForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="newFacilitiesForm=true" @blur="updateList('NewFacilities')" v-model="newFacilities"></td></tr>
-    <tr><td>{{ dSum }}</td></tr>
+    <tr class="sum"><td>{{ dSum }}</td></tr>
     <tr><td :class="dExistingFacilitiesForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="dExistingFacilitiesForm=true" @blur="updateList('DExistingFacilities')" v-model="dExistingFacilities"></td></tr>
     <tr><td :class="dNewFacilitiesForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="dNewFacilitiesForm=true" @blur="updateList('DNewFacilities')" v-model="dNewFacilities"></td></tr>
     <tr><td :class="dYearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="dYearForm=true" @blur="updateList('DYear')" v-model="dYear"></td></tr>
@@ -194,5 +194,8 @@ th,td {
 .inputForm {
   height: 100%;
   width: 100%;
+}
+.sum {
+  background-color: #B3E5FC;
 }
 </style>
