@@ -134,7 +134,7 @@ export default {
         if(this.lastNetIncome) {
           return this.payoutRatio > 0 ? (((this.lastNetIncome*this.unit)*(this.payoutRatio/100))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
         } else {
-          return this.items.dividend
+          return this.items.dividend/this.unit
         }
       },
       set(val) {
