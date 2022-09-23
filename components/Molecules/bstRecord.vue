@@ -127,7 +127,8 @@ export default {
     },
     cf() {
       // 【宿題】CFと紐づける必要あり
-      return this.$store.getters["tables/cf/cfSum"]
+      const cfSums = this.$store.getters["tables/cf/cfSums"]
+      return cfSums[this.items.year] ? this.$store.getters["tables/cf/cfSum"] : 0.000
     },
     lastYearLandBuildings() {
       return this.lastBstRecord ? this.lastBstRecord["land_buildings"] : null
@@ -143,14 +144,21 @@ export default {
     },
     netIncome() {
       // 【宿題】CFと紐づける必要あり
-      const netIncome =  this.$store.getters["tables/pl/netIncome"]
-      return netIncome / this.unit
+      const netIncomes = this.$store.getters["tables/pl/netIncomes"]
+      const netIncome =  netIncomes[this.items.year]
+      return netIncome ? netIncome / this.unit : 0.000
     },
     dividend() {
       // 【宿題】CFと紐づける必要あり
-      const netIncome =  this.$store.getters["tables/pl/netIncome"]
-      const payoutRatio = sameCfRecord["payout_ratio"]/100
-      return netIncome*payoutRatio
+      const netIncomes = this.$store.getters["tables/pl/netIncomes"]
+      const netIncome =  netIncomes[this.items.year]
+      const payoutRatio = this.sameCfRecord["payout_ratio"]/100
+      return netIncome ? netIncome*payoutRatio : 0.000
+    },
+    salesCosts() {
+      const salesCosts = this.$store.getters["tables/pl/salesCosts"]
+      const salesCost = salesCosts[this.items.year]
+      return salesCost ? salesCost / this.unit : 0.000
     },
     year: {
       get() {
@@ -161,7 +169,7 @@ export default {
       }
     },
     assets() {
-      return ((Math.trunc(this.currentAssets) + Math.trunc(this.fixedAssets))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.currentAssets*this.unit) + Math.trunc(this.fixedAssets*this.unit))/this.unit).toFixed(this.fixed)
     },
     currentAssets() {
       return ((Math.trunc(this.items.cash) + Math.trunc(this.items.accounts_receivable) + Math.trunc(this.items.merchandise_other))/this.unit).toFixed(this.fixed)
@@ -255,7 +263,7 @@ export default {
       }
     },
     debt() {
-      return ((Math.trunc(this.currentDebt) + Math.trunc(this.fixedLiabilities))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.currentDebt*this.unit) + Math.trunc(this.fixedLiabilities*this.unit))/this.unit).toFixed(this.fixed)
     },
     currentDebt() {
       return ((Math.trunc(this.items.accounts_payable) + Math.trunc(this.items.cd_other))/this.unit).toFixed(this.fixed)
@@ -274,11 +282,7 @@ export default {
     },
     costRatio: {
       get() {
-        if (this.costRatioForm) {
-          return this.items.cost_ratio
-        } else {
-          return (this.items.cost_ratio/this.unit).toFixed(this.fixed)
-        }
+        return this.items.cost_ratio
       },
       set(val) {
         this.content = val
@@ -324,7 +328,7 @@ export default {
       }
     },
     capitalStock() {
-      return ((Math.trunc(this.items.capital) + Math.trunc(this.surplus))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.items.capital) + Math.trunc(this.surplus*this.unit))/this.unit).toFixed(this.fixed)
     },
     capital: {
       get() {
@@ -341,9 +345,9 @@ export default {
     surplus: {
       get() {
         if (this.lastSurplus && this.netIncome && this.dividend) {
-          return ((Math.trunc(this.lastSurplus) + Math.trunc(this.netIncome) + Math.trunc(this.dividend))/this.unit).toFixed(this.fixed)
+          return ((Math.trunc(this.lastSurplus*this.unit) + Math.trunc(this.netIncome*this.unit) + Math.trunc(this.dividend*this.unit))/this.unit).toFixed(this.fixed)
         } else {
-          return this.items.surplus
+          return (this.items.surplus/this.unit).toFixed(this.fixed)
         }
       },
       set(val) {
@@ -353,14 +357,17 @@ export default {
   },
   watch: {
     sales: function(newValue, oldValue) {
-      this.content = this.accountsReceivable
+      this.content = this.accountsReceivable*this.unit
       this.updateList("accountsReceivable")
-      this.content = this.merchandiseOther
+      this.content = this.merchandiseOther*this.unit
       this.updateList("merchandiseOther")
     },
-    samePlRecord: function(newValue, oldValue) {
-      this.content = this.accountsPayable
-      this.updateList("accountsPayable")
+    salesCosts: {
+      handler(newValue, oldValue) {
+        this.content = this.accountsPayable*this.unit
+        this.updateList("accountsPayable")
+      },
+      deep: true
     }
   },
   methods: {
@@ -376,7 +383,7 @@ export default {
         let accountsReceivable = {"row": "accounts_receivable", "content": this.content}
         let arSalesRatio = {}
         if (this.samePlRecord && this.sales > 0) {
-          arSalesRatio = {"row": "ar_sales_ratio", "content": this.content/this.sales}
+          arSalesRatio = {"row": "ar_sales_ratio", "content": (this.content/this.sales)*100}
         } else {
           arSalesRatio = {"row": "ar_sales_ratio", "content": 0}
         }
@@ -398,7 +405,7 @@ export default {
         let merchandiseOther = {"row": "merchandise_other", "content": this.content}
         let moSalesRatio = {}
         if (this.samePlRecord && this.sales > 0) {
-          moSalesRatio = {"row": "mo_sales_ratio", "content": this.content/ this.sales}
+          moSalesRatio = {"row": "mo_sales_ratio", "content": (this.content/ this.sales)*100}
         } else {
           moSalesRatio = {"row": "mo_sales_ratio", "content": 0}
         }
@@ -426,7 +433,7 @@ export default {
         let accountsPayable = {"row": "accounts_payable", "content": this.content}
         let costRatio = {}
         if (this.samePlRecord && this.samePlRecord["sales_cost"] > 0) {
-          costRatio = {"row": "cost_ratio", "content": this.content/this.samePlRecord["sales_cost"]}
+          costRatio = {"row": "cost_ratio", "content": (this.content/this.samePlRecord["sales_cost"])*100}
         } else {
           costRatio = {"row": "cost_ratio", "content": 0}
         }

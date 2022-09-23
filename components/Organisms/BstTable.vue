@@ -32,7 +32,7 @@
         <tr><td>その他</td></tr>
         <tr class="auto"><td>株主資本</td></tr>
         <tr><td>資本金</td></tr>
-        <tr class="auto"><td>利益余剰金</td></tr>
+        <tr><td>利益余剰金</td></tr>
         <tr><td class="last">オプション</td></tr>
       </div>
       <div v-for="items in data">

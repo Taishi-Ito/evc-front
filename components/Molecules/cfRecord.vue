@@ -11,7 +11,8 @@
     <tr><td>{{ facilities }}</td></tr>
     <tr class="auto"><td>{{ financesCf }}</td></tr>
     <tr><td>{{ debtChange }}</td></tr>
-    <tr><td>{{ dividend }}</td></tr>
+    <!-- <tr><td>{{ dividend }}</td></tr> -->
+    <tr><td :class="dividendForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="dividendForm=true" @blur="updateList('dividend')" v-model="dividend"></td></tr>
     <tr><td :class="payoutRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="payoutRatioForm=true" @blur="updateList('payoutRatio')" v-model="payoutRatio"></td></tr>
     <tr><td>{{ surplusChange }}</td></tr>
     <tr class="auto"><td>{{ cfSum }}</td></tr>
@@ -39,7 +40,8 @@ export default {
     return {
       content: "",
       yearForm: false,
-      payoutRatioForm: false
+      payoutRatioForm: false,
+      dividendForm: false
     }
   },
   computed: {
@@ -97,10 +99,15 @@ export default {
       return ((Math.trunc(this.netIncome) + Math.trunc(this.depreciation) + Math.trunc(this.accountsReceivableChange) + Math.trunc(this.merchandiseOtherChange) + Math.trunc(this.accountsPayableChange))/this.unit).toFixed(this.fixed)
     },
     netIncome() {
-      return (this.$store.getters["tables/pl/netIncome"]/this.unit).toFixed(this.fixed)
+      const netIncomes = this.$store.getters["tables/pl/netIncomes"]
+      return netIncomes[this.items.year] ? ((netIncomes[String(this.items.year)])/this.unit).toFixed(this.fixed) : 0.000
+    },
+    lastNetIncome() {
+      const netIncomes = this.$store.getters["tables/pl/netIncomes"]
+      return netIncomes[this.items.year - 1] ? ((netIncomes[String(this.items.year - 1)])/this.unit).toFixed(this.fixed) : null
     },
     depreciation() {
-      return this.sameCapitalInvestmentRecord ? ((Math.trunc(this.sameCapitalInvestmentRecord["d_existing_facilities"]) + Math.trunc(this.sameCapitalInvestmentRecord["d_existing_facilities"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
+      return this.sameCapitalInvestmentRecord ? ((Math.trunc(this.sameCapitalInvestmentRecord["d_existing_facilities"]) + Math.trunc(this.sameCapitalInvestmentRecord["d_new_facilities"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
     },
     accountsReceivableChange() {
       return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["accounts_receivable"]) - Math.trunc(this.lastBstRecord["accounts_receivable"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
@@ -118,13 +125,22 @@ export default {
       return this.sameCapitalInvestmentRecord ? ((Math.trunc(this.sameCapitalInvestmentRecord["existing_facilities"]) + Math.trunc(this.sameCapitalInvestmentRecord["new_facilities"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
     },
     financesCf() {
-      return ((Math.trunc(this.debtChange) + Math.trunc(this.dividend) + Math.trunc(this.surplusChange))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.debtChange*this.unit) + Math.trunc(this.dividend*this.unit) + Math.trunc(this.surplusChange*this.unit))/this.unit).toFixed(this.fixed)
     },
     debtChange() {
       return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["long_term_debt"]) - Math.trunc(this.lastBstRecord["long_term_debt"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
     },
-    dividend() {
-      return this.payoutRatio> 0 ? ((this.netIncome * (this.payoutRatio/100))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
+    dividend: {
+      get() {
+        if(this.lastNetIncome) {
+          return this.payoutRatio > 0 ? (((this.lastNetIncome*this.unit)*(this.payoutRatio/100))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
+        } else {
+          return this.items.dividend
+        }
+      },
+      set(val) {
+        this.content = val
+      }
     },
     payoutRatio: {
       get() {
@@ -138,23 +154,14 @@ export default {
       return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["capital"]) - Math.trunc(this.lastBstRecord["capital"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
     },
     cfSum() {
-      return ((Math.trunc(this.salesCf) + Math.trunc(this.investmentCf) + Math.trunc(this.financesCf))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.salesCf*this.unit) + Math.trunc(this.investmentCf*this.unit) + Math.trunc(this.financesCf*this.unit))/this.unit).toFixed(this.fixed)
     }
 
   },
   watch: {
-    sales: function(newValue, oldValue) {
-      this.content = this.accountsReceivable
-      this.updateList("accountsReceivable")
-      this.content = this.merchandiseOther
-      this.updateList("merchandiseOther")
-    },
-    samePlRecord: function(newValue, oldValue) {
-      this.content = this.accountsPayable
-      this.updateList("accountsPayable")
-    },
     cfSum: function(newValue, oldValue) {
-      this.$store.commit('tables/cf/updateCfSum', newValue)
+      const payload = {"year": this.items.year, "value": newValue}
+      this.$store.commit('tables/cf/updateCfSums', payload)
     }
   },
   methods: {
@@ -166,6 +173,9 @@ export default {
       } else if (payload == "payoutRatio") {
         rows.push({"row": "payout_ratio", "content": this.content})
         this.payoutRatioForm = false
+      } else if (payload == "dividend") {
+        rows.push({"row": "dividend", "content": this.content})
+        this.dividendForm = false
       }
       payload = {"record_id": this.items.record_id, "rows": rows}
       if (this.content) {
@@ -179,6 +189,10 @@ export default {
     deleteRecord() {
       const params = {"record_id": this.items.record_id, "cf_id": this.items.cf}
       this.$store.dispatch('tables/cf/deleteCfRecord', params)
+    },
+    mounted() {
+      const payload = {"year": this.items.year, "value": this.cfSum*this.unit}
+      this.$store.commit('tables/cf/updateCfSums', payload)
     }
   }
 }

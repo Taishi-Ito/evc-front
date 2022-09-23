@@ -7,7 +7,7 @@ export const state = () => ({
   cfFixed: 0,
   cfRecords: [],
   cfId: null,
-  cfSum: 0
+  cfSums: {}
 })
 
 export const getters = ({
@@ -37,7 +37,7 @@ export const getters = ({
   cfFixed: state => state.cfFixed,
   cfRecords: state => state.cfRecords,
   cfId: state => state.cfId,
-  cfSum: state => state.cfSum,
+  cfSums: state => state.cfSums,
 })
 
 export const mutations = {
@@ -52,16 +52,22 @@ export const mutations = {
     state.cfRecords = payload["cfs"]
   },
   updateCfRecordRow(state, payload) {
+    let oCfRecords = state.cfRecords
+    state.cfRecords = {}
     payload["rows"].forEach(function(row){
-      state.cfRecords.some(function(value, index){
+      oCfRecords.some(function(value, index){
         if (value["record_id"] == payload["record_id"]) {
-          Vue.set(state.cfRecords[index], `${row['row']}`, row["content"])
+          Vue.set(oCfRecords[index], `${row['row']}`, row["content"])
         }
       });
     })
+    state.cfRecords = oCfRecords
   },
-  updateCfSum(state, payload) {
-    state.cfSum = payload
+  updateCfSums(state, payload) {
+    let oCfSums = state.cfSums
+    state.cfSums = {}
+    oCfSums[payload["year"]] = payload["value"]
+    state.cfSums = oCfSums
   }
 }
 

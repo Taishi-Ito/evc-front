@@ -50,11 +50,14 @@ export const mutations = {
     state.capitalInvestmentRecords = payload["capital_investments"]
   },
   updateCapitalInvestmentRecordRow(state, payload) {
-    state.capitalInvestmentRecords.some(function(value, index){
+    let oCapitalInvestmentRecords = state.capitalInvestmentRecords
+    state.capitalInvestmentRecords = {}
+    oCapitalInvestmentRecords.some(function(value, index){
       if (value["record_id"] == payload["record_id"]) {
-        Vue.set(state.capitalInvestmentRecords[index], `${payload['row']}`, payload["content"])
+        Vue.set(oCapitalInvestmentRecords[index], `${payload['row']}`, payload["content"])
       }
     });
+    state.capitalInvestmentRecords = oCapitalInvestmentRecords
   }
 }
 

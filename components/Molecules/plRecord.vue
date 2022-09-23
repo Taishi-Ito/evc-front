@@ -90,7 +90,7 @@ export default {
         if (this.customerForm) {
           return this.items.customer
         } else {
-          return (this.items.customer/this.unit).toFixed(this.fixed)
+          return Number(this.items.customer).toFixed(this.fixed)
         }
       },
       set(val) {
@@ -102,7 +102,7 @@ export default {
         if (this.avCustomerSpendForm) {
           return this.items.av_customer_spend
         } else {
-          return (this.items.av_customer_spend/this.unit).toFixed(this.fixed)
+          return Number(this.items.av_customer_spend).toFixed(this.fixed)
         }
       },
       set(val) {
@@ -251,14 +251,18 @@ export default {
   watch: {
     sameBstRecord: {
       handler(newValue, oldValue) {
-        console.log('【1】')
-        this.content = this.interestExpense
+        this.content = this.interestExpense*this.unit
         this.updateList("interestExpense")
       },
       deep: true
     },
     netIncome: function(newValue, oldValue) {
-      this.$store.commit('tables/pl/updateNetIncome', newValue)
+      const payload = {"year": this.items.year, "value": newValue*this.unit}
+      this.$store.commit('tables/pl/updateNetIncomes', payload)
+    },
+    salesCost: function(newValue, oldValue) {
+      const payload = {"year": this.items.year, "value": newValue*this.unit}
+      this.$store.commit('tables/pl/updateSalesCosts', payload)
     }
   },
   methods: {
@@ -298,11 +302,10 @@ export default {
         let interestExpense = {"row": "interest_expense", "content": this.content}
         let interestRate = {}
         if (this.sameBstRecord && this.sameBstRecord["long_term_debt"] > 0) {
-          interestRate = {"row": "interest_rate", "content": this.content / this.sameBstRecord["long_term_debt"]}
+          interestRate = {"row": "interest_rate", "content": (this.content/this.sameBstRecord["long_term_debt"])*100}
         } else {
           interestRate = {"row": "interest_rate", "content": 0}
         }
-        console.log('【interestRate】', interestRate)
         rows.push(interestExpense)
         rows.push(interestRate)
         this.interestExpenseForm = false
@@ -334,7 +337,6 @@ export default {
         this.taxRateForm = false
       }
       payload = {"record_id": this.items.record_id, "rows": rows}
-      // 【宿題】ここで小数点を切り捨てたい
       if (this.content) {
         this.$store.dispatch('tables/pl/updatePlRecord', payload)
       }
@@ -346,7 +348,20 @@ export default {
     deleteRecord() {
       const params = {"record_id": this.items.record_id, "pl_id": this.items.pl}
       this.$store.dispatch('tables/pl/deletePlRecord', params)
+    },
+    roundingDown(payload) {
+      if (payload == 0) {
+        return 0.000
+      } else {
+        return Math.floor(payload*1000)/1000
+      }
     }
+  },
+  mounted() {
+    const netIncome = {"year": this.items.year, "value": this.netIncome*this.unit}
+    this.$store.commit('tables/pl/updateNetIncomes', netIncome)
+    const salesCost = {"year": this.items.year, "value": this.salesCost*this.unit}
+    this.$store.commit('tables/pl/updateSalesCosts', salesCost)
   }
 }
 </script>
