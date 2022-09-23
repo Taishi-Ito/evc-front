@@ -126,7 +126,6 @@ export default {
       return this.lastBstRecord ? this.lastBstRecord["cash"] : null
     },
     cf() {
-      // 【宿題】CFと紐づける必要あり
       const cfSums = this.$store.getters["tables/cf/cfSums"]
       return cfSums[this.items.year] ? this.$store.getters["tables/cf/cfSum"] : 0.000
     },
@@ -143,13 +142,11 @@ export default {
       return this.lastBstRecord && this.lastBstRecord["surplus"] ? this.lastBstRecord["surplus"] : null
     },
     netIncome() {
-      // 【宿題】CFと紐づける必要あり
       const netIncomes = this.$store.getters["tables/pl/netIncomes"]
       const netIncome =  netIncomes[this.items.year]
       return netIncome ? netIncome / this.unit : 0.000
     },
     dividend() {
-      // 【宿題】CFと紐づける必要あり
       const netIncomes = this.$store.getters["tables/pl/netIncomes"]
       const netIncome =  netIncomes[this.items.year]
       const payoutRatio = this.sameCfRecord["payout_ratio"]/100
