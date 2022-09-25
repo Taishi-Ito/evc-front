@@ -180,6 +180,7 @@ export default {
       if (this.content) {
         this.$store.dispatch('tables/cf/updateCfRecord', payload)
       }
+      this.content = ""
     },
     addNewRecord(payload) {
       const params = {"type": payload, "year": this.year, "record_id": this.items.record_id, "cf_id": this.items.cf}
