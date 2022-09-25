@@ -350,6 +350,7 @@ export default {
       if (this.content) {
         this.$store.dispatch('tables/pl/updatePlRecord', payload)
       }
+      this.content = ""
     },
     addNewRecord(payload) {
       const params = {"type": payload, "year": this.year, "record_id": this.items.record_id, "pl_id": this.items.pl}
