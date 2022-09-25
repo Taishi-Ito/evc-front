@@ -249,10 +249,12 @@ export default {
     }
   },
   watch: {
-    sameBstRecord: {
+    'sameBstRecord.long_term_debt': {
       handler(newValue, oldValue) {
-        this.content = this.interestExpense*this.unit
-        this.updateList("interestExpense")
+        if (newValue != oldValue) {
+          this.content = this.interestExpense*this.unit
+          this.updateList("interestExpense")
+        }
       },
       deep: true
     },
@@ -263,6 +265,14 @@ export default {
     salesCost: function(newValue, oldValue) {
       const payload = {"year": this.items.year, "value": newValue*this.unit}
       this.$store.commit('tables/pl/updateSalesCosts', payload)
+    },
+    sales: function(newValue, oldValue) {
+      this.content = this.salesCost*this.unit
+      this.updateList("salesCost")
+    },
+    preTaxBenefit: function(newValue, oldValue) {
+      this.content = this.tax*this.unit
+      this.updateList("tax")
     }
   },
   methods: {

@@ -365,6 +365,15 @@ export default {
         this.updateList("accountsPayable")
       },
       deep: true
+    },
+    'samePlRecord.sales_cost': {
+      handler(newValue, oldValue) {
+        if (newValue != oldValue) {
+          this.content = this.accountsPayable*this.unit
+          this.updateList("accountsPayable")
+        }
+      },
+      deep: true
     }
   },
   methods: {
