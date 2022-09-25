@@ -11,11 +11,11 @@
     </v-row>
     <div class="table">
       <div class="items">
-        <tr><th><br></th></tr>
-        <tr><td>設備投資</td></tr>
+        <tr><td>年</td></tr>
+        <tr class="sum"><td>設備投資</td></tr>
         <tr><td>既存の設備投資</td></tr>
         <tr><td>新規の設備投資</td></tr>
-        <tr><td>減価償却</td></tr>
+        <tr class="sum"><td>減価償却</td></tr>
         <tr><td>既存の設備</td></tr>
         <tr><td>新規の設備</td></tr>
         <tr><td>償却年数（年）</td></tr>
@@ -119,5 +119,8 @@ th,td {
 }
 .fixes {
   margin-left: 5px;
+}
+.sum {
+  background-color: #B3E5FC;
 }
 </style>

@@ -50,13 +50,16 @@ export const mutations = {
     state.bstRecords = payload["bsts"]
   },
   updateBstRecordRow(state, payload) {
+    let oBstRecords = state.bstRecords
+    state.bstRecords = {}
     payload["rows"].forEach(function(row){
-      state.bstRecords.some(function(value, index){
+      oBstRecords.some(function(value, index){
         if (value["record_id"] == payload["record_id"]) {
-          Vue.set(state.bstRecords[index], `${row['row']}`, row["content"])
+          Vue.set(oBstRecords[index], `${row['row']}`, row["content"])
         }
       });
     })
+    state.bstRecords = oBstRecords
   }
 }
 

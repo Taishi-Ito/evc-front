@@ -1,26 +1,26 @@
 <template>
   <div class="lists">
-    <tr><th :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></th></tr>
-    <tr class="auto"><td>{{ sales }}</td></tr>
-    <tr><th :class="customerForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="customerForm=true" @blur="updateList('customer')" v-model="customer"></th></tr>
-    <tr><th :class="avCustomerSpendForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="avCustomerSpendForm=true" @blur="updateList('avCustomerSpend')" v-model="avCustomerSpend"></th></tr>
-    <tr><th :class="salesCostForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="salesCostForm=true" @blur="updateList('salesCost')" v-model="salesCost"></th></tr>
-    <tr><th :class="salesCostRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="salesCostRatioForm=true" @blur="updateList('salesCostRatio')" v-model="salesCostRatio"></th></tr>
-    <tr class="auto"><td>{{ grossProfit }}</td></tr>
+    <tr><td :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></td></tr>
+    <tr class="sum"><td>{{ sales }}</td></tr>
+    <tr><td :class="customerForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="customerForm=true" @blur="updateList('customer')" v-model="customer"></td></tr>
+    <tr><td :class="avCustomerSpendForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="avCustomerSpendForm=true" @blur="updateList('avCustomerSpend')" v-model="avCustomerSpend"></td></tr>
+    <tr><td :class="salesCostForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="salesCostForm=true" @blur="updateList('salesCost')" v-model="salesCost"></td></tr>
+    <tr><td :class="salesCostRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="salesCostRatioForm=true" @blur="updateList('salesCostRatio')" v-model="salesCostRatio"></td></tr>
+    <tr class="sum"><td>{{ grossProfit }}</td></tr>
     <tr class="auto"><td>{{ SgaExpenses }}</td></tr>
-    <tr><th :class="laborCostForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="laborCostForm=true" @blur="updateList('laborCost')" v-model="laborCost"></th></tr>
+    <tr><td :class="laborCostForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="laborCostForm=true" @blur="updateList('laborCost')" v-model="laborCost"></td></tr>
     <tr class="auto"><td>{{ depreciation }}</td></tr>
-    <tr><th :class="costOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="costOtherForm=true" @blur="updateList('costOther')" v-model="costOther"></th></tr>
-    <tr class="auto"><td>{{ operatingIncome }}</td></tr>
-    <tr><th :class="noOpIncomeForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="noOpIncomeForm=true" @blur="updateList('noOpIncome')" v-model="noOpIncome"></th></tr>
+    <tr><td :class="costOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="costOtherForm=true" @blur="updateList('costOther')" v-model="costOther"></td></tr>
+    <tr class="sum"><td>{{ operatingIncome }}</td></tr>
+    <tr><td :class="noOpIncomeForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="noOpIncomeForm=true" @blur="updateList('noOpIncome')" v-model="noOpIncome"></td></tr>
     <tr class="auto"><td>{{ noOpCost }}</td></tr>
-    <tr><th :class="interestExpenseForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="interestExpenseForm=true" @blur="updateList('interestExpense')" v-model="interestExpense"></th></tr>
-    <tr><th :class="interestRateForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="interestRateForm=true" @blur="updateList('interestRate')" v-model="interestRate"></th></tr>
-    <tr><th :class="otherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="otherForm=true" @blur="updateList('other')" v-model="other"></th></tr>
-    <tr class="auto"><td>{{ preTaxBenefit }}</td></tr>
+    <tr><td :class="interestExpenseForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="interestExpenseForm=true" @blur="updateList('interestExpense')" v-model="interestExpense"></td></tr>
+    <tr><td :class="interestRateForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="interestRateForm=true" @blur="updateList('interestRate')" v-model="interestRate"></td></tr>
+    <tr><td :class="otherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="otherForm=true" @blur="updateList('other')" v-model="other"></td></tr>
+    <tr class="sum"><td>{{ preTaxBenefit }}</td></tr>
     <tr><td :class="taxForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="taxForm=true" @blur="updateList('tax')" v-model="tax"></td></tr>
     <tr><td :class="taxRateForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="taxRateForm=true" @blur="updateList('taxRate')" v-model="taxRate"></td></tr>
-    <tr class="auto"><td>{{ netIncome }}</td></tr>
+    <tr class="sum"><td>{{ netIncome }}</td></tr>
     <tr><td class="inputForm last"><v-icon small @click="addNewRecord('left')">mdi-plus-circle</v-icon><v-icon small @click="deleteRecord()">mdi-trash-can</v-icon><v-icon small @click="addNewRecord('right')">mdi-plus-circle</v-icon></td></tr>
   </div>
 </template>
@@ -90,7 +90,7 @@ export default {
         if (this.customerForm) {
           return this.items.customer
         } else {
-          return (this.items.customer/this.unit).toFixed(this.fixed)
+          return Number(this.items.customer).toFixed(this.fixed)
         }
       },
       set(val) {
@@ -102,7 +102,7 @@ export default {
         if (this.avCustomerSpendForm) {
           return this.items.av_customer_spend
         } else {
-          return (this.items.av_customer_spend/this.unit).toFixed(this.fixed)
+          return Number(this.items.av_customer_spend).toFixed(this.fixed)
         }
       },
       set(val) {
@@ -249,16 +249,30 @@ export default {
     }
   },
   watch: {
-    sameBstRecord: {
+    'sameBstRecord.long_term_debt': {
       handler(newValue, oldValue) {
-        console.log('【1】')
-        this.content = this.interestExpense
-        this.updateList("interestExpense")
+        if (newValue != oldValue) {
+          this.content = this.interestExpense*this.unit
+          this.updateList("interestExpense")
+        }
       },
       deep: true
     },
     netIncome: function(newValue, oldValue) {
-      this.$store.commit('tables/pl/updateNetIncome', newValue)
+      const payload = {"year": this.items.year, "value": newValue*this.unit}
+      this.$store.commit('tables/pl/updateNetIncomes', payload)
+    },
+    salesCost: function(newValue, oldValue) {
+      const payload = {"year": this.items.year, "value": newValue*this.unit}
+      this.$store.commit('tables/pl/updateSalesCosts', payload)
+    },
+    sales: function(newValue, oldValue) {
+      this.content = this.salesCost*this.unit
+      this.updateList("salesCost")
+    },
+    preTaxBenefit: function(newValue, oldValue) {
+      this.content = this.tax*this.unit
+      this.updateList("tax")
     }
   },
   methods: {
@@ -298,11 +312,10 @@ export default {
         let interestExpense = {"row": "interest_expense", "content": this.content}
         let interestRate = {}
         if (this.sameBstRecord && this.sameBstRecord["long_term_debt"] > 0) {
-          interestRate = {"row": "interest_rate", "content": this.content / this.sameBstRecord["long_term_debt"]}
+          interestRate = {"row": "interest_rate", "content": (this.content/this.sameBstRecord["long_term_debt"])*100}
         } else {
           interestRate = {"row": "interest_rate", "content": 0}
         }
-        console.log('【interestRate】', interestRate)
         rows.push(interestExpense)
         rows.push(interestRate)
         this.interestExpenseForm = false
@@ -334,7 +347,6 @@ export default {
         this.taxRateForm = false
       }
       payload = {"record_id": this.items.record_id, "rows": rows}
-      // 【宿題】ここで小数点を切り捨てたい
       if (this.content) {
         this.$store.dispatch('tables/pl/updatePlRecord', payload)
       }
@@ -346,7 +358,20 @@ export default {
     deleteRecord() {
       const params = {"record_id": this.items.record_id, "pl_id": this.items.pl}
       this.$store.dispatch('tables/pl/deletePlRecord', params)
+    },
+    roundingDown(payload) {
+      if (payload == 0) {
+        return 0.000
+      } else {
+        return Math.floor(payload*1000)/1000
+      }
     }
+  },
+  mounted() {
+    const netIncome = {"year": this.items.year, "value": this.netIncome*this.unit}
+    this.$store.commit('tables/pl/updateNetIncomes', netIncome)
+    const salesCost = {"year": this.items.year, "value": this.salesCost*this.unit}
+    this.$store.commit('tables/pl/updateSalesCosts', salesCost)
   }
 }
 </script>
@@ -385,7 +410,10 @@ th,td {
   height: 100%;
   width: 100%;
 }
-.auto {
+.sum {
   background-color: #B3E5FC;
+}
+.auto {
+  color: #0D47A1;
 }
 </style>

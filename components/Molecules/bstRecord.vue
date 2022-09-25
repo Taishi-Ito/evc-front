@@ -1,27 +1,27 @@
 <template>
   <div class="lists">
-    <tr><th :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></th></tr>
-    <tr class="auto"><td>{{ assets }}</td></tr>
-    <tr class="auto"><td>{{ currentAssets }}</td></tr>
-    <tr><th :class="cashForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="cashForm=true" @blur="updateList('cash')" v-model="cash"></th></tr>
-    <tr><th :class="accountsReceivableForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="accountsReceivableForm=true" @blur="updateList('accountsReceivable')" v-model="accountsReceivable"></th></tr>
-    <tr><th :class="arSalesRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="arSalesRatioForm=true" @blur="updateList('arSalesRatio')" v-model="arSalesRatio"></th></tr>
-    <tr><th :class="merchandiseOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="merchandiseOtherForm=true" @blur="updateList('merchandiseOther')" v-model="merchandiseOther"></th></tr>
-    <tr><th :class="moSalesRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="moSalesRatioForm=true" @blur="updateList('moSalesRatio')" v-model="moSalesRatio"></th></tr>
-    <tr class="auto"><td>{{ fixedAssets }}</td></tr>
-    <tr><th :class="landBuildingsForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="landBuildingsForm=true" @blur="updateList('landBuildings')" v-model="landBuildings"></th></tr>
-    <tr><th :class="investmentOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="investmentOtherForm=true" @blur="updateList('investmentOther')" v-model="investmentOther"></th></tr>
-    <tr class="auto"><td>{{ debt }}</td></tr>
-    <tr class="auto"><td>{{ currentDebt }}</td></tr>
-    <tr><th :class="accountsPayableForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="accountsPayableForm=true" @blur="updateList('accountsPayable')" v-model="accountsPayable"></th></tr>
-    <tr><th :class="costRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="costRatioForm=true" @blur="updateList('costRatio')" v-model="costRatio"></th></tr>
-    <tr><th :class="cdOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="cdOtherForm=true" @blur="updateList('cdOther')" v-model="cdOther"></th></tr>
-    <tr class="auto"><td>{{ fixedLiabilities }}</td></tr>
-    <tr><th :class="longTermDebtForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="longTermDebtForm=true" @blur="updateList('longTermDebt')" v-model="longTermDebt"></th></tr>
-    <tr><th :class="flOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="flOtherForm=true" @blur="updateList('flOther')" v-model="flOther"></th></tr>
-    <tr class="auto"><td>{{ capitalStock }}</td></tr>
-    <tr><th :class="capitalForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="capitalForm=true" @blur="updateList('capital')" v-model="capital"></th></tr>
-    <tr><th :class="surplusForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="surplusForm=true" @blur="updateList('surplus')" v-model="surplus"></th></tr>
+    <tr><td :class="yearForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="yearForm=true" @blur="updateList('Years')" v-model="year"></td></tr>
+    <tr class="sum"><td>{{ assets }}</td></tr>
+    <tr class="semi-sum"><td>{{ currentAssets }}</td></tr>
+    <tr><td :class="cashForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="cashForm=true" @blur="updateList('cash')" v-model="cash"></td></tr>
+    <tr><td :class="accountsReceivableForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="accountsReceivableForm=true" @blur="updateList('accountsReceivable')" v-model="accountsReceivable"></td></tr>
+    <tr><td :class="arSalesRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="arSalesRatioForm=true" @blur="updateList('arSalesRatio')" v-model="arSalesRatio"></td></tr>
+    <tr><td :class="merchandiseOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="merchandiseOtherForm=true" @blur="updateList('merchandiseOther')" v-model="merchandiseOther"></td></tr>
+    <tr><td :class="moSalesRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="moSalesRatioForm=true" @blur="updateList('moSalesRatio')" v-model="moSalesRatio"></td></tr>
+    <tr class="semi-sum"><td>{{ fixedAssets }}</td></tr>
+    <tr><td :class="landBuildingsForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="landBuildingsForm=true" @blur="updateList('landBuildings')" v-model="landBuildings"></td></tr>
+    <tr><td :class="investmentOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="investmentOtherForm=true" @blur="updateList('investmentOther')" v-model="investmentOther"></td></tr>
+    <tr class="sum"><td>{{ debt }}</td></tr>
+    <tr class="semi-sum"><td>{{ currentDebt }}</td></tr>
+    <tr><td :class="accountsPayableForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="accountsPayableForm=true" @blur="updateList('accountsPayable')" v-model="accountsPayable"></td></tr>
+    <tr><td :class="costRatioForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="costRatioForm=true" @blur="updateList('costRatio')" v-model="costRatio"></td></tr>
+    <tr><td :class="cdOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="cdOtherForm=true" @blur="updateList('cdOther')" v-model="cdOther"></td></tr>
+    <tr class="semi-sum"><td>{{ fixedLiabilities }}</td></tr>
+    <tr><td :class="longTermDebtForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="longTermDebtForm=true" @blur="updateList('longTermDebt')" v-model="longTermDebt"></td></tr>
+    <tr><td :class="flOtherForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="flOtherForm=true" @blur="updateList('flOther')" v-model="flOther"></td></tr>
+    <tr class="sum"><td>{{ capitalStock }}</td></tr>
+    <tr><td :class="capitalForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="capitalForm=true" @blur="updateList('capital')" v-model="capital"></td></tr>
+    <tr class="semi-sum"><td :class="surplusForm ? 'inputTdOn' : 'inputTdOff'"><input style="padding: 5px 10px 5px 10px;" type="text" class="inputForm" @click="surplusForm=true" @blur="updateList('surplus')" v-model="surplus"></td></tr>
     <tr><td class="inputForm last"><v-icon small @click="addNewRecord('left')">mdi-plus-circle</v-icon><v-icon small @click="deleteRecord()">mdi-trash-can</v-icon><v-icon small @click="addNewRecord('right')">mdi-plus-circle</v-icon></td></tr>
   </div>
 </template>
@@ -126,8 +126,8 @@ export default {
       return this.lastBstRecord ? this.lastBstRecord["cash"] : null
     },
     cf() {
-      // 【宿題】CFと紐づける必要あり
-      return this.$store.getters["tables/cf/cfSum"]
+      const cfSums = this.$store.getters["tables/cf/cfSums"]
+      return cfSums[this.items.year] ? this.$store.getters["tables/cf/cfSum"] : 0.000
     },
     lastYearLandBuildings() {
       return this.lastBstRecord ? this.lastBstRecord["land_buildings"] : null
@@ -142,15 +142,20 @@ export default {
       return this.lastBstRecord && this.lastBstRecord["surplus"] ? this.lastBstRecord["surplus"] : null
     },
     netIncome() {
-      // 【宿題】CFと紐づける必要あり
-      const netIncome =  this.$store.getters["tables/pl/netIncome"]
-      return netIncome / this.unit
+      const netIncomes = this.$store.getters["tables/pl/netIncomes"]
+      const netIncome =  netIncomes[this.items.year]
+      return netIncome ? netIncome / this.unit : 0.000
     },
     dividend() {
-      // 【宿題】CFと紐づける必要あり
-      const netIncome =  this.$store.getters["tables/pl/netIncome"]
-      const payoutRatio = sameCfRecord["payout_ratio"]/100
-      return netIncome*payoutRatio
+      const netIncomes = this.$store.getters["tables/pl/netIncomes"]
+      const netIncome =  netIncomes[this.items.year]
+      const payoutRatio = this.sameCfRecord["payout_ratio"]/100
+      return netIncome ? netIncome*payoutRatio : 0.000
+    },
+    salesCosts() {
+      const salesCosts = this.$store.getters["tables/pl/salesCosts"]
+      const salesCost = salesCosts[this.items.year]
+      return salesCost ? salesCost / this.unit : 0.000
     },
     year: {
       get() {
@@ -161,7 +166,7 @@ export default {
       }
     },
     assets() {
-      return ((Math.trunc(this.currentAssets) + Math.trunc(this.fixedAssets))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.currentAssets*this.unit) + Math.trunc(this.fixedAssets*this.unit))/this.unit).toFixed(this.fixed)
     },
     currentAssets() {
       return ((Math.trunc(this.items.cash) + Math.trunc(this.items.accounts_receivable) + Math.trunc(this.items.merchandise_other))/this.unit).toFixed(this.fixed)
@@ -255,7 +260,7 @@ export default {
       }
     },
     debt() {
-      return ((Math.trunc(this.currentDebt) + Math.trunc(this.fixedLiabilities))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.currentDebt*this.unit) + Math.trunc(this.fixedLiabilities*this.unit))/this.unit).toFixed(this.fixed)
     },
     currentDebt() {
       return ((Math.trunc(this.items.accounts_payable) + Math.trunc(this.items.cd_other))/this.unit).toFixed(this.fixed)
@@ -274,11 +279,7 @@ export default {
     },
     costRatio: {
       get() {
-        if (this.costRatioForm) {
-          return this.items.cost_ratio
-        } else {
-          return (this.items.cost_ratio/this.unit).toFixed(this.fixed)
-        }
+        return this.items.cost_ratio
       },
       set(val) {
         this.content = val
@@ -324,7 +325,7 @@ export default {
       }
     },
     capitalStock() {
-      return ((Math.trunc(this.items.capital) + Math.trunc(this.surplus))/this.unit).toFixed(this.fixed)
+      return ((Math.trunc(this.items.capital) + Math.trunc(this.surplus*this.unit))/this.unit).toFixed(this.fixed)
     },
     capital: {
       get() {
@@ -341,9 +342,9 @@ export default {
     surplus: {
       get() {
         if (this.lastSurplus && this.netIncome && this.dividend) {
-          return ((Math.trunc(this.lastSurplus) + Math.trunc(this.netIncome) + Math.trunc(this.dividend))/this.unit).toFixed(this.fixed)
+          return ((Math.trunc(this.lastSurplus*this.unit) + Math.trunc(this.netIncome*this.unit) + Math.trunc(this.dividend*this.unit))/this.unit).toFixed(this.fixed)
         } else {
-          return this.items.surplus
+          return (this.items.surplus/this.unit).toFixed(this.fixed)
         }
       },
       set(val) {
@@ -353,14 +354,26 @@ export default {
   },
   watch: {
     sales: function(newValue, oldValue) {
-      this.content = this.accountsReceivable
+      this.content = this.accountsReceivable*this.unit
       this.updateList("accountsReceivable")
-      this.content = this.merchandiseOther
+      this.content = this.merchandiseOther*this.unit
       this.updateList("merchandiseOther")
     },
-    samePlRecord: function(newValue, oldValue) {
-      this.content = this.accountsPayable
-      this.updateList("accountsPayable")
+    salesCosts: {
+      handler(newValue, oldValue) {
+        this.content = this.accountsPayable*this.unit
+        this.updateList("accountsPayable")
+      },
+      deep: true
+    },
+    'samePlRecord.sales_cost': {
+      handler(newValue, oldValue) {
+        if (newValue != oldValue) {
+          this.content = this.accountsPayable*this.unit
+          this.updateList("accountsPayable")
+        }
+      },
+      deep: true
     }
   },
   methods: {
@@ -376,7 +389,7 @@ export default {
         let accountsReceivable = {"row": "accounts_receivable", "content": this.content}
         let arSalesRatio = {}
         if (this.samePlRecord && this.sales > 0) {
-          arSalesRatio = {"row": "ar_sales_ratio", "content": this.content/this.sales}
+          arSalesRatio = {"row": "ar_sales_ratio", "content": (this.content/this.sales)*100}
         } else {
           arSalesRatio = {"row": "ar_sales_ratio", "content": 0}
         }
@@ -398,7 +411,7 @@ export default {
         let merchandiseOther = {"row": "merchandise_other", "content": this.content}
         let moSalesRatio = {}
         if (this.samePlRecord && this.sales > 0) {
-          moSalesRatio = {"row": "mo_sales_ratio", "content": this.content/ this.sales}
+          moSalesRatio = {"row": "mo_sales_ratio", "content": (this.content/ this.sales)*100}
         } else {
           moSalesRatio = {"row": "mo_sales_ratio", "content": 0}
         }
@@ -426,7 +439,7 @@ export default {
         let accountsPayable = {"row": "accounts_payable", "content": this.content}
         let costRatio = {}
         if (this.samePlRecord && this.samePlRecord["sales_cost"] > 0) {
-          costRatio = {"row": "cost_ratio", "content": this.content/this.samePlRecord["sales_cost"]}
+          costRatio = {"row": "cost_ratio", "content": (this.content/this.samePlRecord["sales_cost"])*100}
         } else {
           costRatio = {"row": "cost_ratio", "content": 0}
         }
@@ -511,7 +524,10 @@ th,td {
   height: 100%;
   width: 100%;
 }
-.auto {
+.sum {
   background-color: #B3E5FC;
+}
+.semi-sum {
+  background-color: #C8E6C9;
 }
 </style>

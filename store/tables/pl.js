@@ -7,7 +7,8 @@ export const state = () => ({
   plFixed: 0,
   plRecords: [],
   plId: null,
-  netIncome: 0
+  netIncomes: {},
+  salesCosts: {}
 })
 
 export const getters = ({
@@ -37,7 +38,8 @@ export const getters = ({
   plFixed: state => state.plFixed,
   plRecords: state => state.plRecords,
   plId: state => state.plId,
-  netIncome: state => state.netIncome,
+  netIncomes: state => state.netIncomes,
+  salesCosts: state => state.salesCosts
 })
 
 export const mutations = {
@@ -52,16 +54,28 @@ export const mutations = {
     state.plRecords = payload["pls"]
   },
   updatePlRecordRow(state, payload) {
+    let oPlRecords = state.plRecords
+    state.plRecords = {}
     payload["rows"].forEach(function(row){
-      state.plRecords.some(function(value, index){
+      oPlRecords.some(function(value, index){
         if (value["record_id"] == payload["record_id"]) {
-          Vue.set(state.plRecords[index], `${row['row']}`, row["content"])
+          Vue.set(oPlRecords[index], `${row['row']}`, row["content"])
         }
       });
     })
+    state.plRecords = oPlRecords
   },
-  updateNetIncome(state, payload) {
-    state.netIncome = payload
+  updateNetIncomes(state, payload) {
+    let oNetIncomes = state.netIncomes
+    state.netIncomes = {}
+    oNetIncomes[payload["year"]] = payload["value"]
+    state.netIncomes = oNetIncomes
+  },
+  updateSalesCosts(state, payload) {
+    let oSalesCosts = state.salesCosts
+    state.salesCosts = {}
+    oSalesCosts[payload["year"]] = payload["value"]
+    state.salesCosts = oSalesCosts
   }
 }
 
