@@ -158,14 +158,19 @@ export const actions = {
     let is_verified = false
     await signInWithEmailAndPassword(auth, payload["email"], payload["password"])
     .then( userCredential => {
-      if (userCredential.user.emailVerified) {
-        is_verified = true
-        uid = userCredential.user.uid;
-        context.commit('setUserId', uid)
-        context.commit('setEmail', userCredential.user.email)
-      } else {
-        throw new Error("メール認証なし");
-      }
+      is_verified = true
+      uid = userCredential.user.uid;
+      context.commit('setUserId', uid)
+      context.commit('setEmail', userCredential.user.email)
+
+      // if (userCredential.user.emailVerified) {
+      //   is_verified = true
+      //   uid = userCredential.user.uid;
+      //   context.commit('setUserId', uid)
+      //   context.commit('setEmail', userCredential.user.email)
+      // } else {
+      //   throw new Error("メール認証なし");
+      // }
     })
     .catch( e => {
       if (e.message == "メール認証なし") {

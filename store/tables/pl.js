@@ -84,7 +84,8 @@ export const actions = {
     const url = `${process.env.url}/pls`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
-      if (user && user.emailVerified){
+      // if (user && user.emailVerified){
+      if (user){
         axios.get(url, {params: {token: user.accessToken, "uid": user.uid, "project_id": payload}})
         .then((res) =>{
           context.commit('updatePlRecords', res.data)

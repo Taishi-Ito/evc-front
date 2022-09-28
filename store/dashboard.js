@@ -109,7 +109,8 @@ export const actions = {
     const url = `${process.env.url}/projects`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
-      if (user && user.emailVerified){
+      // if (user && user.emailVerified){
+      if (user){
         axios.get(url, {params: {token: user.accessToken, "uid": user.uid}})
         .then((res) =>{
           context.commit('updateWorkGroupProjectLists', res.data["work_group_project_lists"])
@@ -292,7 +293,8 @@ export const actions = {
     const url = `${process.env.url}/search`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
-      if (user && user.emailVerified){
+      // if (user && user.emailVerified){
+      if (user){
         axios.get(url, {params: {token: user.accessToken, "q": payload}})
         .then((res) =>{
           if (res.data.results) {
