@@ -35,8 +35,7 @@ export default async function({
           } else {
             const payload = {
               "message": "メールアドレスを認証してください。",
-              "color": "success",
-              "timeout": 5000
+              "color": "success"
             }
             store.dispatch('util/showAlert', payload, {root: true})
             redirect('/auth/signin')

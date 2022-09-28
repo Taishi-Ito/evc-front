@@ -116,8 +116,7 @@ export const actions = {
     .then(() => {
       const payload = {
         "message": "認証メールを送信しました。メールアドレスを認証してください。",
-        "color": "success",
-        "timeout": 5000
+        "color": "success"
       }
       context.dispatch('util/showAlert', payload, {root: true})
     })
