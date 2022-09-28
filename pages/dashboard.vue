@@ -1,5 +1,6 @@
 <template>
   <div>
+    <OrganismsSearchProjects></OrganismsSearchProjects>
   </div>
 </template>
 

@@ -2,11 +2,13 @@ import axios from 'axios'
 import {getAuth, onAuthStateChanged} from 'firebase/auth'
 
 export const state = () => ({
-  workGroupProjectLists: []
+  workGroupProjectLists: [],
+  projectLists:[]
 })
 
 export const getters = ({
   workGroupProjectLists: state => state.workGroupProjectLists,
+  projectLists: state => state.projectLists
 })
 
 export const mutations = {
@@ -60,6 +62,13 @@ export const mutations = {
           }})
       }
     });
+  },
+  updateProjectLists(state, payload) {
+    state.projectLists = []
+    state.projectLists = payload
+  },
+  clearProjectList(state) {
+    state.projectLists = []
   }
 }
 
@@ -278,5 +287,40 @@ export const actions = {
       }
       context.dispatch('util/showAlert', payload, {root: true})
     });
+  },
+  searchProjects(context,payload) {
+    const url = `${process.env.url}/search`;
+    const auth = getAuth();
+    onAuthStateChanged(auth, user=>{{
+      if (user && user.emailVerified){
+        axios.get(url, {params: {token: user.accessToken, "q": payload}})
+        .then((res) =>{
+          if (res.data.results) {
+            context.commit('updateProjectLists', res.data.results)
+          } else {
+            const payload = {
+              "message": "検索結果がありませんでした。",
+              "method": "searchProjects",
+              "color": "red lighten-2"
+            }
+            context.dispatch('util/showAlert', payload, {root: true})
+          }
+        })
+        .catch( e => {
+          const payload = {
+            "message": "プロジェクトを検索できませんでした。",
+            "detail": "エラーが発生しました。お問い合わせください。",
+            "method": "searchProjects",
+            "errorMessage": e.message,
+            "color": "red lighten-2"
+          }
+          context.dispatch('util/showAlert', payload, {root: true})
+        })
+      }
+    }}
+    )
+  },
+  moveToProject(state, payload) {
+    this.$router.push(`/project/${payload}`)
   }
 }
