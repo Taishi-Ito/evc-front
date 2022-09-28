@@ -99,129 +99,77 @@ export const actions = {
   async updateCf(context, payload) {
     const url = `${process.env.url}/cfs/${payload["id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.put(url, {token: idToken, cf: {"unit": payload["unit"], "fixed": payload["fixed"]}})
-      .then((res) =>{
-        context.commit('updateCf', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "B/Sを更新できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "updateCf",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.put(url, {token: idToken, cf: {"unit": payload["unit"], "fixed": payload["fixed"]}})
+    .then((res) =>{
+      context.commit('updateCf', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "B/Sを更新できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "updateCf",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async updateCfRecord(context, payload) {
     const url = `${process.env.url}/cf_records/${payload["record_id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.put(url, {token: idToken, cf_record: {"rows": payload["rows"]}})
-      .then((res) =>{
-        context.commit('updateCfRecordRow', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "B/Sを更新できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "updateCfRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.put(url, {token: idToken, cf_record: {"rows": payload["rows"]}})
+    .then((res) =>{
+      context.commit('updateCfRecordRow', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "B/Sを更新できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "updateCfRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async addNewCfRecord(context, payload) {
     const url = `${process.env.url}/cf_records`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.post(url, {token: idToken, cf_record: {"type": payload["type"], "year": payload["year"], "record_id": payload["record_id"], "cf_id": payload["cf_id"]}})
-      .then((res) =>{
-        context.commit('updateCfRecords', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "B/Sを作成できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "addNewCfRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.post(url, {token: idToken, cf_record: {"type": payload["type"], "year": payload["year"], "record_id": payload["record_id"], "cf_id": payload["cf_id"]}})
+    .then((res) =>{
+      context.commit('updateCfRecords', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "B/Sを作成できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "addNewCfRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async deleteCfRecord (context, payload){
     const url = `${process.env.url}/cf_records/${payload["record_id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "cf_id": payload["cf_id"]}})
-      .then((res) =>{
-        context.commit('updateCfRecords', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "B/Sを削除できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "deleteCfRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "cf_id": payload["cf_id"]}})
+    .then((res) =>{
+      context.commit('updateCfRecords', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "B/Sを削除できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "deleteCfRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   }
 }

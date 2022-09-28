@@ -91,129 +91,77 @@ export const actions = {
   async updateBst(context, payload) {
     const url = `${process.env.url}/bsts/${payload["id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.put(url, {token: idToken, bst: {"unit": payload["unit"], "fixed": payload["fixed"]}})
-      .then((res) =>{
-        context.commit('updateBst', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "B/Sを更新できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "updateBst",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.put(url, {token: idToken, bst: {"unit": payload["unit"], "fixed": payload["fixed"]}})
+    .then((res) =>{
+      context.commit('updateBst', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "B/Sを更新できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "updateBst",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async updateBstRecord(context, payload) {
     const url = `${process.env.url}/bst_records/${payload["record_id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.put(url, {token: idToken, bst_record: {"rows": payload["rows"]}})
-      .then((res) =>{
-        context.commit('updateBstRecordRow', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "B/Sを更新できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "updateBstRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.put(url, {token: idToken, bst_record: {"rows": payload["rows"]}})
+    .then((res) =>{
+      context.commit('updateBstRecordRow', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "B/Sを更新できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "updateBstRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async addNewBstRecord(context, payload) {
     const url = `${process.env.url}/bst_records`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.post(url, {token: idToken, bst_record: {"type": payload["type"], "year": payload["year"], "record_id": payload["record_id"], "bst_id": payload["bst_id"]}})
-      .then((res) =>{
-        context.commit('updateBstRecords', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "B/Sを作成できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "addNewBstRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.post(url, {token: idToken, bst_record: {"type": payload["type"], "year": payload["year"], "record_id": payload["record_id"], "bst_id": payload["bst_id"]}})
+    .then((res) =>{
+      context.commit('updateBstRecords', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "B/Sを作成できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "addNewBstRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async deleteBstRecord (context, payload){
     const url = `${process.env.url}/bst_records/${payload["record_id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "bst_id": payload["bst_id"]}})
-      .then((res) =>{
-        context.commit('updateBstRecords', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "B/Sを削除できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "deleteBstRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "bst_id": payload["bst_id"]}})
+    .then((res) =>{
+      context.commit('updateBstRecords', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "B/Sを削除できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "deleteBstRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   }
 }

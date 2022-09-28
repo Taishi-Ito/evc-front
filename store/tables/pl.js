@@ -107,129 +107,77 @@ export const actions = {
   async updatePl(context, payload) {
     const url = `${process.env.url}/pls/${payload["id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.put(url, {token: idToken, pl: {"unit": payload["unit"], "fixed": payload["fixed"]}})
-      .then((res) =>{
-        context.commit('updatePl', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "P/Lを更新できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "updatePl",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.put(url, {token: idToken, pl: {"unit": payload["unit"], "fixed": payload["fixed"]}})
+    .then((res) =>{
+      context.commit('updatePl', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "P/Lを更新できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "updatePl",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async updatePlRecord(context, payload) {
     const url = `${process.env.url}/pl_records/${payload["record_id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.put(url, {token: idToken, pl_record: {"rows": payload["rows"]}})
-      .then((res) =>{
-        context.commit('updatePlRecordRow', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "P/Lを更新できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "updatePlRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.put(url, {token: idToken, pl_record: {"rows": payload["rows"]}})
+    .then((res) =>{
+      context.commit('updatePlRecordRow', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "P/Lを更新できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "updatePlRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async addNewPlRecord(context, payload) {
     const url = `${process.env.url}/pl_records`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.post(url, {token: idToken, pl_record: {"type": payload["type"], "year": payload["year"], "record_id": payload["record_id"], "pl_id": payload["pl_id"]}})
-      .then((res) =>{
-        context.commit('updatePlRecords', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "P/Lを作成できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "addNewPlRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.post(url, {token: idToken, pl_record: {"type": payload["type"], "year": payload["year"], "record_id": payload["record_id"], "pl_id": payload["pl_id"]}})
+    .then((res) =>{
+      context.commit('updatePlRecords', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "P/Lを作成できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "addNewPlRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async deletePlRecord (context, payload){
     const url = `${process.env.url}/pl_records/${payload["record_id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "pl_id": payload["pl_id"]}})
-      .then((res) =>{
-        context.commit('updatePlRecords', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "P/Lを削除できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "deletePlRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "pl_id": payload["pl_id"]}})
+    .then((res) =>{
+      context.commit('updatePlRecords', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "P/Lを削除できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "deletePlRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   }
 }

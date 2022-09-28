@@ -89,129 +89,78 @@ export const actions = {
   async updateCapitalInvestment(context, payload) {
     const url = `${process.env.url}/capital_investments/${payload["id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.put(url, {token: idToken, capital_investment: {"unit": payload["unit"], "fixed": payload["fixed"]}})
-      .then((res) =>{
-        context.commit('updateCapitalInvestment', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "モデルを更新できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "updateCapitalInvestment",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.put(url, {token: idToken, capital_investment: {"unit": payload["unit"], "fixed": payload["fixed"]}})
+    .then((res) =>{
+      context.commit('updateCapitalInvestment', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "モデルを更新できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "updateCapitalInvestment",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async updateCapitalInvestmentRecord(context, payload) {
     const url = `${process.env.url}/capital_investment_records/${payload["record_id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.put(url, {token: idToken, capital_investment_record: {"row": payload["row"], "content": payload["content"]}})
-      .then((res) =>{
-        context.commit('updateCapitalInvestmentRecordRow', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "モデルを更新できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "updateCapitalInvestmentRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.put(url, {token: idToken, capital_investment_record: {"row": payload["row"], "content": payload["content"]}})
+    .then((res) =>{
+      context.commit('updateCapitalInvestmentRecordRow', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "モデルを更新できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "updateCapitalInvestmentRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async addNewCapitalInvestmentRecord(context, payload) {
     const url = `${process.env.url}/capital_investment_records`;
     const auth = getAuth();
     const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.post(url, {token: idToken, capital_investment_record: {"uid": uid, "type": payload["type"], "year": payload["year"], "record_id": payload["record_id"], "capital_investment_id": payload["capital_investment_id"]}})
-      .then((res) =>{
-        context.commit('updateCapitalInvestmentRecords', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "レコードを作成できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "addNewCapitalInvestmentRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.post(url, {token: idToken, capital_investment_record: {"uid": uid, "type": payload["type"], "year": payload["year"], "record_id": payload["record_id"], "capital_investment_id": payload["capital_investment_id"]}})
+    .then((res) =>{
+      context.commit('updateCapitalInvestmentRecords', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "レコードを作成できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "addNewCapitalInvestmentRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   },
   async deleteCapitalInvestmentRecord (context, payload){
     const url = `${process.env.url}/capital_investment_records/${payload["record_id"]}`;
     const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    await auth.currentUser.getIdToken(/* forceRefresh */ true)
-    .then(function(idToken) {
-      axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "capital_investment_id": payload["capital_investment_id"]}})
-      .then((res) =>{
-        context.commit('updateCapitalInvestmentRecords', res.data)
-      })
-      .catch( e => {
-        const payload = {
-          "message": "レコードを削除できませんでした。",
-          "detail": e?.response?.data?.message,
-          "method": "deleteCapitalInvestmentRecord",
-          "errorMessage": e.message,
-          "color": "red lighten-2"
-        }
-        context.dispatch('util/showAlert', payload, {root: true})
-      })
+    const idToken = await auth.currentUser.getIdToken(true)
+    await axios.delete(url, {params: {token: idToken, "id": payload["record_id"], "capital_investment_id": payload["capital_investment_id"]}})
+    .then((res) =>{
+      context.commit('updateCapitalInvestmentRecords', res.data)
     })
-    .catch((e) => {
+    .catch( e => {
       const payload = {
         "message": "レコードを削除できませんでした。",
-        "detail": "エラーが発生しました。お問い合わせください。",
-        "method": "getIdToken",
+        "detail": e?.response?.data?.message,
+        "method": "deleteCapitalInvestmentRecord",
         "errorMessage": e.message,
-        "color": "red lighten-2",
+        "color": "red lighten-2"
       }
       context.dispatch('util/showAlert', payload, {root: true})
-    });
+    })
   }
 }

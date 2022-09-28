@@ -13,7 +13,6 @@ export default async function({
         if (user) {
           store.commit('auth/setUserId', user.uid)
           store.commit('auth/setEmail', user.email)
-          await store.dispatch('auth/getIdToken')
           await store.dispatch('auth/getUserInfo', user.uid)
           if (store.state.auth.name) {
             store.commit('auth/setSigninStatus', true)
