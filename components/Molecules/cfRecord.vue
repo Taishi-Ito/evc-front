@@ -77,7 +77,7 @@
         const bstRecords = this.$store.getters["tables/bst/bstRecords"]
         let lastBstRecord = {}
         bstRecords.some(function(value, index) {
-          if (value["year"] == that.items.year - 1) {
+          if (value["year"] == that.items.year-1) {
             lastBstRecord =  value
             return true
           } else {
@@ -95,7 +95,7 @@
         }
       },
       salesCf() {
-        return ((Math.trunc(this.netIncome) + Math.trunc(this.depreciation) + Math.trunc(this.accountsReceivableChange) + Math.trunc(this.merchandiseOtherChange) + Math.trunc(this.accountsPayableChange))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.netIncome)+Math.trunc(this.depreciation)+Math.trunc(this.accountsReceivableChange)+Math.trunc(this.merchandiseOtherChange)+Math.trunc(this.accountsPayableChange))/this.unit).toFixed(this.fixed)
       },
       netIncome() {
         const netIncomes = this.$store.getters["tables/pl/netIncomes"]
@@ -103,31 +103,31 @@
       },
       lastNetIncome() {
         const netIncomes = this.$store.getters["tables/pl/netIncomes"]
-        return netIncomes[this.items.year - 1] ? ((netIncomes[String(this.items.year - 1)])/this.unit).toFixed(this.fixed) : null
+        return netIncomes[this.items.year-1] ? ((netIncomes[String(this.items.year-1)])/this.unit).toFixed(this.fixed) : null
       },
       depreciation() {
-        return this.sameCapitalInvestmentRecord ? ((Math.trunc(this.sameCapitalInvestmentRecord["d_existing_facilities"]) + Math.trunc(this.sameCapitalInvestmentRecord["d_new_facilities"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
+        return this.sameCapitalInvestmentRecord ? ((Math.trunc(this.sameCapitalInvestmentRecord["d_existing_facilities"])+Math.trunc(this.sameCapitalInvestmentRecord["d_new_facilities"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
       },
       accountsReceivableChange() {
-        return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["accounts_receivable"]) - Math.trunc(this.lastBstRecord["accounts_receivable"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
+        return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["accounts_receivable"])-Math.trunc(this.lastBstRecord["accounts_receivable"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
       },
       merchandiseOtherChange() {
-        return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["merchandise_other"]) - Math.trunc(this.lastBstRecord["merchandise_other"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
+        return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["merchandise_other"])-Math.trunc(this.lastBstRecord["merchandise_other"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
       },
       accountsPayableChange() {
-        return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["accounts_payable"]) - Math.trunc(this.lastBstRecord["accounts_payable"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
+        return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["accounts_payable"])-Math.trunc(this.lastBstRecord["accounts_payable"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
       },
       investmentCf() {
         return this.facilities
       },
       facilities() {
-        return this.sameCapitalInvestmentRecord ? ((Math.trunc(this.sameCapitalInvestmentRecord["existing_facilities"]) + Math.trunc(this.sameCapitalInvestmentRecord["new_facilities"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
+        return this.sameCapitalInvestmentRecord ? ((Math.trunc(this.sameCapitalInvestmentRecord["existing_facilities"])+Math.trunc(this.sameCapitalInvestmentRecord["new_facilities"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
       },
       financesCf() {
-        return ((Math.trunc(this.debtChange*this.unit) + Math.trunc(this.dividend*this.unit) + Math.trunc(this.surplusChange*this.unit))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.debtChange*this.unit)+Math.trunc(this.dividend*this.unit)+Math.trunc(this.surplusChange*this.unit))/this.unit).toFixed(this.fixed)
       },
       debtChange() {
-        return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["long_term_debt"]) - Math.trunc(this.lastBstRecord["long_term_debt"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
+        return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["long_term_debt"])-Math.trunc(this.lastBstRecord["long_term_debt"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
       },
       dividend: {
         get() {
@@ -150,10 +150,10 @@
         }
       },
       surplusChange() {
-        return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["capital"]) - Math.trunc(this.lastBstRecord["capital"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
+        return this.sameBstRecord && this.lastBstRecord ? ((Math.trunc(this.sameBstRecord["capital"])-Math.trunc(this.lastBstRecord["capital"]))/this.unit).toFixed(this.fixed) : (0.000).toFixed(this.fixed)
       },
       cfSum() {
-        return ((Math.trunc(this.salesCf*this.unit) + Math.trunc(this.investmentCf*this.unit) + Math.trunc(this.financesCf*this.unit))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.salesCf*this.unit)+Math.trunc(this.investmentCf*this.unit)+Math.trunc(this.financesCf*this.unit))/this.unit).toFixed(this.fixed)
       }
 
     },

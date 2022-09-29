@@ -78,7 +78,7 @@
         }
       },
       facilitiesSum() {
-        return ((Math.trunc(this.items.existing_facilities) + Math.trunc(this.items.new_facilities))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.items.existing_facilities)+Math.trunc(this.items.new_facilities))/this.unit).toFixed(this.fixed)
       },
       dExistingFacilities: {
         get() {
@@ -106,7 +106,7 @@
         }
       },
       dSum() {
-        return ((Math.trunc(this.items.d_existing_facilities) + Math.trunc(this.items.d_new_facilities))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.items.d_existing_facilities)+Math.trunc(this.items.d_new_facilities))/this.unit).toFixed(this.fixed)
       },
       dYear: {
         get() {

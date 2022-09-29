@@ -83,7 +83,7 @@
         }
       },
       sales() {
-        return ((Math.trunc(this.items.customer) * Math.trunc(this.items.av_customer_spend))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.items.customer)*Math.trunc(this.items.av_customer_spend))/this.unit).toFixed(this.fixed)
       },
       customer: {
         get() {
@@ -130,10 +130,10 @@
         }
       },
       grossProfit() {
-        return ((Math.trunc(this.sales * this.unit) - Math.trunc(this.items.sales_cost))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.sales*this.unit)-Math.trunc(this.items.sales_cost))/this.unit).toFixed(this.fixed)
       },
       SgaExpenses() {
-        return ((Math.trunc(this.items.labor_cost) + Math.trunc(this.items.cost_other) + Math.trunc(this.depreciation * this.unit))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.items.labor_cost)+Math.trunc(this.items.cost_other)+Math.trunc(this.depreciation*this.unit))/this.unit).toFixed(this.fixed)
       },
       laborCost: {
         get() {
@@ -153,7 +153,7 @@
         let depreciation = 0
         capitalInvestmentRecords.some(function(value, index) {
           if (value["year"] == that.items.year) {
-            depreciation =  (Number(value["d_new_facilities"]) + Number(value["d_existing_facilities"])) / that.unit
+            depreciation =  (Number(value["d_new_facilities"])+Number(value["d_existing_facilities"]))/that.unit
           }
         });
         return depreciation
@@ -171,7 +171,7 @@
         }
       },
       operatingIncome() {
-        return ((Math.trunc(this.grossProfit*this.unit) - Math.trunc(this.SgaExpenses*this.unit))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.grossProfit*this.unit)-Math.trunc(this.SgaExpenses*this.unit))/this.unit).toFixed(this.fixed)
       },
       noOpIncome: {
         get() {
@@ -186,7 +186,7 @@
         }
       },
       noOpCost() {
-        return ((Math.trunc(this.items.interest_expense) + Math.trunc(this.items.other))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.items.interest_expense)+Math.trunc(this.items.other))/this.unit).toFixed(this.fixed)
       },
       interestExpense: {
         get() {
@@ -221,7 +221,7 @@
         }
       },
       preTaxBenefit() {
-        return ((Math.trunc(this.operatingIncome * this.unit) + Math.trunc(this.items.no_op_income) - Math.trunc(this.noOpCost * this.unit))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.operatingIncome*this.unit)+Math.trunc(this.items.no_op_income)-Math.trunc(this.noOpCost*this.unit))/this.unit).toFixed(this.fixed)
 
       },
       tax: {
@@ -245,7 +245,7 @@
         }
       },
       netIncome() {
-        return ((Math.trunc(this.preTaxBenefit * this.unit) - Math.trunc(this.items.tax))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.preTaxBenefit*this.unit)-Math.trunc(this.items.tax))/this.unit).toFixed(this.fixed)
       }
     },
     watch: {
@@ -289,12 +289,12 @@
           this.avCustomerSpendForm = false
         } else if (payload == "salesCost") {
           let salesCosts = {"row": "sales_cost", "content": this.content}
-          let salesCostRatios = {"row": "sales_cost_ratio", "content": ((this.content / (this.sales * this.unit)) * 100).toFixed(this.fixed)}
+          let salesCostRatios = {"row": "sales_cost_ratio", "content": ((this.content/(this.sales*this.unit))*100).toFixed(this.fixed)}
           rows.push(salesCosts)
           rows.push(salesCostRatios)
           this.salesCostForm = false
         } else if (payload == "salesCostRatio") {
-          let salesCosts = {"row": "sales_cost", "content": (this.sales * this.unit) * (this.content / 100)}
+          let salesCosts = {"row": "sales_cost", "content": (this.sales*this.unit)*(this.content/100)}
           let salesCostRatios = {"row": "sales_cost_ratio", "content": this.content}
           rows.push(salesCosts)
           rows.push(salesCostRatios)
@@ -322,7 +322,7 @@
         } else if (payload == "interestRate") {
           let interestExpense = {}
           if (this.sameBstRecord && this.sameBstRecord["long_term_debt"] > 0) {
-            interestExpense = {"row": "interest_expense", "content": (this.content/100) * this.sameBstRecord["long_term_debt"]}
+            interestExpense = {"row": "interest_expense", "content": (this.content/100)*this.sameBstRecord["long_term_debt"]}
           } else {
             interestExpense = {"row": "interest_expense", "content": 0}
           }
@@ -335,12 +335,12 @@
           this.otherForm = false
         } else if (payload == "tax") {
           let tax = {"row": "tax", "content": this.content}
-          let taxRate = {"row": "tax_rate", "content": (this.content / (this.preTaxBenefit * this.unit)) * 100}
+          let taxRate = {"row": "tax_rate", "content": (this.content/(this.preTaxBenefit*this.unit))*100}
           rows.push(tax)
           rows.push(taxRate)
           this.taxForm = false
         } else if (payload == "taxRate") {
-          let tax = {"row": "tax", "content": (this.preTaxBenefit * this.unit) * (this.content / 100)}
+          let tax = {"row": "tax", "content": (this.preTaxBenefit*this.unit)*(this.content/100)}
           let taxRate = {"row": "tax_rate", "content": this.content}
           rows.push(tax)
           rows.push(taxRate)

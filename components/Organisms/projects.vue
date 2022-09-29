@@ -29,7 +29,7 @@
         </v-list-item-icon>
       </template>
 
-      <v-list-item :key="'new' + i" link @click.stop="openTextFieldDialog('new', 'project',{'data': projectsData['workGroupTitle'], 'title': 'プロジェクト新規作成', 'label': 'プロジェクト名', 'btnText': '新規作成'})">
+      <v-list-item :key="'new'+i" link @click.stop="openTextFieldDialog('new', 'project',{'data': projectsData['workGroupTitle'], 'title': 'プロジェクト新規作成', 'label': 'プロジェクト名', 'btnText': '新規作成'})">
         <v-list-item-title v-text="'新規作成'"></v-list-item-title>
         <v-list-item-icon>
           <v-icon v-text="'mdi-plus-thick'" small :color="buttonColor"></v-icon>
@@ -118,7 +118,7 @@
       },
       openConfirmDialog(data, target) {
         this.deleteTargetId = data["id"]
-        this.deleteTitle = data["title"] + "を削除しますか？"
+        this.deleteTitle = data["title"]+"を削除しますか？"
         this.deleteTarget = target
         this.confirmDialog = true
       },

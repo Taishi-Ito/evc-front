@@ -120,7 +120,7 @@
         return sameCfRecord
       },
       sales() {
-        return this.samePlRecord ? this.samePlRecord["customer"] * this.samePlRecord["av_customer_spend"] : null
+        return this.samePlRecord ? this.samePlRecord["customer"]*this.samePlRecord["av_customer_spend"] : null
       },
       lastYearCash() {
         return this.lastBstRecord ? this.lastBstRecord["cash"] : null
@@ -133,10 +133,10 @@
         return this.lastBstRecord ? this.lastBstRecord["land_buildings"] : null
       },
       facilitiesSum() {
-        return this.sameCapitalInvestmentRecord ? this.sameCapitalInvestmentRecord["existing_facilities"] + this.sameCapitalInvestmentRecord["new_facilities"] : null
+        return this.sameCapitalInvestmentRecord ? this.sameCapitalInvestmentRecord["existing_facilities"]+this.sameCapitalInvestmentRecord["new_facilities"] : null
       },
       dSum() {
-        return this.sameCapitalInvestmentRecord ? this.sameCapitalInvestmentRecord["d_existing_facilities"] + this.sameCapitalInvestmentRecord["d_new_facilities"] : null
+        return this.sameCapitalInvestmentRecord ? this.sameCapitalInvestmentRecord["d_existing_facilities"]+this.sameCapitalInvestmentRecord["d_new_facilities"] : null
       },
       lastSurplus() {
         return this.lastBstRecord && this.lastBstRecord["surplus"] ? this.lastBstRecord["surplus"] : null
@@ -144,7 +144,7 @@
       netIncome() {
         const netIncomes = this.$store.getters["tables/pl/netIncomes"]
         const netIncome =  netIncomes[this.items.year]
-        return netIncome ? netIncome / this.unit : 0.000
+        return netIncome ? netIncome/this.unit : 0.000
       },
       dividend() {
         const netIncomes = this.$store.getters["tables/pl/netIncomes"]
@@ -155,7 +155,7 @@
       salesCosts() {
         const salesCosts = this.$store.getters["tables/pl/salesCosts"]
         const salesCost = salesCosts[this.items.year]
-        return salesCost ? salesCost / this.unit : 0.000
+        return salesCost ? salesCost/this.unit : 0.000
       },
       year: {
         get() {
@@ -166,10 +166,10 @@
         }
       },
       assets() {
-        return ((Math.trunc(this.currentAssets*this.unit) + Math.trunc(this.fixedAssets*this.unit))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.currentAssets*this.unit)+Math.trunc(this.fixedAssets*this.unit))/this.unit).toFixed(this.fixed)
       },
       currentAssets() {
-        return ((Math.trunc(this.items.cash) + Math.trunc(this.items.accounts_receivable) + Math.trunc(this.items.merchandise_other))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.items.cash)+Math.trunc(this.items.accounts_receivable)+Math.trunc(this.items.merchandise_other))/this.unit).toFixed(this.fixed)
       },
       cash: {
         get() {
@@ -178,7 +178,7 @@
             return this.items.cash
           } else {
             if (that.lastYearCash && that.cf) {
-              return ((Math.trunc(that.lastYearCash) + Math.trunc(that.cf))/this.unit).toFixed(this.fixed)
+              return ((Math.trunc(that.lastYearCash)+Math.trunc(that.cf))/this.unit).toFixed(this.fixed)
             } else {
               return (this.items.cash/this.unit).toFixed(this.fixed)
             }
@@ -229,7 +229,7 @@
         }
       },
       fixedAssets() {
-        return ((Math.trunc(this.items.land_buildings) + Math.trunc(this.items.investment_other))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.items.land_buildings)+Math.trunc(this.items.investment_other))/this.unit).toFixed(this.fixed)
       },
       landBuildings: {
         get() {
@@ -237,7 +237,7 @@
             return this.items.land_buildings
           } else {
             if (this.lastYearLandBuildings && this.facilitiesSum && this.dSum) {
-              return ((Math.trunc(this.lastYearLandBuildings) + Math.trunc(this.facilitiesSum) - Math.trunc(this.dSum))/this.unit).toFixed(this.fixed)
+              return ((Math.trunc(this.lastYearLandBuildings)+Math.trunc(this.facilitiesSum)-Math.trunc(this.dSum))/this.unit).toFixed(this.fixed)
             } else {
               return (this.items.land_buildings/this.unit).toFixed(this.fixed)
             }
@@ -260,10 +260,10 @@
         }
       },
       debt() {
-        return ((Math.trunc(this.currentDebt*this.unit) + Math.trunc(this.fixedLiabilities*this.unit))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.currentDebt*this.unit)+Math.trunc(this.fixedLiabilities*this.unit))/this.unit).toFixed(this.fixed)
       },
       currentDebt() {
-        return ((Math.trunc(this.items.accounts_payable) + Math.trunc(this.items.cd_other))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.items.accounts_payable)+Math.trunc(this.items.cd_other))/this.unit).toFixed(this.fixed)
       },
       accountsPayable: {
         get() {
@@ -298,7 +298,7 @@
         }
       },
       fixedLiabilities() {
-        return ((Math.trunc(this.items.long_term_debt) + Math.trunc(this.items.fl_other))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.items.long_term_debt)+Math.trunc(this.items.fl_other))/this.unit).toFixed(this.fixed)
       },
       longTermDebt: {
         get() {
@@ -325,7 +325,7 @@
         }
       },
       capitalStock() {
-        return ((Math.trunc(this.items.capital) + Math.trunc(this.surplus*this.unit))/this.unit).toFixed(this.fixed)
+        return ((Math.trunc(this.items.capital)+Math.trunc(this.surplus*this.unit))/this.unit).toFixed(this.fixed)
       },
       capital: {
         get() {
@@ -342,7 +342,7 @@
       surplus: {
         get() {
           if (this.lastSurplus && this.netIncome && this.dividend) {
-            return ((Math.trunc(this.lastSurplus*this.unit) + Math.trunc(this.netIncome*this.unit) + Math.trunc(this.dividend*this.unit))/this.unit).toFixed(this.fixed)
+            return ((Math.trunc(this.lastSurplus*this.unit)+Math.trunc(this.netIncome*this.unit)+Math.trunc(this.dividend*this.unit))/this.unit).toFixed(this.fixed)
           } else {
             return (this.items.surplus/this.unit).toFixed(this.fixed)
           }
@@ -399,7 +399,7 @@
         } else if (payload == "arSalesRatio") {
           let accountsReceivable = {}
           if (this.samePlRecord) {
-            accountsReceivable = {"row": "accounts_receivable", "content": this.sales * (this.content / 100)}
+            accountsReceivable = {"row": "accounts_receivable", "content": this.sales*(this.content/100)}
           } else {
             accountsReceivable = {"row": "accounts_receivable", "content": 0}
           }
@@ -421,7 +421,7 @@
         } else if (payload == "moSalesRatio") {
           let merchandiseOther = {}
           if (this.samePlRecord) {
-            merchandiseOther = {"row": "merchandise_other", "content": this.sales * (this.content / 100)}
+            merchandiseOther = {"row": "merchandise_other", "content": this.sales*(this.content/100)}
           } else {
             merchandiseOther = {"row": "merchandise_other", "content": 0}
           }
@@ -449,7 +449,7 @@
         } else if (payload == "costRatio") {
           let accountsPayable = {}
           if (this.samePlRecord) {
-            accountsPayable = {"row": "accounts_payable", "content": this.samePlRecord["sales_cost"] * (this.content / 100)}
+            accountsPayable = {"row": "accounts_payable", "content": this.samePlRecord["sales_cost"]*(this.content/100)}
           } else {
             accountsPayable = {"row": "accounts_payable", "content": 0}
           }
