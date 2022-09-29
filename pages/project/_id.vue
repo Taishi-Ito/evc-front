@@ -21,21 +21,21 @@
 </template>
 
 <script>
-export default {
-  data(){
-    return {
-      projectId: this.$route.params.id
+  export default {
+    data(){
+      return {
+        projectId: this.$route.params.id
+      }
+    },
+    computed: {
+    },
+    methods: {
+    },
+    created() {
+      this.$store.dispatch('tables/capitalInvestment/getCapitalInvestment', this.$route.params.id)
+      this.$store.dispatch('tables/pl/getPl', this.$route.params.id)
+      this.$store.dispatch('tables/bst/getBst', this.$route.params.id)
+      this.$store.dispatch('tables/cf/getCf', this.$route.params.id)
     }
-  },
-  computed: {
-  },
-  methods: {
-  },
-  created() {
-    this.$store.dispatch('tables/capitalInvestment/getCapitalInvestment', this.$route.params.id)
-    this.$store.dispatch('tables/pl/getPl', this.$route.params.id)
-    this.$store.dispatch('tables/bst/getBst', this.$route.params.id)
-    this.$store.dispatch('tables/cf/getCf', this.$route.params.id)
   }
-}
 </script>

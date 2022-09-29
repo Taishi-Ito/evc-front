@@ -46,7 +46,7 @@
 </script>
 
 <style scoped>
-.alertContainer {
-  z-index: 10001;
-}
+  .alertContainer {
+    z-index: 10001;
+  }
 </style>

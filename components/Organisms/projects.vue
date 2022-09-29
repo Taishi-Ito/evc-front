@@ -56,95 +56,93 @@
       @close="closeConfirmDialog"
     ></MoleculesConfirmDialog>
   </div>
-
 </template>
 
 <script>
-export default {
-    props: {
-    projectsData: {
-      type: Object,
-      required: true
-    },
-    i: {
-      type: Number,
-      required: true
-    }
+  export default {
+      props: {
+      projectsData: {
+        type: Object,
+        required: true
+      },
+      i: {
+        type: Number,
+        required: true
+      }
 
-  },
-  data () {
-    return {
-      buttonColor: "blue-grey lighten-3",
-      showDialog: false,
-      title: "",
-      label: "",
-      content: "",
-      btnText: "",
-      id: null,
-      type: "",
-      target: "",
-      confirmDialog: false,
-      deleteTitle: "",
-      deleteTargetId: null,
-      deleteTarget: ""
-    }
-  },
-  methods: {
-    openTextFieldDialog(type, target, payload) {
-      this.title = payload["title"]
-      this.label = payload["label"]
-      this.id = payload["data"]["id"]
-      this.btnText = payload["btnText"]
-      this.showDialog = true
-      this.type = type
-      this.target = target
-      if (type == "edit") {
-        this.content = payload["data"]["title"]
-      } else {
-        this.content = ""
+    },
+    data () {
+      return {
+        buttonColor: "blue-grey lighten-3",
+        showDialog: false,
+        title: "",
+        label: "",
+        content: "",
+        btnText: "",
+        id: null,
+        type: "",
+        target: "",
+        confirmDialog: false,
+        deleteTitle: "",
+        deleteTargetId: null,
+        deleteTarget: ""
       }
     },
-    execTextFieldDialog() {
-      if (this.type == "edit" && this.target == "workGroup") {
-        const payload = {"title": this.content, "id": this.id}
-        this.$store.dispatch('dashboard/changeWorkGroupTitle', payload)
-      } else if (this.type == "edit" && this.target == "project") {
-        const payload = {"title": this.content, "id": this.id}
-        this.$store.dispatch('dashboard/changeProjectTitle', payload)
-      } else if (this.type == "new" && this.target == "project") {
-        const payload = {"title": this.content, "work_group_id": this.id}
-        this.$store.dispatch('dashboard/createProject', payload)
+    methods: {
+      openTextFieldDialog(type, target, payload) {
+        this.title = payload["title"]
+        this.label = payload["label"]
+        this.id = payload["data"]["id"]
+        this.btnText = payload["btnText"]
+        this.showDialog = true
+        this.type = type
+        this.target = target
+        if (type == "edit") {
+          this.content = payload["data"]["title"]
+        } else {
+          this.content = ""
+        }
+      },
+      execTextFieldDialog() {
+        if (this.type == "edit" && this.target == "workGroup") {
+          const payload = {"title": this.content, "id": this.id}
+          this.$store.dispatch('dashboard/changeWorkGroupTitle', payload)
+        } else if (this.type == "edit" && this.target == "project") {
+          const payload = {"title": this.content, "id": this.id}
+          this.$store.dispatch('dashboard/changeProjectTitle', payload)
+        } else if (this.type == "new" && this.target == "project") {
+          const payload = {"title": this.content, "work_group_id": this.id}
+          this.$store.dispatch('dashboard/createProject', payload)
+        }
+        this.showDialog = false
+      },
+      openConfirmDialog(data, target) {
+        this.deleteTargetId = data["id"]
+        this.deleteTitle = data["title"] + "を削除しますか？"
+        this.deleteTarget = target
+        this.confirmDialog = true
+      },
+      closeConfirmDialog() {
+        this.confirmDialog = false
+      },
+      execDelete() {
+        if (this.deleteTarget == 'workGroup') {
+          this.$store.dispatch('dashboard/deleteWorkGroup', this.deleteTargetId)
+        } else if (this.deleteTarget == 'project') {
+          this.$store.dispatch('dashboard/deleteProject', this.deleteTargetId)
+        }
+        this.confirmDialog = false
       }
-      this.showDialog = false
-    },
-    openConfirmDialog(data, target) {
-      this.deleteTargetId = data["id"]
-      this.deleteTitle = data["title"] + "を削除しますか？"
-      this.deleteTarget = target
-      this.confirmDialog = true
-    },
-    closeConfirmDialog() {
-      this.confirmDialog = false
-    },
-    execDelete() {
-      if (this.deleteTarget == 'workGroup') {
-        this.$store.dispatch('dashboard/deleteWorkGroup', this.deleteTargetId)
-      } else if (this.deleteTarget == 'project') {
-        this.$store.dispatch('dashboard/deleteProject', this.deleteTargetId)
-      }
-      this.confirmDialog = false
     }
   }
-
-}
 </script>
 
 <style scoped>
-.buttons {
-  margin-right: 20px;
-}
-.inner {
-  width: 80%;
-  margin: 0 auto;
-}
+  .buttons {
+    margin-right: 20px;
+  }
+  .inner {
+    width: 80%;
+    margin: 0 auto;
+  }
 </style>

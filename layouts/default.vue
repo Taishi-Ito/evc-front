@@ -10,8 +10,9 @@
     <OrganismsFooter />
   </v-app>
 </template>
+
 <style scoped>
-.v-application {
-  background-color: #F5F5F5;
-}
+  .v-application {
+    background-color: #F5F5F5;
+  }
 </style>

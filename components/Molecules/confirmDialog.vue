@@ -21,44 +21,43 @@
 </template>
 
 <script>
-export default {
-  props: {
-    dialog: {
-      type: Boolean,
-      required: true
+  export default {
+    props: {
+      dialog: {
+        type: Boolean,
+        required: true
+      },
+      execWord: {
+        type: String,
+        required: true
+      },
+      closeWord: {
+        type: String,
+        required: false,
+        default: "キャンセル"
+      },
+      isDestructive: {
+        type: Boolean,
+        required: false,
+      },
+      title: {
+        type: String,
+        required: true
+      }
     },
-    execWord: {
-      type: String,
-      required: true
-    },
-    closeWord: {
-      type: String,
-      required: false,
-      default: "キャンセル"
-    },
-    isDestructive: {
-      type: Boolean,
-      required: false,
-    },
-    title: {
-      type: String,
-      required: true
-    }
-  },
-  methods: {
-    execute() {
-      this.$emit("execute");
-    },
-    close() {
-      this.$emit("close");
+    methods: {
+      execute() {
+        this.$emit("execute");
+      },
+      close() {
+        this.$emit("close");
+      }
     }
   }
-
-}
 </script>
 
 <style scoped>
-.cardTitle {
-  height: 100px;
-}
+  .cardTitle {
+    height: 100px;
+  }
 </style>

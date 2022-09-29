@@ -12,23 +12,23 @@
 </template>
 
 <script>
-export default {
-  props: {
-    item: {
-      type: Object,
-      required: false
+  export default {
+    props: {
+      item: {
+        type: Object,
+        required: false
+      },
+      btnClickEvent:  {
+        type: String,
+        required: false
+      }
     },
-    btnClickEvent:  {
-      type: String,
-      required: false
-	  }
-  },
-  methods: {
-    clickEvent() {
-      if (this.btnClickEvent) {
-        this.$emit(this.btnClickEvent)
+    methods: {
+      clickEvent() {
+        if (this.btnClickEvent) {
+          this.$emit(this.btnClickEvent)
+        }
       }
     }
   }
-}
 </script>

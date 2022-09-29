@@ -30,11 +30,11 @@
   }
 </script>
 <style scoped>
-.textFieldContainer {
-  margin-top: 20px;
-}
-.inner {
-  margin: 0 auto;
-  width: 80%;
-}
+  .textFieldContainer {
+    margin-top: 20px;
+  }
+  .inner {
+    margin: 0 auto;
+    width: 80%;
+  }
 </style>

@@ -38,43 +38,44 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'EVC'
-    }
-  },
-  computed: {
-    userName() {
-      return this.$store.getters["auth/name"]
+  export default {
+    data () {
+      return {
+        clipped: false,
+        drawer: false,
+        fixed: false,
+        miniVariant: false,
+        right: true,
+        rightDrawer: false,
+        title: 'EVC'
+      }
     },
-    isLoggedIn() {
-      return this.$store.getters["auth/isLoggedIn"]
-    }
-  },
-  methods: {
-    signOut() {
-      this.$store.dispatch('auth/signOut')
+    computed: {
+      userName() {
+        return this.$store.getters["auth/name"]
+      },
+      isLoggedIn() {
+        return this.$store.getters["auth/isLoggedIn"]
+      }
+    },
+    methods: {
+      signOut() {
+        this.$store.dispatch('auth/signOut')
+      }
     }
   }
-}
 </script>
+
 <style scoped>
-.userName {
-  margin-left: 20px;
-}
-.leftDrawer {
-  background: linear-gradient(135deg,#424242,#616161);
-}
-.appBar {
-}
-.rightDrawer {
-  background: linear-gradient(135deg,#424242,#616161);
-}
+  .userName {
+    margin-left: 20px;
+  }
+  .leftDrawer {
+    background: linear-gradient(135deg,#424242,#616161);
+  }
+  .appBar {
+  }
+  .rightDrawer {
+    background: linear-gradient(135deg,#424242,#616161);
+  }
 </style>

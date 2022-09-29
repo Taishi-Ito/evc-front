@@ -31,12 +31,12 @@
   }
 </script>
 <style scoped>
-.linkBtnContainer {
-  margin-top: 30px;
-}
-.sendBtn {
-  width: 80%;
-  margin: 0 auto;
-  max-width: 140px;
-}
+  .linkBtnContainer {
+    margin-top: 30px;
+  }
+  .sendBtn {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 140px;
+  }
 </style>

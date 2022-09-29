@@ -20,19 +20,19 @@
 </template>
 
 <script>
-export default {
-  props: {
-    projectLists: {
-      type: Array,
-      required: true
+  export default {
+    props: {
+      projectLists: {
+        type: Array,
+        required: true
+      },
     },
-  },
-  methods: {
-    clickList(payload) {
-      this.$emit('execute', payload)
+    methods: {
+      clickList(payload) {
+        this.$emit('execute', payload)
+      }
     }
   }
-}
 </script>
 
 <style>
