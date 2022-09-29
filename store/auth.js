@@ -185,6 +185,7 @@ export const actions = {
       uid = userCredential.user.uid;
       context.commit('setUserId', uid)
       context.commit('setEmail', userCredential.user.email)
+      context.dispatch('dashboard/getWorkGroupProjectLists', payload, {root: true})
 
       // if (userCredential.user.emailVerified) {
       //   is_verified = true
