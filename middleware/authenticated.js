@@ -7,9 +7,9 @@ export default async function({
   redirect
 }) {
   const auth = getAuth($firebase)
-  if (!store.getters['auth/isLoggedIn']){
+  if (!store.getters['auth/isLoggedIn']) {
     if (!route.path.match(/\/auth\//) || route.path.match(/registerBackUserInfo/)) {
-      onAuthStateChanged(auth, async function (user) {
+      onAuthStateChanged(auth, async function(user) {
         if (user) {
           store.commit('auth/setUserId', user.uid)
           store.commit('auth/setEmail', user.email)

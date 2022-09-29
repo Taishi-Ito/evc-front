@@ -5,6 +5,7 @@
     </div>
   </div>
 </template>
+
 <script>
   export default {
     props: {
@@ -29,6 +30,7 @@
     }
   }
 </script>
+
 <style scoped>
   .textFieldContainer {
     margin-top: 20px;

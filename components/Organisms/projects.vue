@@ -71,7 +71,7 @@
       }
 
     },
-    data () {
+    data() {
       return {
         buttonColor: "blue-grey lighten-3",
         showDialog: false,

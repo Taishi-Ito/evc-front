@@ -41,7 +41,7 @@
         required: true
       }
     },
-    data(){
+    data() {
       return {
         content: "",
         yearForm: false,
@@ -64,7 +64,7 @@
         const that = this
         const BstRecords = this.$store.getters["tables/bst/bstRecords"]
         let sameBstRecord = {}
-        BstRecords.some(function(value, index){
+        BstRecords.some(function(value, index) {
           if (value["year"] == that.items.year) {
             sameBstRecord =  value
             return true
@@ -151,7 +151,7 @@
         const that = this
         let capitalInvestmentRecords = this.$store.getters["tables/capitalInvestment/capitalInvestmentRecords"]
         let depreciation = 0
-        capitalInvestmentRecords.some(function(value, index){
+        capitalInvestmentRecords.some(function(value, index) {
           if (value["year"] == that.items.year) {
             depreciation =  (Number(value["d_new_facilities"]) + Number(value["d_existing_facilities"])) / that.unit
           }
@@ -281,7 +281,7 @@
         if (payload == "Years") {
           rows.push({"row": "year", "content": this.content})
           this.yearForm = false
-        }else if (payload == "customer") {
+        } else if (payload == "customer") {
           rows.push({"row": "customer", "content": this.content})
           this.customerForm = false
         } else if (payload == "avCustomerSpend") {
@@ -376,6 +376,7 @@
     }
   }
 </script>
+
 <style scoped>
   .lists {
     table-layout: fixed

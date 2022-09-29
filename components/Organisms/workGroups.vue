@@ -40,7 +40,7 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         buttonColor: "blue-grey lighten-3",
         showDialog: false,
@@ -51,7 +51,7 @@
       }
     },
     computed: {
-      workGroupProjectLists(){
+      workGroupProjectLists() {
         return this.$store.getters["dashboard/workGroupProjectLists"]
       }
     },

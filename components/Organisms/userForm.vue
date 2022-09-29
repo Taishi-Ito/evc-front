@@ -99,7 +99,7 @@
 
 <script>
   export default {
-    data(){
+    data() {
       return {
         newEmail: "",
         passwordForEmailUpdate: "",
@@ -109,7 +109,7 @@
       }
     },
     computed: {
-      email(){
+      email() {
         return this.$store.getters["auth/email"]
       }
     },

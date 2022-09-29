@@ -23,13 +23,13 @@
         required: false
       }
     },
-    data(){
+    data() {
       return {
         q: ""
       }
     },
     methods: {
-      clickEvent(){
+      clickEvent() {
         this.$emit('execute', this.q)
       }
     }

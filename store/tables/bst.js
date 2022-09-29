@@ -52,8 +52,8 @@ export const mutations = {
   updateBstRecordRow(state, payload) {
     let oBstRecords = state.bstRecords
     state.bstRecords = {}
-    payload["rows"].forEach(function(row){
-      oBstRecords.some(function(value, index){
+    payload["rows"].forEach(function(row) {
+      oBstRecords.some(function(value, index) {
         if (value["record_id"] == payload["record_id"]) {
           Vue.set(oBstRecords[index], `${row['row']}`, row["content"])
         }
@@ -68,8 +68,8 @@ export const actions = {
     const url = `${process.env.url}/bsts`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
-      // if (user && user.emailVerified){
-      if (user){
+      // if (user && user.emailVerified) {
+      if (user) {
         axios.get(url, {params: {token: user.accessToken, "uid": user.uid, "project_id": payload}})
         .then((res) =>{
           context.commit('updateBstRecords', res.data)
@@ -145,7 +145,7 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     })
   },
-  async deleteBstRecord (context, payload){
+  async deleteBstRecord(context, payload) {
     const url = `${process.env.url}/bst_records/${payload["record_id"]}`;
     const auth = getAuth();
     const idToken = await auth.currentUser.getIdToken(true)

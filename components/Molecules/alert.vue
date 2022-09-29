@@ -38,7 +38,7 @@
       },
     },
     methods: {
-      changeAlertStatus(){
+      changeAlertStatus() {
         this.$store.commit('util/changeAlertStatus')
       }
     }

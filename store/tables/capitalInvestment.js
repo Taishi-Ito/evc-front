@@ -52,7 +52,7 @@ export const mutations = {
   updateCapitalInvestmentRecordRow(state, payload) {
     let oCapitalInvestmentRecords = state.capitalInvestmentRecords
     state.capitalInvestmentRecords = {}
-    oCapitalInvestmentRecords.some(function(value, index){
+    oCapitalInvestmentRecords.some(function(value, index) {
       if (value["record_id"] == payload["record_id"]) {
         Vue.set(oCapitalInvestmentRecords[index], `${payload['row']}`, payload["content"])
       }
@@ -66,8 +66,8 @@ export const actions = {
     const url = `${process.env.url}/capital_investments`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
-      // if (user && user.emailVerified){
-      if (user){
+      // if (user && user.emailVerified) {
+      if (user) {
         axios.get(url, {params: {token: user.accessToken, "uid": user.uid, "project_id": payload}})
         .then((res) =>{
           context.commit('updateCapitalInvestmentRecords', res.data)
@@ -144,7 +144,7 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     })
   },
-  async deleteCapitalInvestmentRecord (context, payload){
+  async deleteCapitalInvestmentRecord(context, payload) {
     const url = `${process.env.url}/capital_investment_records/${payload["record_id"]}`;
     const auth = getAuth();
     const idToken = await auth.currentUser.getIdToken(true)

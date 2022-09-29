@@ -46,7 +46,7 @@
       }
     },
     watch: {
-      content (val) {
+      content(val) {
         this.$emit("update", val);
       },
     },

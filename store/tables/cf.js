@@ -54,8 +54,8 @@ export const mutations = {
   updateCfRecordRow(state, payload) {
     let oCfRecords = state.cfRecords
     state.cfRecords = {}
-    payload["rows"].forEach(function(row){
-      oCfRecords.some(function(value, index){
+    payload["rows"].forEach(function(row) {
+      oCfRecords.some(function(value, index) {
         if (value["record_id"] == payload["record_id"]) {
           Vue.set(oCfRecords[index], `${row['row']}`, row["content"])
         }
@@ -76,8 +76,8 @@ export const actions = {
     const url = `${process.env.url}/cfs`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
-      // if (user && user.emailVerified){
-      if (user){
+      // if (user && user.emailVerified) {
+      if (user) {
         axios.get(url, {params: {token: user.accessToken, "uid": user.uid, "project_id": payload}})
         .then((res) =>{
           context.commit('updateCfRecords', res.data)
@@ -153,7 +153,7 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     })
   },
-  async deleteCfRecord (context, payload){
+  async deleteCfRecord(context, payload) {
     const url = `${process.env.url}/cf_records/${payload["record_id"]}`;
     const auth = getAuth();
     const idToken = await auth.currentUser.getIdToken(true)

@@ -28,7 +28,7 @@
         required: true
       }
     },
-    data(){
+    data() {
       return {
         yearForm: false,
         yearContent: this.items.year,
@@ -125,7 +125,7 @@
           content = this.yearContent
           row = "year"
           this.yearForm = false
-        }else if (payload == "ExistingFacilities") {
+        } else if (payload == "ExistingFacilities") {
           content = this.existingFacilitiesContent
           row = "existing_facilities"
           this.existingFacilitiesForm = false

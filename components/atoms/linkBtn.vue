@@ -30,6 +30,7 @@
   }
   }
 </script>
+
 <style scoped>
   .linkBtnContainer {
     margin-top: 30px;

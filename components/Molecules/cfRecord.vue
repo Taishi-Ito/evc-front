@@ -35,7 +35,7 @@
         required: true
       }
     },
-    data(){
+    data() {
       return {
         content: "",
         yearForm: false,
@@ -48,7 +48,7 @@
         const that = this
         const capitalInvestmentRecords = this.$store.getters["tables/capitalInvestment/capitalInvestmentRecords"]
         let sameCapitalInvestmentRecord = {}
-        capitalInvestmentRecords.some(function(value, index){
+        capitalInvestmentRecords.some(function(value, index) {
           if (value["year"] == that.items.year) {
             sameCapitalInvestmentRecord = value
             return true
@@ -62,7 +62,7 @@
         const that = this
         const bstRecords = this.$store.getters["tables/bst/bstRecords"]
         let sameBstRecord = {}
-        bstRecords.some(function(value, index){
+        bstRecords.some(function(value, index) {
           if (value["year"] == that.items.year) {
             sameBstRecord =  value
             return true
@@ -76,7 +76,7 @@
         const that = this
         const bstRecords = this.$store.getters["tables/bst/bstRecords"]
         let lastBstRecord = {}
-        bstRecords.some(function(value, index){
+        bstRecords.some(function(value, index) {
           if (value["year"] == that.items.year - 1) {
             lastBstRecord =  value
             return true

@@ -22,7 +22,7 @@
 
 <script>
   export default {
-    data(){
+    data() {
       return {
         projectId: this.$route.params.id
       }

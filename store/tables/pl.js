@@ -56,8 +56,8 @@ export const mutations = {
   updatePlRecordRow(state, payload) {
     let oPlRecords = state.plRecords
     state.plRecords = {}
-    payload["rows"].forEach(function(row){
-      oPlRecords.some(function(value, index){
+    payload["rows"].forEach(function(row) {
+      oPlRecords.some(function(value, index) {
         if (value["record_id"] == payload["record_id"]) {
           Vue.set(oPlRecords[index], `${row['row']}`, row["content"])
         }
@@ -84,8 +84,8 @@ export const actions = {
     const url = `${process.env.url}/pls`;
     const auth = getAuth();
     onAuthStateChanged(auth, user=>{{
-      // if (user && user.emailVerified){
-      if (user){
+      // if (user && user.emailVerified) {
+      if (user) {
         axios.get(url, {params: {token: user.accessToken, "uid": user.uid, "project_id": payload}})
         .then((res) =>{
           context.commit('updatePlRecords', res.data)
@@ -161,7 +161,7 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     })
   },
-  async deletePlRecord (context, payload){
+  async deletePlRecord(context, payload) {
     const url = `${process.env.url}/pl_records/${payload["record_id"]}`;
     const auth = getAuth();
     const idToken = await auth.currentUser.getIdToken(true)

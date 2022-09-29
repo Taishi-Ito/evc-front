@@ -42,7 +42,7 @@
         required: true
       }
     },
-    data(){
+    data() {
       return {
         content: "",
         yearForm: false,
@@ -67,8 +67,8 @@
         const that = this
         const BstRecords = this.$store.getters["tables/bst/bstRecords"]
         let lastBstRecord = {}
-        BstRecords.some(function(value, index){
-          if (value["year"] == that.items.year - 1) {
+        BstRecords.some(function(value, index) {
+          if (value["year"] == that.items.year-1) {
             lastBstRecord = value
             return true
           } else {
@@ -81,7 +81,7 @@
         const that = this
         const capitalInvestmentRecords = this.$store.getters["tables/capitalInvestment/capitalInvestmentRecords"]
         let sameCapitalInvestmentRecord = {}
-        capitalInvestmentRecords.some(function(value, index){
+        capitalInvestmentRecords.some(function(value, index) {
           if (value["year"] == that.items.year) {
             sameCapitalInvestmentRecord = value
             return true
@@ -95,7 +95,7 @@
         const that = this
         const plRecords = this.$store.getters["tables/pl/plRecords"]
         let samePlRecord = {}
-        plRecords.some(function(value, index){
+        plRecords.some(function(value, index) {
           if (value["year"] == that.items.year) {
             samePlRecord =  value
             return true
@@ -109,7 +109,7 @@
         const that = this
         const cfRecords = this.$store.getters["tables/cf/cfRecords"]
         let sameCfRecord = {}
-        cfRecords.some(function(value, index){
+        cfRecords.some(function(value, index) {
           if (value["year"] == that.items.year) {
             sameCfRecord =  value
             return true
@@ -382,7 +382,7 @@
         if (payload == "Years") {
           rows.push({"row": "year", "content": this.content})
           this.yearForm = false
-        }else if (payload == "cash") {
+        } else if (payload == "cash") {
           rows.push({"row": "cash", "content": this.content})
           this.cashForm = false
         } else if (payload == "accountsReceivable") {

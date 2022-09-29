@@ -6,14 +6,14 @@
 
 <script>
   export default {
-    data(){
+    data() {
       return {
       }
     },
     computed: {
     },
     methods: {
-      createWorkGroup(){
+      createWorkGroup() {
         this.$store.dispatch('dashboard/createWorkGroup', this.workgroup)
         this.workgroup = ""
       }
