@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- left drawer -->
-    <v-navigation-drawer class="leftDrawer" v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" width="300" fixed app dark temporary>
+    <v-navigation-drawer v-if="isLoggedIn" class="leftDrawer" v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" width="300" fixed app dark temporary>
       <v-list>
         <MoleculesListItem
           :item="{icon: 'mdi-home', title: 'ダッシュボード', to: '/dashBoard', key: 'dashBoard'}"
@@ -12,17 +12,17 @@
 
     <!-- contents -->
     <v-app-bar class="appBar" :clipped-left="clipped" fixed app dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <div class="userName">{{ userName }}</div>
       <v-spacer />
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
+      <v-btn v-if="isLoggedIn" icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-cog-outline</v-icon>
       </v-btn>
     </v-app-bar>
 
     <!-- right drawer -->
-    <v-navigation-drawer class="rightDrawer" v-model="rightDrawer" :right="right" temporary fixed dark>
+    <v-navigation-drawer v-if="isLoggedIn" class="rightDrawer" v-model="rightDrawer" :right="right" temporary fixed dark>
       <v-list>
         <MoleculesListItem
           :item="{icon: 'mdi-account', title: 'ユーザー設定', to: '/user', key: 'userPage'}"
@@ -51,8 +51,11 @@ export default {
     }
   },
   computed: {
-    userName(){
+    userName() {
       return this.$store.getters["auth/name"]
+    },
+    isLoggedIn() {
+      return this.$store.getters["auth/isLoggedIn"]
     }
   },
   methods: {
