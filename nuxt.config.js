@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import ja from 'vuetify/es5/locale/ja'
 const envPath = `config/.env.${process.env.ENV || 'local'}`
 require('dotenv').config({ path: envPath })
 
@@ -18,7 +19,7 @@ export default {
     titleTemplate: '%s - evc-front',
     title: 'evc-front',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [
       { charset: 'utf-8' },
@@ -58,6 +59,11 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
+    lang: {
+      locales: { ja },
+      current: 'ja'
+
+    },
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,
