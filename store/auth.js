@@ -245,6 +245,14 @@ export const actions = {
   async updateEmail(context, payload) {
     const auth = getAuth();
     const user = auth.currentUser;
+    if (user.email == "test@example.com") {
+      const payload = {
+        "message": "テストユーザーのメールアドレスは変更できません。",
+        "color": "red lighten-2"
+      }
+      context.dispatch('util/showAlert', payload, {root: true})
+      return
+    }
     const credential = EmailAuthProvider.credential(user.email, payload["password"])
     let is_credentialed = false
     await reauthenticateWithCredential(user, credential)
@@ -282,6 +290,14 @@ export const actions = {
   async updatePassword(context, payload) {
     const auth = getAuth();
     const user = auth.currentUser;
+    if (user.email == "test@example.com") {
+      const payload = {
+        "message": "テストユーザーのパスワードは変更できません。",
+        "color": "red lighten-2"
+      }
+      context.dispatch('util/showAlert', payload, {root: true})
+      return
+    }
     const credential = EmailAuthProvider.credential(user.email, payload["currentPassword"])
     let is_credentialed = false
     await reauthenticateWithCredential(user, credential)
@@ -319,6 +335,14 @@ export const actions = {
     }
   },
   async deleteUser(context) {
+    if (getAuth().currentUser.email == "test@example.com") {
+      const payload = {
+        "message": "テストユーザーは削除できません。",
+        "color": "red lighten-2"
+      }
+      context.dispatch('util/showAlert', payload, {root: true})
+      return
+    }
     await context.dispatch('deleteFirebaseUserInfo', "password")
     .then(() => {
       context.dispatch('deleteBackUserInfo')
