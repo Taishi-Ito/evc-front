@@ -18,6 +18,15 @@
           @registerBackUserInfo="registerBackUserInfo"
         ></AtomsSendBtn>
       </v-card>
+      <div class="sign-out">
+        <AtomsSendBtn
+          :btnId="'signOut'"
+          :btnTitle="'ログアウト'"
+          :btnColor="'accent'"
+          :btnClickEvent="'signOut'"
+          @signOut="signOut"
+        ></AtomsSendBtn>
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +42,9 @@
       registerBackUserInfo() {
         const payload = {"name": this.name}
         this.$store.dispatch('auth/registerBackUserInfo', payload)
+      },
+      signOut() {
+        this.$store.dispatch('auth/signOut')
       }
     }
   }
@@ -53,5 +65,8 @@
   }
   .cardTitle {
     margin-bottom: 20px;
+  }
+  .sign-out {
+    text-align: center;
   }
 </style>
