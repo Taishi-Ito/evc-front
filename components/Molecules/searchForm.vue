@@ -12,28 +12,28 @@
 </template>
 
 <script>
-export default {
-  props: {
-    btnTitle: {
-      type: String,
-      required: true
+  export default {
+    props: {
+      btnTitle: {
+        type: String,
+        required: true
+      },
+      placeholder: {
+        type: String,
+        required: false
+      }
     },
-    placeholder: {
-      type: String,
-      required: false
-    }
-  },
-  data(){
-    return {
-      q: ""
-    }
-  },
-  methods: {
-    clickEvent(){
-      this.$emit('execute', this.q)
+    data() {
+      return {
+        q: ""
+      }
+    },
+    methods: {
+      clickEvent() {
+        this.$emit('execute', this.q)
+      }
     }
   }
-}
 </script>
 
 <style>

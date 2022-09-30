@@ -39,46 +39,45 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      buttonColor: "blue-grey lighten-3",
-      showDialog: false,
-      title: "",
-      label: "",
-      content: "",
-      btnText: ""
-    }
-  },
-  computed: {
-    workGroupProjectLists(){
-      return this.$store.getters["dashboard/workGroupProjectLists"]
-    }
-  },
-  methods: {
-    openTextFieldDialog(type, target, payload) {
-      this.title = payload["title"]
-      this.label = payload["label"]
-      this.btnText = payload["btnText"]
-      this.content = ""
-      this.showDialog = true
+  export default {
+    data() {
+      return {
+        buttonColor: "blue-grey lighten-3",
+        showDialog: false,
+        title: "",
+        label: "",
+        content: "",
+        btnText: ""
+      }
     },
-    execTextFieldDialog() {
-      this.$store.dispatch('dashboard/createWorkGroup', this.content)
-      this.content = ""
-      this.showDialog = false
+    computed: {
+      workGroupProjectLists() {
+        return this.$store.getters["dashboard/workGroupProjectLists"]
+      }
+    },
+    methods: {
+      openTextFieldDialog(type, target, payload) {
+        this.title = payload["title"]
+        this.label = payload["label"]
+        this.btnText = payload["btnText"]
+        this.content = ""
+        this.showDialog = true
+      },
+      execTextFieldDialog() {
+        this.$store.dispatch('dashboard/createWorkGroup', this.content)
+        this.content = ""
+        this.showDialog = false
+      }
     }
   }
-
-}
 </script>
 
 <style scoped>
-.neWorkGroup {
-  margin-left: 56px;
-}
-.inner {
-  width: 80%;
-  margin: 0 auto;
-}
+  .neWorkGroup {
+    margin-left: 56px;
+  }
+  .inner {
+    width: 80%;
+    margin: 0 auto;
+  }
 </style>

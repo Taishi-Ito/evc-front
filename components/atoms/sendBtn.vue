@@ -45,13 +45,14 @@
   }
   }
 </script>
+
 <style scoped>
-.sendBtnContainer {
-  margin-top: 30px;
-}
-.sendBtn {
-  width: 80%;
-  margin: 0 auto;
-  max-width: 140px;
-}
+  .sendBtnContainer {
+    margin-top: 30px;
+  }
+  .sendBtn {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 140px;
+  }
 </style>

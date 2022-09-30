@@ -64,9 +64,32 @@ export const actions = {
       context.dispatch('util/showAlert', payload, {root: true})
     });
   },
+  // async getUserInfo(context, uid) {
+  //   const url = `${process.env.url}/users/${uid}`;
+  //   await axios.get(url, { headers: {Authorization: `Bearer ${context.state.idToken}`}, params: {token: context.state.idToken, "uid": uid}})
+  //   .then((res) =>{
+  //     if (res.status == 200) {
+  //       context.commit('setName', res.data["name"])
+  //       context.commit('setLocale', res.data["locale"])
+  //     } else {
+  //       this.$router.push('/auth/registerBackUserInfo')
+  //     }
+  //   })
+  //   .catch( e => {
+  //     const payload = {
+  //       "message": "ユーザー情報取得中にエラーが発生しました。",
+  //       "detail": e?.response?.data?.message,
+  //       "method": "getUserInfo",
+  //       "errorMessage": e.message,
+  //       "color": "red lighten-2"
+  //     }
+  //     context.dispatch('util/showAlert', payload, {root: true})
+  //   })
+  // },
   async getUserInfo(context, uid) {
     const url = `${process.env.url}/users/${uid}`;
-    await axios.get(url, { headers: {Authorization: `Bearer ${context.state.idToken}`}, params: {token: context.state.idToken, "uid": uid}})
+    const idToken = await getAuth().currentUser.getIdToken(true)
+    await axios.get(url, { headers: {Authorization: `Bearer ${idToken}`}, params: {token: idToken, "uid": uid}})
     .then((res) =>{
       if (res.status == 200) {
         context.commit('setName', res.data["name"])
@@ -116,8 +139,7 @@ export const actions = {
     .then(() => {
       const payload = {
         "message": "認証メールを送信しました。メールアドレスを認証してください。",
-        "color": "success",
-        "timeout": 5000
+        "color": "success"
       }
       context.dispatch('util/showAlert', payload, {root: true})
     })
@@ -159,14 +181,20 @@ export const actions = {
     let is_verified = false
     await signInWithEmailAndPassword(auth, payload["email"], payload["password"])
     .then( userCredential => {
-      if (userCredential.user.emailVerified) {
-        is_verified = true
-        uid = userCredential.user.uid;
-        context.commit('setUserId', uid)
-        context.commit('setEmail', userCredential.user.email)
-      } else {
-        throw new Error("メール認証なし");
-      }
+      is_verified = true
+      uid = userCredential.user.uid;
+      context.commit('setUserId', uid)
+      context.commit('setEmail', userCredential.user.email)
+      context.dispatch('dashboard/getWorkGroupProjectLists', payload, {root: true})
+
+      // if (userCredential.user.emailVerified) {
+      //   is_verified = true
+      //   uid = userCredential.user.uid;
+      //   context.commit('setUserId', uid)
+      //   context.commit('setEmail', userCredential.user.email)
+      // } else {
+      //   throw new Error("メール認証なし");
+      // }
     })
     .catch( e => {
       if (e.message == "メール認証なし") {
@@ -189,7 +217,6 @@ export const actions = {
       }
     })
     if (is_verified) {
-      await context.dispatch('getIdToken')
       await context.dispatch('getUserInfo', uid)
       if (context.state.name) {
         context.commit('setSigninStatus', true)

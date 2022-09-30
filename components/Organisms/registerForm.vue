@@ -54,41 +54,42 @@
 
 <script>
   export default {
-  data() {
-    return {
-      email: "",
-      password: "",
-      passwordConfirmation: ""
-    }
-  },
-  methods: {
-    async submit() {
-      const isValid = await this.$refs.observer.validate()
-      if (isValid) {
-        const payload = {"email": this.email, "password": this.password}
-        this.$store.dispatch('auth/signUp', payload)
-      } else {
-        const payload = {"message": "入力した値が不正です。", "color": "red lighten-2"}
-        this.$store.dispatch('util/showAlert', payload, {root: true})
+    data() {
+      return {
+        email: "",
+        password: "",
+        passwordConfirmation: ""
+      }
+    },
+    methods: {
+      async submit() {
+        const isValid = await this.$refs.observer.validate()
+        if (isValid) {
+          const payload = {"email": this.email, "password": this.password}
+          this.$store.dispatch('auth/signUp', payload)
+        } else {
+          const payload = {"message": "入力した値が不正です。", "color": "red lighten-2"}
+          this.$store.dispatch('util/showAlert', payload, {root: true})
+        }
       }
     }
   }
-  }
 </script>
+
 <style scoped>
-.wholeContainer {
-  width: 80%;
-  max-width: 600px;
-  margin: 0 auto;
-}
-.card {
-  padding-top: 30px;
-  padding-bottom: 30px;
-  width: 100%;
-  margin-top: 30px;
-  text-align: center;
-}
-.cardTitle {
-  margin-bottom: 20px;
-}
+  .wholeContainer {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .card {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 100%;
+    margin-top: 30px;
+    text-align: center;
+  }
+  .cardTitle {
+    margin-bottom: 20px;
+  }
 </style>

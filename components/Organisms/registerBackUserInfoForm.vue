@@ -18,40 +18,55 @@
           @registerBackUserInfo="registerBackUserInfo"
         ></AtomsSendBtn>
       </v-card>
+      <div class="sign-out">
+        <AtomsSendBtn
+          :btnId="'signOut'"
+          :btnTitle="'ログアウト'"
+          :btnColor="'accent'"
+          :btnClickEvent="'signOut'"
+          @signOut="signOut"
+        ></AtomsSendBtn>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-  data() {
-    return {
-      name: "",
+    data() {
+      return {
+        name: "",
+      }
+    },
+    methods: {
+      registerBackUserInfo() {
+        const payload = {"name": this.name}
+        this.$store.dispatch('auth/registerBackUserInfo', payload)
+      },
+      signOut() {
+        this.$store.dispatch('auth/signOut')
+      }
     }
-  },
-  methods: {
-    registerBackUserInfo() {
-      const payload = {"name": this.name}
-      this.$store.dispatch('auth/registerBackUserInfo', payload)
-    }
-  }
   }
 </script>
 
 <style scoped>
-.wholeContainer {
-  width: 80%;
-  max-width: 600px;
-  margin: 0 auto;
-}
-.card {
-  padding-top: 30px;
-  padding-bottom: 30px;
-  width: 100%;
-  margin-top: 30px;
-  text-align: center;
-}
-.cardTitle {
-  margin-bottom: 20px;
-}
+  .wholeContainer {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .card {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 100%;
+    margin-top: 30px;
+    text-align: center;
+  }
+  .cardTitle {
+    margin-bottom: 20px;
+  }
+  .sign-out {
+    text-align: center;
+  }
 </style>

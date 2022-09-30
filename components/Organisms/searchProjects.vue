@@ -21,29 +21,29 @@
 </template>
 
 <script>
-export default {
-  data(){
-    return {
-      btnTitle: "クリア"
-    }
-  },
-  computed: {
-    projectLists() {
-      return this.$store.getters["dashboard/projectLists"]
+  export default {
+    data() {
+      return {
+        btnTitle: "クリア"
+      }
     },
-  },
-  methods: {
-    search(payload) {
-      this.$store.dispatch('dashboard/searchProjects', payload)
+    computed: {
+      projectLists() {
+        return this.$store.getters["dashboard/projectLists"]
+      },
     },
-    moveToProject(payload) {
-      this.$store.dispatch('dashboard/moveToProject', payload)
-    },
-    clearProjectList() {
-      this.$store.commit('dashboard/clearProjectList')
+    methods: {
+      search(payload) {
+        this.$store.dispatch('dashboard/searchProjects', payload)
+      },
+      moveToProject(payload) {
+        this.$store.dispatch('dashboard/moveToProject', payload)
+      },
+      clearProjectList() {
+        this.$store.commit('dashboard/clearProjectList')
+      }
     }
   }
-}
 </script>
 
 <style>
